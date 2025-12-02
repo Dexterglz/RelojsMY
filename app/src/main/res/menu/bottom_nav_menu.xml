@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_inbox"
+        android:icon="@drawable/drawer"
+        android:title="@string/inbox" />
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="@string/inicio" />
+<!--    <item
+        android:id="@+id/nav_sports"
+        android:icon="@drawable/futbol_o"/>-->
+    <item
+        android:id="@+id/nav_health"
+        android:icon="@drawable/heartbeat"
+        android:title="@string/diagnosticos"/>
+    <!--<item
+        android:id="@+id/nav_devices"
+        android:icon="@drawable/watch" />-->
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/user"
+        android:title="@string/perfil"/>
+</menu>

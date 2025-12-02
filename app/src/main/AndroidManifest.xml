@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Para dispositivos con Android 10+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Localización requerida para escanear BLE -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Bluetooth (legacy + moderno) -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- Bluetooth moderno (Android 12+) -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" /> <!-- Este permiso es obligatorio en Android 10+ para escaneo BLE incluso si ya se tiene ACCESS_FINE_LOCATION -->
+    <uses-permission
+        android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
+        tools:ignore="BackgroundLocationUsage" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Servicio en foreground (opcional para notificaciones persistentes) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Declaración de uso obligatorio de BLE -->
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyHealthLife"
+        tools:targetApi="31">
+        <activity
+            android:name=".activities.TestActivity"
+            android:exported="false"
+            android:label="test"
+            android:theme="@style/Theme.MyHealthLife" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.mhlAPP.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".activities.DiagnosisResultsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.SleepActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.HeartRateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.DeviceScanActivity" />
+        <activity android:name=".activities.RespiratoryRateActivity" />
+        <activity android:name=".activities.BloodPressureActivity" />
+        <activity android:name=".activities.TemperatureLogActivity" />
+        <activity android:name=".activities.OxygenLogActivity" />
+    </application>
+
+</manifest>

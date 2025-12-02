@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_options">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+    <string-array name="spinner_optionsL">
+        <item>English</item>
+        <item>Español</item>
+    </string-array>
+    <string-array name="opciones_filtro">
+        <item>Hoy</item>
+        <item>Esta Semana</item>
+        <item>Este Mes</item>
+    </string-array>
+    <string-array name="spinner_optionsCountries">
+        <item>México</item>
+        <item>USA</item>
+    </string-array>
+
+</resources>

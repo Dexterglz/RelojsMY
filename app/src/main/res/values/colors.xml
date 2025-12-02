@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores base -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Colores del tema -->
+    <color name="colorPrimary">#624FDB</color>
+    <color name="colorPrimaryDark">#624FDB</color>
+    <color name="colorAccent">#4DB6AC</color>
+    <color name="colorAccentWarm">#FFB74D</color>
+    <color name="backgroundPrimary">#F8F8F8</color>
+    <color name="backgroundSecondary">#F5F5F5</color>
+    <color name="textPrimary">#424242</color>
+
+    <color name="graph_pastel_pink">#FFB6C1</color>    <!-- 0 Rosa pastel -->
+    <color name="graph_pastel_aqua">#B2DFDB</color>    <!-- 1 Aqua pastel -->
+    <color name="graph_mint_green">#DCEDC1</color>     <!-- 2 Verde menta -->
+    <color name="graph_peach">#FFDFBA</color>          <!-- 3 Melocotón -->
+    <color name="graph_lavender_blue">#D1D8FF</color>  <!-- 4 Azul lavanda -->
+    <color name="graph_light_pink">#FFD1DC</color>     <!-- 5 Rosa claro -->
+    <color name="graph_ice_blue">#CFF8F6</color>       <!-- 6 Azul hielo -->
+    <color name="graph_pear_green">#D9E6BF</color>    <!-- 7 Verde pera -->
+    <color name="graph_bone_yellow">#FFE4C4</color>    <!-- 8 Amarillo hueso -->
+    <color name="graph_pastel_lilac">#E6D8FC</color>   <!-- 9 Lila pastel -->
+
+
+    <!--Otros Colores-->
+
+    <color name="white_color">#ffffff</color>
+    <color name="lightgray">#E0E0E0</color>
+    <color name="text_color">#000E0B</color>
+    <color name="colorHistorialPressed">#D0E0EE</color> <!-- Azul claro -->
+    <color name="card_pressed">#FFE0B2</color>
+
+    <color name="button_press_end_color">#00B086</color>
+    <color name="button_press_start_color">#50C8AC</color>
+    <color name="button_end_color">#00C495</color>
+    <color name="button_start_color">#59DEBF</color>
+
+    <color name="include_bottom_tv_start_button_color">#FFFFFF</color>
+    <color name="include_bottom_tv_title_color">#000F0C</color>
+
+    <!--心电测量页-->
+    <color name="ecg_measure_solid_text_color">#15666666</color>
+    <!--心电测量页 数据 Text颜色-->
+    <color name="ecg_measure_value_text_color">#000F0C</color>
+    <!--心电测量页 unit Text颜色-->
+    <color name="ecg_measure_unit_text_color">#666666</color>
+    <!--心电测量页 电极接触良好 电极脱落 文字颜色-->
+    <color name="ecg_measure_electric_on_off_color">#FFFFFF</color>
+    <!--心电测量页 电极接触良好-提示背景颜色 ecg_electric_on_green_bg.xml-->
+    <color name="ecg_measure_electric_on_bg_color">#ff00c495</color>
+    <!--心电测量页 电极脱落-提示背景颜色ecg_electric_off_orange_bg.xml-->
+    <color name="ecg_measure_electric_off_bg_color">#fff04000</color>
+    <!--心电测量页 ProgressBar颜色 ecg_measur_progress_circle_shade_color.xml-->
+    <color name="ecg_measure_progress_start_color">#7db2a6</color>
+    <color name="ecg_measure_progress_end_color">#00a67e</color>
+    <!--心电测量页 ProgressBar颜色 ecg_measur_shape_progressbar_bg.xml-->
+    <color name="ecg_measure_progress_bg_color">#19daac</color>
+    <!--心电测量页 ProgressBar颜色 ecg_measur_shape_progressbar_progress.xml-->
+    <color name="ecg_measure_progress_circle_color">#59DEBF</color>
+    <!--心电测量页 数据 Text颜色-->
+    <color name="ecg_measure_schedule_text_color">#FFFFFF</color>
+
+    <!--心电测量页 提示-->
+    <color name="ecg_measure_dialog_hint_text_color">#00C495</color>
+    <!--心电测量页 提示语-->
+    <color name="ecg_measure_dialog_marked_words_text_color">#252D2A</color>
+    <!--心电测量页 确认-->
+    <color name="ecg_measure_dialog_confirm_text_color">#00C495</color>
+
+    <!--自定义Dialog common_dialog_layout.xml-->
+    <color name="common_dialog_tv_title_color">#000F0C</color>
+    <color name="common_dialog_tv_message_color">#000000</color>
+    <color name="common_dialog_cancel_color">#000F0C</color>
+    <color name="common_dialog_confirm_color">#00C495</color>
+
+    <color name="checked_false">#00000000</color>
+    <color name="checked_true">#00C495</color>
+
+    <color name="yellow">#EBCF23</color>
+    <color name="orange">#EAA021</color>
+    <color name="light_white">#33FFFFFF</color>
+    <color name="light2_white">#f1f1f1</color>
+    <color name="green">#66B374</color>
+    <color name="blue">#5375fa</color>
+    <color name="gray">#717171</color>
+    <color name="red">#F26E57</color>
+
+</resources>

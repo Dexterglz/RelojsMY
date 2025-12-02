@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ProfileFragment"
+    android:orientation="vertical"
+    android:background="@color/backgroundPrimary"
+    android:paddingHorizontal="15dp">
+
+    <!--Mi equipo -->
+    <LinearLayout
+        android:id="@+id/my_equipment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!-- ListView con card moderno -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="12dp"
+            android:layout_margin="8dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@android:color/white"
+            android:clipToPadding="false"
+            android:clipChildren="false">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--Info Dispositivo-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:id="@+id/image_device"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@mipmap/device_watch"
+                        android:visibility="gone"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/device_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nombre"/>
+                        <ImageView
+                            android:id="@+id/battery_image"
+                            android:layout_marginLeft="20dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/battery_full"
+                            app:tint="@color/colorPrimary"/>
+                        <TextView
+                            android:id="@+id/device_battery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="20%"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <!--<LinearLayout
+        android:id="@+id/deviceInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="40dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/device_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dispositivo"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/battery_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/battery_full"
+            android:layout_marginRight="15dp"
+            app:tint="@color/green" />
+        <TextView
+            android:id="@+id/device_battery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100%"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </LinearLayout>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingVertical="20dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/servicio_de_monitoreo"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/inactivo"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <com.example.myhealthlife.model.ButtonPageView
+        android:id="@id/open_devices_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="@string/mi_equipo"
+        app:iconButtonSrc="@drawable/smart_watch">
+    </com.example.myhealthlife.model.ButtonPageView>
+
+    <com.example.myhealthlife.model.ButtonPageView
+        android:id="@+id/change_monitoring"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="@string/modificar_monitoreo"
+        app:iconButtonSrc="@drawable/cardiogram">
+    </com.example.myhealthlife.model.ButtonPageView>
+
+    <com.example.myhealthlife.model.ButtonPageView
+        android:id="@+id/hw_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="@string/modificar_peso_altura"
+        app:iconButtonSrc="@drawable/measuringsvg">
+    </com.example.myhealthlife.model.ButtonPageView>
+
+    <com.example.myhealthlife.model.ButtonPageView
+        android:id="@+id/language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="@string/cambiar_idioma"
+        app:iconButtonSrc="@drawable/language">
+    </com.example.myhealthlife.model.ButtonPageView>
+
+    <com.example.myhealthlife.model.ButtonPageView
+        android:id="@+id/datos_moviles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="@string/consumo_datos"
+        app:iconButtonSrc="@drawable/sphere">
+    </com.example.myhealthlife.model.ButtonPageView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/LO"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:backgroundTint="@color/colorPrimary"
+        android:text="@string/cerrar_sesion"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:cornerRadius="10dp"/>
+
+</LinearLayout>

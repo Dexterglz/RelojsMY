@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAF6FD">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center">
+
+            <!-- Titulo -->
+            <TextView
+                android:id="@+id/title_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Parametro"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Icono de oxígeno -->
+            <ImageView
+                android:id="@+id/image_log"
+                android:layout_width="104dp"
+                android:layout_height="74dp"
+                android:src="@drawable/thermometer_half"
+                app:tint="#FFA726" />
+
+            <!-- Valor en tiempo real -->
+            <TextView
+                android:id="@+id/value_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginTop="12dp"/>
+            <TextView
+                android:id="@+id/unit_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="16sp"
+                android:textColor="#212121"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Botón de historial -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_toggle_history"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/historial"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="@drawable/btn_historial_selector"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp" />
+            <LinearLayout
+                android:id="@+id/history_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <Spinner
+                    android:id="@+id/spinnerFiltro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:entries="@array/opciones_filtro" />
+                <!-- Historial oculto -->
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/chart_log"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginVertical="16dp"/>
+                        <TableLayout
+                            android:id="@+id/table_history_log"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="1"
+                            android:paddingBottom="16dp"/>
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

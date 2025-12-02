@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HealthItemView">
+        <attr name="timeText" format="string" />
+        <attr name="titleText" format="string" />
+        <attr name="iconSrc" format="reference" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="metallicColor" format="color" />
+        <attr name="showTimeContainer" format="boolean" />
+
+        <!-- Atributos adicionales útiles -->
+        <attr name="timeTextColor" format="color" />
+        <attr name="titleTextColor" format="color" />
+        <attr name="timeTextSize" format="dimension" />
+        <attr name="titleTextSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ButtonPageView">
+        <attr name="buttonText" format="string" />
+        <attr name="buttonTextOptional" format="string" />
+        <attr name="iconButtonSrc" format="reference" />
+        <attr name="buttonIconOptional" format="reference" />
+    </declare-styleable>
+
+</resources>

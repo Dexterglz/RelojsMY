@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DropdownItem" parent="Widget.AppCompat.Light.ListView.DropDown">
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+</resources>

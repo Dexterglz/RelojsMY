@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_oxygen"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_card"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:backgroundTint="@android:color/white"
+    > <!-- efecto de toque -->
+
+<ImageView
+android:layout_width="32dp"
+android:layout_height="32dp"
+android:src="@drawable/bubble_chart"
+android:tint="#4BB5AB" />
+
+<TextView
+android:layout_width="0dp"
+android:layout_height="wrap_content"
+android:layout_weight="1"
+android:layout_marginStart="16dp"
+android:text="@string/saturacion_oxigeno"
+android:textColor="#263238"
+android:textSize="16sp"
+android:textStyle="bold"/>
+
+<TextView
+android:id="@+id/valorOxigeno"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="-- %"
+android:textSize="18sp"
+android:textStyle="bold"
+android:textColor="#263238"/>
+    </LinearLayout>

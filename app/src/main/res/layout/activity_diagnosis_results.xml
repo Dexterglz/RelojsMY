@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroundPrimary">
+
+    <include layout="@layout/activity_bar" />
+
+    <ScrollView
+        android:id="@+id/diagnosis_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp">
+
+            <!--Resumen-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="20dp"
+                    android:text="Resumen"
+                    android:textColor="@color/black"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Frecuencia Cardíaca -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Frec. Cardiaca"/>
+
+                        <TextView
+                            android:id="@+id/tvHeartRateValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"/>
+
+                        <View
+                            android:id="@+id/indicatorHeartRate"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+                    </LinearLayout>
+                    <!-- Variabilidad del Ritmo Cardíaco (HRV) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="HRV"/>
+
+                        <TextView
+                            android:id="@+id/tvHrvValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"/>
+
+                        <View
+                            android:id="@+id/indicatorHrv"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+
+                    </LinearLayout>
+                    <!-- Coeficiente de Variación (CVRR) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="CVRR"/>
+
+                        <TextView
+                            android:id="@+id/tvCvrrValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"/>
+
+                        <View
+                            android:id="@+id/indicatorCvrr"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+                    </LinearLayout>
+                    <!-- Saturación de Oxígeno -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Oxigenación"/>
+
+                        <TextView
+                            android:id="@+id/tvOxygenValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"/>
+
+                        <View
+                            android:id="@+id/indicatorOxygen"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+                    </LinearLayout>
+                    <!-- Presión Arterial Diastólica -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="P.A. Diastólica" />
+
+                        <TextView
+                            android:id="@+id/tvDiastolicValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"/>
+
+                        <View
+                            android:id="@+id/indicatorDiastolic"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+                    </LinearLayout>
+                    <!-- Presión Arterial Sistólica -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="P.A. Sistólica"/>
+
+                        <TextView
+                            android:id="@+id/tvSystolicValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"/>
+
+                        <View
+                            android:id="@+id/indicatorSystolic"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+                    </LinearLayout>
+                    <!-- Frecuencia Respiratoria -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Frec. Respiratoria"/>
+
+                        <TextView
+                            android:id="@+id/tvRespRateValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"/>
+
+                        <View
+                            android:id="@+id/indicatorRespRate"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+                    </LinearLayout>
+                    <!-- Grasa Corporal -->
+                    <!--<LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Grasa Corporal"/>
+
+                        <TextView
+                            android:id="@+id/tvBodyFatValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="&#45;&#45;"/>
+
+                        <View
+                            android:id="@+id/indicatorBodyFat"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+                    </LinearLayout>-->
+                    <!-- Glucosa en Sangre -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Glucosa en Sangre"/>
+
+                        <TextView
+                            android:id="@+id/tvBloodSugarValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"/>
+
+                        <View
+                            android:id="@+id/indicatorBloodSugar"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+                    </LinearLayout>
+                    <!-- Temperatura -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Temperatura"/>
+
+                        <TextView
+                            android:id="@+id/tvTempValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="--"/>
+
+                        <View
+                            android:id="@+id/indicatorTemp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_shape"
+                            android:layout_marginLeft="8dp"/>
+                    </LinearLayout>
+
+                    <!-- Repite para otros parámetros -->
+                </LinearLayout>
+
+            </LinearLayout>
+            <!--Titulo-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="20dp"
+                android:text="Grupos con Diagnósticos"
+                android:textColor="@color/black"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:text="Filtrar por:"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+            <Spinner
+                android:id="@+id/spinnerFiltroResultados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="20dp"
+                android:spinnerMode="dropdown"
+                android:entries="@array/opciones_filtro" />
+            <!--Grupos-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--Grupo 1: Sistema Cardiovascular:-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--Contenedor Título-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!--titulo-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/green"
+                            android:padding="8dp"
+                            android:gravity="center"
+                            android:id="@+id/cardio_group">
+                            <ImageView
+                                android:id="@+id/cardiovascularBoton"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/circle_down"
+                                android:layout_margin="15dp"
+                                app:tint="@color/white" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sistema Cardiovascular"
+                                android:textColor="@color/white"
+                                android:textSize="19sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                        <!-- Borde inferior negro -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/white"/>
+                    </LinearLayout>
+                    <!--Contenido-->
+                    <LinearLayout
+                        android:id="@+id/cardioContenido"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/cardiovascular_frec_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/cardiovascular_frecRes_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+
+
+                        <!-- Ritmo Cardiaco -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Frec. Cardiaca"/>
+
+                            <TextView
+                                android:id="@+id/cardio_fc_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/cardio_fc_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <!--  Frecuencia Respiratoria -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Frecuencia Respiratoria"/>
+
+                            <TextView
+                                android:id="@+id/cardio_fr_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/cardio_fr_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <!--Grupo 2: Sistema Circulatorio-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--Contenedor Título-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!--titulo-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/green"
+                            android:padding="8dp"
+                            android:gravity="center"
+                            android:id="@+id/circulatorio_group">
+                            <ImageView
+                                android:id="@+id/circulatorioBoton"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/circle_down"
+                                android:layout_margin="15dp"
+                                app:tint="@color/white" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sistema Circulatorio"
+                                android:textColor="@color/white"
+                                android:textSize="19sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                        <!-- Borde inferior negro -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/white"/>
+                    </LinearLayout>
+                    <!--Contenido-->
+                    <LinearLayout
+                        android:id="@+id/circulatorioContenido"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/circulatorio_diastolic_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/circulatorio_systolic_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/circulatorio_frec_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/circulatorio_ox_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <!-- Presión Arterial -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Presión Arterial Diastólica"/>
+
+                            <TextView
+                                android:id="@+id/circulatorio_diastolic_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/circulatorio_diastolic_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Presión Arterial Sistólica"/>
+
+                            <TextView
+                                android:id="@+id/circulatorio_systolic_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/circulatorio_systolic_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <!-- Ritmo Cardiaco -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Frec. Cardiaca"/>
+
+                            <TextView
+                                android:id="@+id/circulatorio_fc_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/circulatorio_fc_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <!-- Oxigenación -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Oxigenación"/>
+
+                            <TextView
+                                android:id="@+id/circulatorio_ox_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/circulatorio_ox_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <!--Grupo 3: Sueño Fragmentado-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--Contenedor Título-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!--titulo-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/green"
+                            android:padding="8dp"
+                            android:gravity="center"
+                            android:id="@+id/fragmentado_group">
+                            <ImageView
+                                android:id="@+id/fragmentadoBoton"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/circle_down"
+                                android:layout_margin="15dp"
+                                app:tint="@color/white" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Sueño Fragmentado"
+                                android:textColor="@color/white"
+                                android:textSize="19sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                        <!-- Borde inferior negro -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/white"/>
+                    </LinearLayout>
+                    <!--Contenido-->
+                    <LinearLayout
+                        android:id="@+id/fragmentadoContenido"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/fragmentado_frec_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/fragmentado_frecRes_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+
+                        <!-- Sueño -->
+                        <!--<LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Sueño" />
+
+                            <TextView
+                                android:id="@+id/fragmentado_sue_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="&#45;&#45;"/>
+
+                            <View
+                                android:id="@+id/fragmentado_sue_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>-->
+                        <!-- Ritmo Cardiaco -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Frec. Cardiaca"/>
+
+                            <TextView
+                                android:id="@+id/fragmentado_fc_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/fragmentado_fc_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <!-- Frecuencia Respiratoria -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Frecuencia Respiratoria"/>
+
+                            <TextView
+                                android:id="@+id/fragmentado_fr_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/fragmentado_fr_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <!--Grupo 4: Actividad y Recuperación Metabólico-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--Contenedor Título-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!--titulo-->
+                        <!-- Borde inferior negro -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/green"
+                            android:padding="8dp"
+                            android:id="@+id/actividad_group">
+
+                            <ImageView
+                                android:id="@+id/metabolicoBoton"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_margin="15dp"
+                                android:src="@drawable/circle_down"
+                                app:tint="@color/white" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Actividad y Recuperación Metabólico"
+                                android:textColor="@color/white"
+                                android:textSize="19sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/white"/>
+                    </LinearLayout>
+                    <!--Contenido-->
+                    <LinearLayout
+                        android:id="@+id/metabolicoContenido"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/actividad_frec_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/actividad_diast_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/actividad_sist_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <!-- Pasos Diarios -->
+                        <!--<LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Pasos Diarios"/>
+
+                            <TextView
+                                android:id="@+id/actividad_pd_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="-"/>
+
+                            <View
+                                android:id="@+id/actividad_pd_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout> -->
+
+                        <!-- Ritmo Cardiaco -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Frec. Cardiaca"/>
+
+                            <TextView
+                                android:id="@+id/actividad_fc_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/actividad_fc_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <!-- Presión Arterial -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="P.A. Diastólica"/>
+
+                            <TextView
+                                android:id="@+id/actividad_pad_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/actividad_pad_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="P.A. Sistólica"/>
+
+                            <TextView
+                                android:id="@+id/actividad_pas_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/actividad_pas_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <!--Grupo 5: Monitoreo de Infección-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--Contenedor Título-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <!--titulo-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/green"
+                            android:padding="8dp"
+                            android:gravity="center"
+                            android:id="@+id/infeccion_group">
+                            <ImageView
+                                android:id="@+id/infeccionBoton"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/circle_down"
+                                android:layout_margin="15dp"
+                                app:tint="@color/white" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Monitoreo de Infección"
+                                android:textColor="@color/white"
+                                android:textSize="19sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+                        <!-- Borde inferior negro -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@android:color/white"/>
+                    </LinearLayout>
+                    <!--Contenido-->
+                    <LinearLayout
+                        android:id="@+id/infeccionContenido"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/infeccion_tmp_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"
+                            android:visibility="gone"/>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/infeccion_fr_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/infeccion_ox_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_marginVertical="16dp"/>
+                        <!-- Temperatura -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Temperatura"/>
+
+                            <TextView
+                                android:id="@+id/infeccion_tmp_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/infeccion_tmp_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <!-- Frecuencia Respiratoria -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Frecuencia Respiratoria"/>
+
+                            <TextView
+                                android:id="@+id/infeccion_fr_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/infeccion_fr_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                        <!-- Oxigenación -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Oxigenación"/>
+
+                            <TextView
+                                android:id="@+id/infeccion_ox_valor"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="--"/>
+
+                            <View
+                                android:id="@+id/infeccion_ox_sem"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/circle_shape"
+                                android:layout_marginLeft="8dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+            <!--Tabla Glucosa-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
+                    android:text="Niveles de Gloucosa"
+                    android:textColor="@color/black"
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tablaGlucosa"
+                    android:textColor="@color/gray"
+                    android:layout_marginBottom="20dp"/>
+                <include
+                    android:id="@+id/tabla_glucosa"
+                    layout="@layout/tabla_glucosa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
