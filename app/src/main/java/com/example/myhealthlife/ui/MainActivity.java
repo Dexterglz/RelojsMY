@@ -36,6 +36,7 @@ import com.example.myhealthlife.fragments.InboxFragment;
 import com.example.myhealthlife.fragments.LanguageDialogFragment;
 import com.example.myhealthlife.fragments.ProfileFragment;
 import com.example.myhealthlife.fragments.SportFragment;
+import com.example.myhealthlife.model.BleManager;
 import com.example.myhealthlife.model.HealthWorker;
 import com.example.myhealthlife.model.LocaleHelper;
 import com.example.myhealthlife.model.NetworkOperationManager;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView leftArrow, rightArrow;
     //SharedpPreferences
     public Integer savedInterval;
+    BleManager ble;
     SharedPreferences prefs;
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+        ble = BleManager.getInstance(this);
 
 
         // Inicializar SharedPreferences
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         loginValidations();                                     //Validaciones del inicio de sesión
         requestNecessaryPermissions();                          //Solicitar permisos si es necesario
         setWorker();                                            //Configurar el Worker (Tarea del monitoreo)
+        conectLastDevice();
 
         //Desactivar el Internet (TEMPORALMENTE)
         //networkOperationManager = new NetworkOperationManager(this);
@@ -122,7 +126,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
+    private void conectLastDevice() {
+
+        String mac = getSharedPreferences("ble_prefs", MODE_PRIVATE)
+                .getString("last_mac", null);
+
+        if(mac != null){
+            ble.connectDevice(mac, response -> {
+                if(ble.getState() == Constants.BLEState.ReadWriteOK){
+                    Toast.makeText(this, "Reconectado", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    /*@Override
     protected void onResume(){
         //Icono de barra superior
         super.onResume();
@@ -130,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
             String name = getBindDeviceName();
             setDeviceImage(connect_device,name);
         }
-    }
+    }*/
 
     /*--------------------------------------------------------*/
 
@@ -141,29 +159,29 @@ public class MainActivity extends AppCompatActivity {
         // Configura BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         pager = findViewById(R.id.pager);
-        title = findViewById(R.id.TITLE);
+        //title = findViewById(R.id.TITLE);
         //leftArrow = findViewById(R.id.leftArrow);
         //rightArrow = findViewById(R.id.rightArrow);
 
-        connect_device = findViewById(R.id.connect_device);
+        //connect_device = findViewById(R.id.connect_device);
         Intent intent = new Intent(this, DeviceScanActivity.class);
-        connect_device.setOnClickListener(v -> startActivity(intent));
+        //connect_device.setOnClickListener(v -> startActivity(intent));
 
         setupBottomNav();
         adapter = new ViewPagerFragmentAdapter(MainActivity.this, bottomNavigationView.getItemIconSize(), MainActivity.this);
         pager.setAdapter(adapter);
         pager.setOffscreenPageLimit(1);
         pager.setUserInputEnabled(true);  // Permite deslizamiento
-        pager.setCurrentItem(1);
+        pager.setCurrentItem(0);
         pager.setPadding(0,0,0,0);
         pager.setBottom(0);
         pager.setClipToPadding(true);
 
-        //Icono de barra superior
+        /*//Icono de barra superior
         if (connectState() == Constants.BLEState.ReadWriteOK) {
             String name = getBindDeviceName();
             setDeviceImage(connect_device,name);
-        }
+        }*/
 
         BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.nav_inbox);
         badge.setVisible(true);
@@ -234,9 +252,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    return new InboxFragment();
-                case 1:
                     return new HomeFragment();
+                case 1:
+                    return new InboxFragment();
                 case 2:
                     return new HealthFragment();
                 case 3:
@@ -286,10 +304,10 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
-             if (itemId == R.id.nav_inbox) {
+             if (itemId == R.id.nav_home) {
                 pager.setCurrentItem(0);  // (Inbox)
                 return true;
-            } else if (itemId == R.id.nav_home) {
+            } else if (itemId == R.id.nav_inbox) {
                  pager.setCurrentItem(1);  // (Home)
                  return true;
              }else if (itemId == R.id.nav_health) {
@@ -309,8 +327,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                String newTitle = ((ViewPagerFragmentAdapter) Objects.requireNonNull(pager.getAdapter())).getTitle(position);
-                title.setText(newTitle);
+                /*String newTitle = ((ViewPagerFragmentAdapter) Objects.requireNonNull(pager.getAdapter())).getTitle(position);
+                title.setText(newTitle);*/
                 /*if (position == 0) {
                     leftArrow.setVisibility(INVISIBLE);
                     rightArrow.setVisibility(VISIBLE);
@@ -355,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,

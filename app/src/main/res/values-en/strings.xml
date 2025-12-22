@@ -276,7 +276,7 @@ For everything related to the interpretation and compliance with these terms and
     <string name="el_curp_no_coincide_fecha">Invalid Passport or DMV ID format</string>
     <string name="la_contrasena_obligatoria">Password is required</string>
     <string name="contrasena_al_menos">Password must have at least 8 characters</string>
-    <string name="contrata_servicio">⚠️ Subscribe to the monitoring service to activate it.</string>
+    <string name="contrata_servicio">Subscribe to the monitoring service to activate it. Subscribe to the monitoring service to activate it. Subscribe to the monitoring service to activate it. </string>
     <string name="bpm">bpm</string>
     <string name="month">Month</string>
     <string name="week">Week</string>
@@ -322,6 +322,12 @@ For everything related to the interpretation and compliance with these terms and
     <string name="el_dmv_id_no_coincide_nombres">DMV ID does not match names</string>
     <string name="el_dmv_id_no_coincide_fecha">DMV ID does not match birth date</string>
     <string name="inbox">Inbox</string>
+    <string name="spo2">SpO2</string>
+    <string name="dispositivo_desconocido">Unknown device</string>
+    <string name="sleep">Sleep</string>
+    <string name="hr_hrv">HR / HRV</string>
+    <string name="deporte">Deporte</string>
+    <string name="cuidado">Cuidado</string>
 
 
 </resources>

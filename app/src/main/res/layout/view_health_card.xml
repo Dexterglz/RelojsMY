@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRoot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="5dp"
+        app:cardCornerRadius="8dp"
+        app:cardUseCompatPadding="true"
+        android:clickable="true"
+        android:focusable="true">
+
+        <!--Contenido-->
+        <LinearLayout
+            android:id="@+id/containerMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:gravity="start">
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textColor="#263238"
+                android:textSize="13sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <!-- Contenido -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Fila principal -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:paddingVertical="5dp"
+                        android:gravity="bottom|start"
+                        android:layout_marginVertical="1dp">
+                        <LinearLayout
+                            android:id="@+id/iconLeftContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="5dp"
+                            android:visibility="gone">
+                            <ImageView
+                                android:id="@+id/iconLeft"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"/>
+                        </LinearLayout>
+
+                        <!-- Valor principal -->
+                        <TextView
+                            android:id="@+id/tvMainValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:layout_marginLeft="2dp"/>
+
+                        <!-- Unidad -->
+                        <TextView
+                            android:id="@+id/tvMainUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="u"
+                            android:textColor="@color/black"
+                            android:visibility="gone"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:gravity="center"/>
+
+                        <!-- Valor secundario -->
+                        <TextView
+                            android:id="@+id/tvSecondaryValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:visibility="gone"
+                            android:textSize="28sp"
+                            android:textStyle="bold"/>
+
+                        <!-- Unidad secundaria -->
+                        <TextView
+                            android:id="@+id/tvSecondaryUnit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="u"
+                            android:textColor="@color/black"
+                            android:visibility="gone"
+                            android:textStyle="bold"
+                            android:textSize="18sp"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:padding="2dp"
+                        android:orientation="vertical"
+                        android:gravity="bottom">
+
+                        <ImageView
+                            android:id="@+id/iconRight"
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/lineacurveada"
+                            app:tint="@color/green"
+                            />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <!-- Etiqueta inferior -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/statusCard"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="25dp">
+
+                    <TextView
+                        android:id="@+id/tvStatus"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp"
+                        android:gravity="center"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Icono inferior -->
+                <ImageView
+                    android:id="@+id/iconBottom"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:scaleType="centerInside"
+                android:cropToPadding="true"
+                android:adjustViewBounds="true"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/lineacurveada"
+                app:tint="@color/green"
+                app:srcCompat="@drawable/lineacurveada"
+                android:layout_gravity="bottom" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</merge>

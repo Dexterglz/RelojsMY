@@ -40,23 +40,24 @@ public class AnimatedCircularProgress extends View {
 
     private void init() {
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        backgroundPaint.setColor(Color.parseColor("#48605E"));
+        backgroundPaint.setColor(Color.parseColor("#1FFFFFFF"));
         backgroundPaint.setStyle(Paint.Style.STROKE);
-        backgroundPaint.setStrokeWidth(55f);
+        backgroundPaint.setStrokeWidth(35f);
 
         progressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         progressPaint.setStyle(Paint.Style.STROKE);
-        progressPaint.setStrokeWidth(55f);
+        progressPaint.setStrokeWidth(35f);
         progressPaint.setStrokeCap(Paint.Cap.ROUND);
+        progressPaint.setColor(Color.parseColor("#FFFFFF"));
 
         rectF = new RectF();
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        rectF.set(50, 50, w - 50, h - 50);
-        gradient = new LinearGradient(0, 0, w, h, gradientColors, null, Shader.TileMode.MIRROR);
-        progressPaint.setShader(gradient);
+        rectF.set(20, 20, w - 20, h - 20);
+        //gradient = new LinearGradient(0, 0, w, h, gradientColors, null, Shader.TileMode.MIRROR);
+        //progressPaint.setShader(gradient);
     }
 
     @Override
@@ -70,29 +71,29 @@ public class AnimatedCircularProgress extends View {
         canvas.drawArc(rectF, -90, (progress / maxProgress) * 360, false, progressPaint);
 
         // Texto centrado
-        Paint titlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        /*Paint titlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         titlePaint.setColor(Color.WHITE);
         titlePaint.setTextSize(40f);
         titlePaint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText("Pasos", getWidth() / 2f, getHeight() / 2f -10, titlePaint);
+        canvas.drawText("Pasos", getWidth() / 2f, getHeight() / 2f -10, titlePaint);*/
 
         String title = "Pasos";
         float textX = getWidth() / 2f;
         float textY = getHeight() / 2f - 30;
 
-        /*Drawable iconDrawable = ContextCompat.getDrawable(getContext(), R.drawable.sneakers);
-        int iconSize = 55;
-        int left = (int) (textX - (titlePaint.measureText(title) / 2) - iconSize + 110);
-        int top = (int) (textY - iconSize / 2) - 130;
+        Drawable iconDrawable = ContextCompat.getDrawable(getContext(), R.drawable.sneakers);
+        int iconSize = 110;
+        int left = (int) (textX - iconSize + 60);
+        int top = (int) (textY - iconSize / 2) + 25;
         iconDrawable.setBounds(left, top, left + iconSize, top + iconSize);
-        iconDrawable.draw(canvas);*/
+        iconDrawable.draw(canvas);
 
         // Texto centrado
-        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        /*Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setColor(Color.WHITE);
         textPaint.setTextSize(55f);
         textPaint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText((int) progressText + "", getWidth() / 2f, getHeight() / 2f + 55, textPaint);
+        canvas.drawText((int) progressText + "", getWidth() / 2f, getHeight() / 2f + 55, textPaint);*/
     }
 
     // Animar el progreso

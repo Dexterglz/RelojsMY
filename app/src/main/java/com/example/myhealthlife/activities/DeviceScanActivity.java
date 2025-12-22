@@ -2,6 +2,7 @@ package com.example.myhealthlife.activities;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.example.myhealthlife.model.AppUtils.topBar;
 import static com.example.myhealthlife.model.DeviceAdapter.setDeviceImage;
 import static com.yucheng.ycbtsdk.YCBTClient.connectBle;
 import static com.yucheng.ycbtsdk.YCBTClient.connectState;
@@ -23,6 +24,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,14 +36,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.example.myhealthlife.R;
+import com.example.myhealthlife.model.AppBleManager;
+import com.example.myhealthlife.model.AppUtils;
+import com.example.myhealthlife.model.BleManager;
 import com.example.myhealthlife.model.BluetoothDevice;
 import com.example.myhealthlife.model.DeviceAdapter;
 import com.example.myhealthlife.model.EventBusMessageEvent;
 import com.example.myhealthlife.ui.MainActivity;
+import com.example.myhealthlife.util.ToastUtil;
 import com.yucheng.ycbtsdk.Constants;
 import com.yucheng.ycbtsdk.YCBTClient;
 import com.yucheng.ycbtsdk.bean.ScanDeviceBean;
@@ -56,45 +65,37 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeviceScanActivity extends Activity {
+public class DeviceScanActivity extends AppCompatActivity {
 
     private ListView listView;
     private DeviceAdapter adapter;
     private List<BluetoothDevice> devices;
     private List<ScanDeviceBean> scannedDevices = new ArrayList<>();
-    private EventBusMessageEvent eventBusMessageEvent = new EventBusMessageEvent();
-    private String lastConnectedMac;
     private ImageView rightIcon, image_device;
     private TextView device_name, device_battery;
     private LinearLayout devices_list, my_equipment;
     private View desconectar;
+    BleManager bleCore = AppBleManager.getInstance(this).getBle();
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_scan);
-        initViews();                                        //Inicializar vistas
-        setContent();                                //Definir que vista se mostrará
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
+        bleCore = AppBleManager.getInstance(this).getBle();
+        initViews();                                  //Inicializar vistas
+        setContent();                                 //Definir que vista se mostrará
     }
     /**Principales**/
     private void initViews(){
+        topBar(getString(R.string.dispositivos_disponibles), this);
+
         devices_list = findViewById(R.id.devices_list);
         my_equipment = findViewById(R.id.my_equipment);
 
         listView = findViewById(R.id.device_list);
         rightIcon = findViewById(R.id.connect_device);
         desconectar = findViewById(R.id.desconectar);
-        topBar(getString(R.string.dispositivos_disponibles));
 
         device_name = findViewById(R.id.device_name);
         device_battery = findViewById(R.id.device_battery);
@@ -104,128 +105,184 @@ public class DeviceScanActivity extends Activity {
         adapter = new DeviceAdapter(this, devices);
         listView.setAdapter(adapter);
     }
-    private void setContent(){
-        if(connectState() == Constants.BLEState.ReadWriteOK){
-            setMyEquipmentContent();
-        }
-        else{
-            setDevicesListContent();
+    private void setContent() {
+
+        AppBleManager manager = AppBleManager.getInstance(this);
+
+        /*String mac = getSharedPreferences("ble_prefs", MODE_PRIVATE)
+                .getString("last_mac", null);
+
+        if (mac != null) {
+            manager.connect(mac, this);   // ¡Reconecta automáticamente!
+        }*/
+
+        switch (bleCore.getState()) {
+
+            case Constants.BLEState.ReadWriteOK:
+                setMyEquipmentContent();
+                break;
+
+            case Constants.BLEState.Disconnect:
+                setDevicesListContent();
+                break;
+
+            case Constants.BLEState.TimeOut:
+                setDevicesListContent();
+                break;
+            default:
+                setDevicesListContent();
+                break;
         }
     }
-    /**Escaneo**/
-    private void startScanBleFun(){
-        // 1. Verifica permisos
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT},
-                    1001);
+
+
+    private static final int REQ_PERMISSIONS = 1001;
+    private String[] getRequiredPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return new String[]{
+                    Manifest.permission.BLUETOOTH_SCAN,
+                    Manifest.permission.BLUETOOTH_CONNECT
+            };
+        } else {
+            return new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            };
+        }
+    }
+    private static final int REQ_BT = 2001;
+
+    private void requestBlePermissions() {
+        ActivityCompat.requestPermissions(
+                this,
+                getRequiredPermissions(),
+                REQ_BT
+        );
+    }
+
+    private void startScan() {
+
+        if (!bleCore.hasBlePermissions(this)) {
+            requestBlePermissions();
             return;
         }
-        //2. Inicia escaneo
-        startScanBle(new BleScanResponse() {
-            @Override
-            public void onScanResponse(int i, ScanDeviceBean scanDeviceBean) {
-                if (scanDeviceBean != null && scanDeviceBean.device != null) {
-                    if (ActivityCompat.checkSelfPermission(DeviceScanActivity.this.getBaseContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    }
-                    String mac = String.valueOf(scanDeviceBean.device.getAddress());
-                    String name = String.valueOf(scanDeviceBean.device.getName());
-                    String rssi = String.valueOf(scanDeviceBean.getDeviceRssi());
 
-                    // Evita duplicados
-                    for (ScanDeviceBean d : scannedDevices) {
-                        if (d.device.getAddress().equals(mac)) return;
-                    }
-                    scannedDevices.add(scanDeviceBean);
+        // Limpieza
+        devices.clear();
+        scannedDevices.clear();
+        adapter.notifyDataSetChanged();
 
-                    devices.add(new BluetoothDevice(name, mac,rssi));
+        bleCore.stopScan(); // evita múltiples escaneos
 
-                    adapter.notifyDataSetChanged();
-                }
+        bleCore.startScan((code, bean) -> {
+            if (bean == null || bean.device == null){
+                return;
             }
-        }, 6);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT)
+                            != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+
+            String name = bean.device.getName();
+            if (name == null) name = getString(R.string.dispositivo_desconocido);
+
+            String mac = bean.device.getAddress();
+            String rssi = String.valueOf(bean.getDeviceRssi());
+
+            // Evitar duplicados
+            for (BluetoothDevice d : devices) {
+                if (d.getMac().equals(mac)) return;
+            }
+
+            // Guardar bean real
+            scannedDevices.add(bean);
+
+            // Guardar item visible en lista
+            devices.add(new BluetoothDevice(name, mac, rssi));
+
+            runOnUiThread(() -> adapter.notifyDataSetChanged());
+        });
     }
-    private void connectDevices(){
+
+    private void connectDevices() {
+
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            ScanDeviceBean selectedDevice = scannedDevices.get(position);
-            if (selectedDevice != null && selectedDevice.device != null) {
-                String macAd = selectedDevice.device.getAddress();
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    return;
+
+            if (position >= scannedDevices.size()) return;
+
+            ScanDeviceBean selected = scannedDevices.get(position);
+
+            Toast.makeText(this, getString(R.string.conectando), Toast.LENGTH_SHORT).show();
+
+            /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT)
+                    != PackageManager.PERMISSION_GRANTED) return;*/
+
+            bleCore.stopScan(); // detener antes de conectar
+
+            bleCore.connectDevice(selected.device.getAddress(), code -> {
+
+                switch (bleCore.getState()) {
+
+                    case Constants.BLEState.ReadWriteOK:
+                        Toast.makeText(this, getString(R.string.dispositivo_conectado), Toast.LENGTH_SHORT).show();
+                        setMyEquipmentContent();
+                        break;
+
+                    case Constants.BLEState.Disconnect:
+                        Toast.makeText(this, getString(R.string.dispositivo_desconectado), Toast.LENGTH_SHORT).show();
+                        break;
+
+                    case Constants.BLEState.TimeOut:
+                        Toast.makeText(this, getString(R.string.tiempo_conexion_agotado), Toast.LENGTH_SHORT).show();
+                        break;
                 }
-                stopScanBle();
-                String mensaje = getString(R.string.conectando) + " ⏳";
-                Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
-                connectToDevice(macAd);
-            }
+            });
         });
 
         rightIcon.setImageResource(R.drawable.baseline_sync_24);
         rightIcon.setOnClickListener(v -> {
-            stopScanBle();
-            //devices = new ArrayList<>();
-            //adapter = new DeviceAdapter(this, devices);
-            if (devices != null) {
-                devices.clear();
-                scannedDevices.clear();
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
-                //Toast.makeText(this, "Lista limpiada", Toast.LENGTH_SHORT).show();
-                startScanBleFun();
-                Toast.makeText(this, getString(R.string.home_actualizando), Toast.LENGTH_SHORT).show();
-            }
+            bleCore.stopScan();
+            startScan();
+            Toast.makeText(this, getString(R.string.home_actualizando), Toast.LENGTH_SHORT).show();
         });
     }
-    private void saveBleStateToPrefs(String mac, String state) {
-        SharedPreferences prefs = getSharedPreferences("BLE_PREFS", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("LAST_MAC", mac);
-        editor.putString("LAST_STATE", state);
-        editor.apply();
-    }
-    private void connectToDevice(String mac) {
-        lastConnectedMac = mac; // Guardamos para usar luego en el evento
-        connectBle(mac, new BleConnectResponse() {
-            @Override
-            public void onConnectResponse(int code) {
-                Log.d("BLE_SCAN", "Conexión código: " + code);
-                // Registrar cambios de estado
-                switch (connectState()) {
-                    case Constants.BLEState.Disconnect:
-                        eventBusMessageEvent.belState = EventBusMessageEvent.DISCONNECT;
-                        break;
-                    case Constants.BLEState.ReadWriteOK:
-                        eventBusMessageEvent.belState = EventBusMessageEvent.CONNECTED;
-                        break;
-                    case Constants.BLEState.TimeOut:
-                        eventBusMessageEvent.belState = EventBusMessageEvent.TIMEOUT;
-                        break;
-                    case Constants.BLEState.Disconnecting:
-                        eventBusMessageEvent.belState = EventBusMessageEvent.DISCONNECTING;
-                        break;
-                    case Constants.BLEState.Connecting:
-                        eventBusMessageEvent.belState = EventBusMessageEvent.CONNECTING;
-                        break;
-                    default:
-                        eventBusMessageEvent.belState = EventBusMessageEvent.CONNECTING;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQ_BT) {
+            boolean granted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    granted = false;
+                    break;
                 }
-                EventBus.getDefault().post(eventBusMessageEvent);
             }
-        });
+
+            if (granted) {
+                startScan(); // ← REINTENTAR AUTOMÁTICAMENTE
+            } else {
+                //Toast.makeText(this, "Se requieren permisos Bluetooth", Toast.LENGTH_LONG).show();
+            }
+        }
     }
+
+
+
     /**Auxiliares**/
-    private void setDevicesListContent(){
+
+    private void setDevicesListContent() {
         my_equipment.setVisibility(GONE);
         devices_list.setVisibility(VISIBLE);
+        topBar(getString(R.string.dispositivos_disponibles), this);
         rightIcon.setImageResource(R.drawable.baseline_sync_24);
-        topBar(getString(R.string.dispositivos_disponibles));
-
-        startScanBleFun();                                  //Iniciar escaneo de dispositivos
+        disconnectBle();
+        startScan();
         connectDevices();
     }
+
     private void setMyEquipmentContent(){
         String name = getBindDeviceName();
         String battery = String.valueOf(getDeviceBatteryValue());
@@ -238,58 +295,11 @@ public class DeviceScanActivity extends Activity {
         my_equipment.setVisibility(VISIBLE);
 
         setDeviceImage(rightIcon,name);
-        topBar(getString(R.string.mi_equipo));
+        topBar(getString(R.string.mi_equipo),this);
         desconectar.setOnClickListener(v->{
+
+            Toast.makeText(this, getString(R.string.dispositivo_desconectado), Toast.LENGTH_SHORT).show();
             disconnectBle();
-            setDevicesListContent();
         });
-    }
-    private void topBar(String title){
-        //Barra de navegación superior
-        TextView titleTextView = findViewById(R.id.TITLE); // Titulo
-        titleTextView.setText(title);
-        ImageView btnBack = findViewById(R.id.backTop);
-        btnBack.setImageResource(R.drawable.keyboard_arrow_left);
-        btnBack.setOnClickListener(v -> finish());
-    }
-    private void saveLastConnectedDevice(String mac) {
-        SharedPreferences prefs = getSharedPreferences("YCBT_PREFS", Context.MODE_PRIVATE);
-        prefs.edit().putString("LAST_CONNECTED_MAC", mac).apply();
-    }
-    @Subscribe(threadMode = ThreadMode.MAIN) // MAIN para poder mostrar Toast
-    public void onBleStateChange(EventBusMessageEvent event) {
-        String mensaje = "";
-        String estado = "";
-
-        switch (event.belState) {
-            case EventBusMessageEvent.CONNECTED:
-                mensaje = getString(R.string.dispositivo_conectado) + " ✅ ";
-                estado = "CONNECTED";
-                setMyEquipmentContent();
-                break;
-            case EventBusMessageEvent.DISCONNECT:
-                mensaje = getString(R.string.dispositivo_desconectado) + " ❌";
-                estado = "DISCONNECTED";
-                setDevicesListContent();
-                break;
-            case EventBusMessageEvent.TIMEOUT:
-                mensaje = getString(R.string.tiempo_conexion_agotado) + " ⏳";
-                estado = "TIMEOUT";
-                break;
-            case EventBusMessageEvent.CONNECTING:
-                mensaje = getString(R.string.conectando);
-                estado = "CONNECTING";
-                break;
-        }
-
-        if (!mensaje.isEmpty()) {
-            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
-        }
-
-        // Guardar en SharedPreferences. Si event.deviceMac no existe, usa una variable global que guardes al conectar
-        String macToSave = lastConnectedMac != null ? lastConnectedMac : null;
-        if (macToSave != null) {
-            saveBleStateToPrefs(macToSave, estado);
-        }
     }
 }

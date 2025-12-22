@@ -1,352 +1,503 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/backgroundPrimary"
-    android:orientation="vertical"
-    android:fillViewport="true"
-    android:paddingHorizontal="23dp">
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <!-- Mensaje de Contratar Servicio -->
-    <TextView
-        android:id="@+id/tickerText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:ellipsize="marquee"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:scrollHorizontally="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="5dp"
-        android:textColor="@color/red"
-        android:textSize="12sp"
-        android:backgroundTint="#0007"
-        android:background="@drawable/bg_card"
-        android:text="@string/contrata_servicio" />
-    <!-- Título -->
-    <TextView
-        android:id="@+id/test_worker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/home_titulo"
-        android:textStyle="bold"
-        android:textColor="#263238"
-        android:textSize="22sp"
-        android:layout_marginVertical="10dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"/>
-    <!-- Dashboard Pasos-->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_gravity="center"
-        android:clipChildren="false"
-        android:clipToPadding="false">
-
-        <!-- Fondo animado -->
-        <com.example.myhealthlife.model.WaveBackgroundView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="#383b3f"
-            android:background="@drawable/bg_card"
-            android:clipChildren="false"
-            android:clipToPadding="false"/>
-
-        <!-- Contenido del LinearLayout -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true"
-            android:clipChildren="false"
-            android:clipToOutline="false"
-            android:clipToPadding="false">
-            <!-- Contenedor del círculo -->
-            <FrameLayout
-                android:id="@+id/container_circle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="40dp">
-
-                <!-- Círculo de progreso -->
-                <com.example.myhealthlife.model.AnimatedCircularProgress
-                    android:id="@+id/circularProgress"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"/>
-
-            </FrameLayout>
-            <!--Datos-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/fire"
-                        android:layout_marginRight="5dp"/>
-                    <TextView
-                        android:id="@+id/kcal_sport"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:text="0 Kcal"/>
-                </LinearLayout>
-                <!--Espacio-->
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1">
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/cup"
-                        android:layout_marginRight="5dp"/>
-                    <TextView
-                        android:id="@+id/goalSteps_sport"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:text="100"/>
-                </LinearLayout>
-                <!--Espacio-->
-                <LinearLayout
-                    android:layout_width="1dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1">
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/location"
-                        app:tint="@color/blue"
-                        android:layout_marginRight="5dp"/>
-                    <TextView
-                        android:id="@+id/distance_sport"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:text="0.00 km"/>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-    </FrameLayout>
-    <!-- Última actualización -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingVertical="10dp">
-        <ImageView
-            android:id="@+id/sync_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/baseline_sync_24"
-            android:background="@color/button_press_start_color" />
-        <TextView
-            android:id="@+id/txtHora"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ultima_actualizacion"
-            android:textColor="#607D8B"
-            android:textSize="12sp"
-            android:gravity="center"/>
-    </LinearLayout>
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="1dp" >
+        android:fillViewport="true"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="15dp">
 
-        <!-- Fila Tarjetas -->
+        <!--Header-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="false"
-            android:focusable="false">
-            <!--Presion-->
-            <com.example.myhealthlife.model.HealthItemView
-                android:id="@+id/blood_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.45"
-                app:titleText="@string/presion_arterial"
-                app:timeText="--/--"
-                app:iconSrc="@drawable/blood_pressure_monitor"
-                app:metallicColor="#cdcefc"
-                app:backgroundColor="#FFFFFFFF"
-                app:showTimeContainer="true"
-                app:timeTextColor="#FF263238"
-                app:titleTextColor="#FF455A64"
-                app:titleTextSize="3sp"
-                app:timeTextSize="3sp"/>
-            <!--Espacio-->
-            <LinearLayout
-                android:layout_width="10dp"
-                android:layout_height="0dp">
-            </LinearLayout>
-            <!--Frecuencia Cardiaca-->
-            <com.example.myhealthlife.model.HealthItemView
-                android:id="@+id/heart_rate_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.45"
-                android:clickable="true"
-                android:focusable="true"
-                app:titleText="@string/frecuencia_cardiaca_sobre_pulso"
-                app:iconSrc="@drawable/solid_heartbeat"
-                app:metallicColor="#FFF8BBD0"
-                app:backgroundColor="#FFFFFFFF"
-                app:showTimeContainer="true"
-                app:timeTextColor="#FF263238"
-                app:titleTextColor="#FF455A64"
-                app:titleTextSize="3sp"/>
-        </LinearLayout>
-        <!-- Fila Tarjetas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:padding="10dp"
             android:orientation="horizontal">
-            <!--Frecuencia Respiratoria-->
-            <com.example.myhealthlife.model.HealthItemView
-                android:id="@+id/frec_resp_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.45"
-                app:titleText="@string/frecuencia_respiratoria"
-                app:iconSrc="@drawable/temgra"
-                app:metallicColor="#EDB300"
-                app:backgroundColor="#FFFFFFFF"
-                app:showTimeContainer="true"
-                app:timeTextColor="#FF263238"
-                app:titleTextColor="#FF455A64"
-                app:titleTextSize="3sp" />
-            <!--Espacio-->
+            <!--Textos-->
             <LinearLayout
-                android:layout_width="10dp"
-                android:layout_height="0dp">
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!-- Mensaje de Contratar Servicio -->
+                <TextView
+                    android:id="@+id/tickerText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:padding="5dp"
+                    android:textColor="@color/primary"
+                    android:textSize="12sp"
+                    android:backgroundTint="#0007"
+                    android:background="@drawable/bg_card"
+                    android:text="@string/contrata_servicio" />
+                <!--Titulo-->
+                <com.example.myhealthlife.model.GradientTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MHL Vital Sync"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/orbitron_bold"
+                    android:textSize="15sp"/>
+
             </LinearLayout>
-            <!--Temperatura Corporal-->
-            <com.example.myhealthlife.model.HealthItemView
-                android:id="@+id/tempeture_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.45"
-                app:titleText="@string/temperatura_corporal"
-                app:iconSrc="@drawable/respgra"
-                app:metallicColor="#FC8686"
-                app:backgroundColor="#FFFFFFFF"
-                app:showTimeContainer="true"
-                app:timeTextColor="#FF263238"
-                app:titleTextColor="#FF455A64"
-                app:titleTextSize="3sp" />
-        </LinearLayout>
-        <!-- Fila Tarjetas -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <!--Saturacion de Oxigeno-->
-            <com.example.myhealthlife.model.HealthItemView
-                android:id="@+id/oxygen_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.45"
-                app:titleText="@string/saturacion_oxigeno"
-                app:iconSrc="@drawable/bubble_chart"
-                app:metallicColor="#B9D17B"
-                app:backgroundColor="#FFFFFFFF"
-                app:showTimeContainer="true"
-                app:timeTextColor="#FF263238"
-                app:titleTextColor="#FF455A64"
-                app:titleTextSize="3sp" />
-            <!--Espacio-->
+            <!--Iconos-->
             <LinearLayout
-                android:layout_width="10dp"
-                android:layout_height="0dp">
-            </LinearLayout>
-            <!--Dormir-->
-            <com.example.myhealthlife.model.HealthItemView
-                android:id="@+id/sleep_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.45"
-                app:titleText="@string/dormir"
-                app:iconSrc="@drawable/sleeping_svgrepo_com"
-                app:metallicColor="#9BE8D7"
-                app:backgroundColor="#FFFFFFFF"
-                app:showTimeContainer="true"
-                app:timeTextColor="#FF263238"
-                app:titleTextColor="#FF455A64"
-                app:titleTextSize="3sp" />
-        </LinearLayout>
-
-        <!-- Contenedor botón + loader -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:visibility="gone">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnActualizar"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:text="@string/actualizar"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:gravity="center"
-                app:cornerRadius="25dp"
-                app:backgroundTint="@color/colorPrimary"
-                android:layout_gravity="center"/>
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:gravity="bottom"
+                android:layout_marginBottom="4dp">
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:src="@drawable/bluetooth"
+                    app:tint="@color/blue"
+                    android:padding="10dp"/>
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:src="@drawable/wifi"
+                    app:tint="@color/secondary"
+                    android:padding="10dp"/>
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:src="@drawable/bell"
+                    android:padding="10dp"
+                    app:tint="@color/blue"/>
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:src="@drawable/settings"
+                    android:padding="10dp"
+                    app:tint="@color/blue"/>
+            </LinearLayout>
+        </LinearLayout>
 
-            <!-- ProgressBar después del botón -> se dibuja ENCIMA -->
-            <ProgressBar
-                android:id="@+id/progressActualizar"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                android:indeterminate="true"
-                android:indeterminateTint="@android:color/white"/>
-        </FrameLayout>
-        <!--<include layout="@layout/item_dato_cardio" />
-        <include layout="@layout/item_dato_respiracion" />
-        <include layout="@layout/item_dato_temperatura" />
-        <include layout="@layout/item_dato_oxigeno" />-->
+        <!-- Dashboard de Deportes -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:elevation="0dp"
+            app:cardCornerRadius="20dp"
+            app:cardForegroundColor="@color/transparent"
+            app:strokeColor="@color/transparent"
+            app:rippleColor="@color/transparent"
+            android:outlineAmbientShadowColor="@color/transparent"
+            android:outlineSpotShadowColor="@color/transparent">
+            <!--Contenedor Principal-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:orientation="vertical"
+                android:background="@drawable/gradient_primary_background">
+                <!--Primera Fila (Hoy + rueda de pasos)-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center|start">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hoy"
+                            android:textColor="@color/white"
+                            android:textSize="19sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="7,842"
+                            android:textColor="@color/white"
+                            android:textSize="36sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="de 10,000 pasos"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <FrameLayout
+                            android:id="@+id/container_circle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <!-- Círculo de progreso -->
+                            <com.example.myhealthlife.model.AnimatedCircularProgress
+                                android:id="@+id/circularProgress"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"/>
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <!--Segunda Fila (dos tarjetas) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+                    <!--Tarjeta Izquierda (KCAL) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="15dp"
+                            app:cardBackgroundColor="@color/transparent"
+                            android:elevation="0dp"
+                            app:strokeWidth="0dp"
+                            android:outlineSpotShadowColor="@color/transparent"
+                            android:outlineAmbientShadowColor="@color/transparent">
+
+                            <!--Contenedor-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="10dp"
+                                android:background="@color/white_transparent">
+
+                                <!--Primera Columna-->
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center|start">
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="35dp"
+                                        android:layout_height="35dp"
+                                        app:cardCornerRadius="15dp"
+                                        app:cardBackgroundColor="@color/transparent"
+                                        app:strokeWidth="0dp"
+                                        android:outlineSpotShadowColor="@color/transparent"
+                                        android:outlineAmbientShadowColor="@color/transparent">
+
+                                        <ImageView
+                                            android:padding="7dp"
+                                            android:layout_width="35dp"
+                                            android:layout_height="35dp"
+                                            android:src="@drawable/fire"
+                                            android:background="@color/white_transparent_1"/>
+
+                                    </com.google.android.material.card.MaterialCardView>
+
+                                </LinearLayout>
+                                <!--Segunda Columna-->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:layout_marginLeft="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="324"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="kcal"
+                                        android:textColor="@color/white"
+                                        android:textSize="15sp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+                    <!--Espacio-->
+                    <LinearLayout
+                        android:layout_width="15dp"
+                        android:layout_height="wrap_content"/>
+                    <!--Tarjeta Derecha (km)-->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="15dp"
+                            app:cardBackgroundColor="@color/transparent"
+                            android:elevation="0dp"
+                            app:strokeWidth="0dp"
+                            android:outlineSpotShadowColor="@color/transparent"
+                            android:outlineAmbientShadowColor="@color/transparent">
+
+                            <!--Contenedor de la tarjeta-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="10dp"
+                                android:background="@color/white_transparent">
+
+                                <!--Primera Columna (icono)-->
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center|start">
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="35dp"
+                                        android:layout_height="35dp"
+                                        app:cardCornerRadius="15dp"
+                                        app:cardBackgroundColor="@color/transparent"
+                                        app:strokeWidth="0dp"
+                                        android:outlineSpotShadowColor="@color/transparent"
+                                        android:outlineAmbientShadowColor="@color/transparent">
+
+                                        <ImageView
+                                            android:padding="7dp"
+                                            android:layout_width="35dp"
+                                            android:layout_height="35dp"
+                                            android:src="@drawable/location"
+                                            android:tint="@color/red_ecg"
+                                            android:background="@color/white_transparent_1"/>
+
+                                    </com.google.android.material.card.MaterialCardView>
+
+                                </LinearLayout>
+                                <!--Segunda Columna-->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:layout_marginLeft="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="5.2"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="17sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="km"
+                                        android:textColor="@color/white"
+                                        android:textSize="15sp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--Autoexamen de Salud-->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:cardCornerRadius="20dp"
+            android:elevation="0dp">
+
+            <!--Contenedor de la tarjeta-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:background="@drawable/gradient_secondary_background">
+
+                <!--Primera Columna (Icono)-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:cardCornerRadius="15dp"
+                        android:outlineSpotShadowColor="@color/transparent"
+                        app:cardBackgroundColor="@color/white_transparent">
+
+                        <ImageView
+                            android:padding="10dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="@color/white_transparent_1"
+                            android:src="@drawable/scan_heart"
+                            android:tint="@color/white"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+                <!--Segunda Columna (Textos)-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center|start">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Autoexamen de salud"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Realiza un chequeo completo"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+                <!--Tercera Columna (flecha)-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/baseline_arrow_forward_ios_24"
+                        app:tint="@color/white"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--Titulos de Monitoreo de Salud-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <!--Modulos Contenedor..-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Módulos de Monitoreo de Salud"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Última actualización: 19/12/2025 a las 12:19pm"
+                    android:textSize="10sp"/>
+            </LinearLayout>
+            <!--Editar-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="0dp"
+                    app:cardBackgroundColor="@color/transparent"
+                    app:cardForegroundColor="@color/transparent"
+                    app:cardElevation="0dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/blue"
+                            android:text="Editar"
+                            android:textSize="11sp"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--Tarjetas de Monitoreo-->
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--Primera Fila-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--Primera Tarjeta-->
+                <com.example.myhealthlife.model.HealthInfoCardView
+                    android:id="@+id/blood_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="0dp"/>
+                <!--Segunda tarjeta-->
+                <com.example.myhealthlife.model.HealthInfoCardView
+                    android:id="@+id/oxygen_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -13,6 +13,7 @@ public class HealthViewModel extends ViewModel {
     private SharedPreferences sharedPreferences;
     private MutableLiveData<String> healthHeart = new MutableLiveData<>();
     private MutableLiveData<String> healthHRV = new MutableLiveData<>();
+    private MutableLiveData<String> healthHRVCVRR = new MutableLiveData<>();
     private MutableLiveData<String> healthCVVRR = new MutableLiveData<>();
     private MutableLiveData<String> healthStep = new MutableLiveData<>();
     private MutableLiveData<String> healthDBP = new MutableLiveData<>();
@@ -24,6 +25,16 @@ public class HealthViewModel extends ViewModel {
     private MutableLiveData<String> healthTemp = new MutableLiveData<>();
     private MutableLiveData<String> healthStartTime = new MutableLiveData<>();
     private MutableLiveData<String> healthRespRate = new MutableLiveData<>();
+    // Variables para almacenar los datos
+    private MutableLiveData<String> sleepStartTime = new MutableLiveData<>() ;
+    private MutableLiveData<String> sleepEndTime = new MutableLiveData<>() ;
+    private MutableLiveData<String> sleepDuration = new MutableLiveData<>() ;
+    private MutableLiveData<String> deepSleepTotal = new MutableLiveData<>() ;
+    private MutableLiveData<String> lightSleepTotal = new MutableLiveData<>() ;
+    private MutableLiveData<String> remSleepTotal = new MutableLiveData<>() ;
+    private MutableLiveData<String> wakeDuration = new MutableLiveData<>() ;
+    private MutableLiveData<String> sleepSegments = new MutableLiveData<>() ;
+    private MutableLiveData<String> sleepSummary = new MutableLiveData<>() ;
 
     public void sethealthRespRate(String value, Context context) {
         setParam(context,"health_resp",value,healthRespRate);
@@ -61,8 +72,52 @@ public class HealthViewModel extends ViewModel {
     public void setHealthStartTime(String value, Context context) {
         setParam(context,"health_start",value,healthStartTime);
     }
+    public void setHealthHRVCVVRR(String value, Context context) {
+        setParam(context,"health_hrv_cvvrr",value,healthHRVCVRR);
+    }
+
+    // Métodos para guardar los datos de sueño
+
+    public void setSleepStartTime(String value, Context context) {
+        setParam(context, "sleep_start_time", value, sleepStartTime);
+    }
+
+    public void setSleepEndTime(String value, Context context) {
+        setParam(context, "sleep_end_time", value, sleepEndTime);
+    }
+
+    public void setSleepDuration(String value, Context context) {
+        setParam(context, "sleep_duration", value, sleepDuration);
+    }
+
+    public void setDeepSleepTotal(String value, Context context) {
+        setParam(context, "deep_sleep_total", value, deepSleepTotal);
+    }
+
+    public void setLightSleepTotal(String value, Context context) {
+        setParam(context, "light_sleep_total", value, lightSleepTotal);
+    }
+
+    public void setRemSleepTotal(String value, Context context) {
+        setParam(context, "rem_sleep_total", value, remSleepTotal);
+    }
+
+    public void setWakeDuration(String value, Context context) {
+        setParam(context, "wake_duration", value, wakeDuration);
+    }
+
+    public void setSleepSegments(String value, Context context) {
+        setParam(context, "sleep_segments", value, sleepSegments);
+    }
+
+    public void setSleepSummary(String value, Context context) {
+        setParam(context, "sleep_summary", value, sleepSummary);
+    }
+
+
 
     public LiveData<String> getHealthHeart() {return healthHeart;}
+    public LiveData<String> getHealthHRVCVRR() {return healthHRVCVRR;}
     public LiveData<String> getHealthHRV() {return healthHRV;}
     public LiveData<String> getHealthCVVRR() {return healthCVVRR;}
     public LiveData<String> getHealthStep() {return healthStep;}
@@ -72,6 +127,7 @@ public class HealthViewModel extends ViewModel {
     public LiveData<String> getHealthBloodSugar() {return healthBloodSugar;}
     public LiveData<String> getHealthBloodPressure() {return healthBloodPressure;}
     public LiveData<String> getHealthOxygen() {return healthOxygen;}
+    public LiveData<String> getSleepDuration() {return sleepDuration;}
     public LiveData<String> getHealthTemp() {return healthTemp;}
     public LiveData<String> getHealthStartTime() {return healthStartTime;}
     public LiveData<String> getHealthRespRate() {return healthRespRate;}

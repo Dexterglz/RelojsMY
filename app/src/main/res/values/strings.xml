@@ -47,7 +47,7 @@
     <string name="frecuencia_cardiaca">Frecuencia Cardíaca</string>
     <string name="frecuencia_respiratoria">Frecuencia Respiratoria</string>
     <string name="temperatura_corporal">Temperatura Corporal</string>
-    <string name="saturacion_oxigeno">Saturación de Oxígeno</string>
+    <string name="saturacion_oxigeno">Oxígeno</string>
     <string name="home_por_favor_espera">Por favor espera un minuto</string>
     <string name="home_por_favor_conecte">Por favor, conecte el dispositivo</string>
     <string name="home_actualizando">Actualizando...</string>
@@ -258,5 +258,11 @@ Para todo lo relacionado con la interpretación y cumplimiento de los presentes 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="inbox">Bandeja de Entrada</string>
+    <string name="spo2">SpO2</string>
+    <string name="dispositivo_desconocido">Dispositivo desconocido</string>
+    <string name="sleep">Sueño</string>
+    <string name="hr_hrv">HR / HRV</string>
+    <string name="deporte">Deporte</string>
+    <string name="cuidado">Cuidado</string>
 
 </resources>

@@ -3,6 +3,10 @@
     <!-- Colores base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_1">#CCC8C8</color>
+    <color name="white_transparent">#1FFFFFFF</color>
+    <color name="white_transparent_1">#46FFFFFF</color>
+    <color name="transparent">#00000000</color>
 
     <!-- Colores del tema -->
     <color name="colorPrimary">#624FDB</color>
@@ -12,6 +16,21 @@
     <color name="backgroundPrimary">#F8F8F8</color>
     <color name="backgroundSecondary">#F5F5F5</color>
     <color name="textPrimary">#424242</color>
+
+    <color name="primary">#1F6FB3</color>
+    <color name="accent">#3AAED8</color>
+    <color name="secondary">#3CCF9A</color>
+    <color name="background">#f7f7f7</color>
+
+
+    <color name="card_1_stroke">#bfe9ec</color>
+    <color name="card_1_icon">#5dcfd9</color>
+
+    <color name="card_2_stroke">#AAC8DE</color>
+    <color name="card_2_icon">#2C7CB5</color>
+
+
+
 
     <color name="graph_pastel_pink">#FFB6C1</color>    <!-- 0 Rosa pastel -->
     <color name="graph_pastel_aqua">#B2DFDB</color>    <!-- 1 Aqua pastel -->
@@ -83,9 +102,10 @@
     <color name="orange">#EAA021</color>
     <color name="light_white">#33FFFFFF</color>
     <color name="light2_white">#f1f1f1</color>
-    <color name="green">#66B374</color>
+    <color name="green">#3bbc7c</color>
     <color name="blue">#5375fa</color>
     <color name="gray">#717171</color>
     <color name="red">#F26E57</color>
+    <color name="red_ecg">#fd5e51</color>
 
 </resources>

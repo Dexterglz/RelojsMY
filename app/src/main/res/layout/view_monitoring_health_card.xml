@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rootCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="15dp"
+        app:strokeColor="@color/card_1_stroke"
+        app:strokeWidth="1.2dp"
+        app:cardElevation="0dp"
+        android:elevation="0dp"
+        app:cardUseCompatPadding="false">
+
+        <!--Contenido de la Tarjeta-->
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="13dp"
+            android:orientation="vertical"
+            android:background="@drawable/gradient_card_1">
+
+            <!--Icono-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:gravity="end">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/iconCard"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardBackgroundColor="@color/card_1_icon"
+                    app:cardUseCompatPadding="true">
+
+                        <ImageView
+                            android:id="@+id/icon"
+                            android:padding="7dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/stethoscope"
+                            app:tint="@color/white"/>
+
+
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+            <!--Titulo-->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temperatura"
+                android:textSize="12sp"/>
+            <!--Valor+unidad-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!--Valor-->
+                <TextView
+                    android:id="@+id/value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="35.5"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+                <!--Unidad-->
+                <TextView
+                    android:id="@+id/unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="°C"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+            <!--Tiempo-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <!--Circulo-->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    app:cardBackgroundColor="@color/green"
+                    app:cardCornerRadius="100dp"
+                    android:outlineSpotShadowColor="@color/transparent"
+                    android:outlineAmbientShadowColor="@color/transparent"
+                    android:layout_marginLeft="3dp"/>
+                <!--Ultimo Tiempo de Actualización-->
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Hace 5 min"
+                    android:textSize="10sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>

@@ -31,7 +31,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +51,8 @@ import com.example.myhealthlife.activities.OxygenLogActivity;
 import com.example.myhealthlife.activities.RespiratoryRateActivity;
 import com.example.myhealthlife.activities.TemperatureLogActivity;
 import com.example.myhealthlife.model.AnimatedCircularProgress;
-import com.example.myhealthlife.model.HealthItemView;
+
+import com.example.myhealthlife.model.HealthInfoCardView;
 import com.example.myhealthlife.model.HealthViewModel;
 import com.example.myhealthlife.model.HealthWorker;
 import com.example.myhealthlife.model.HistoryData;
@@ -68,29 +71,32 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 public class HomeFragment extends Fragment {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView kcal_sport, goalSteps_sport, distance_sport, hora;
     private AnimatedCircularProgress circularProgress;
-    private HealthItemView heart_rate_item, frec_resp_item, tempeture_item, oxygen_item, blood_item;
-    private AppCompatButton btnActualizar;
-    private ProgressBar progressActualizar;
+    private HealthInfoCardView blood_card, oxygen_card, heart_rate_card, tempeture_card, ecg_card, sleep_card, frec_resp_card,hr_hrv_card ;
+    private LinearLayout cards_container;
     private boolean isLoading = false;
     private ImageView sync_button, iconRight;
     SharedPreferences prefs;
-    public Integer savedInterval;
-    private boolean firstStartTime;
     private StepsDialogFragment dialog;
     private SportViewModel viewModel;
     private HealthViewModel viewModelH;
     private WorkManager workManager;
+    private LinearLayout row1, row2, row3, row4;
+    private final List<View.OnLayoutChangeListener> layoutChangeListeners = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,23 +104,27 @@ public class HomeFragment extends Fragment {
         Log.d("HOME","Vista Creada");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        connectDevice();                                        //Conectar el disposito si está desconectado
+
         initViews(view);                                        //Iniciar Vistas
-        configureButtons();                                     //Configurar las acciones de los botones
+        /*configureButtons();                                     //Configurar las acciones de los botones
         setDashboard(view);                                     //Configurar los datos de las vistas
-        setupUI(view);
+        testWorker(view);
+        updateFunctions();*/
+
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        healthMonitoringFun(1,false);
+        /*healthMonitoringFun(1,false);
+        updateFunctions();*/
         super.onResume();
     }
     @Override
     public void onStart() {
         super.onStart();
-        healthMonitoringFun(1,false);
+        /*healthMonitoringFun(1,false);*/
     }
     @Override
     public void onStop() {
@@ -127,74 +137,81 @@ public class HomeFragment extends Fragment {
      * PRINCIPALES
      **/
     private void initViews(@NonNull View view) {
-        // Deporte
-        viewModel = new ViewModelProvider(requireActivity()).get(SportViewModel.class);
-        viewModelH = new ViewModelProvider(requireActivity()).get(HealthViewModel.class);
-        kcal_sport = view.findViewById(R.id.kcal_sport);
-        goalSteps_sport = view.findViewById(R.id.goalSteps_sport);
-        distance_sport = view.findViewById(R.id.distance_sport);
-        // Items
-        heart_rate_item = view.findViewById(R.id.heart_rate_item);
-        frec_resp_item = view.findViewById(R.id.frec_resp_item);
-        tempeture_item = view.findViewById(R.id.tempeture_item);
-        oxygen_item = view.findViewById(R.id.oxygen_item);
-        blood_item = view.findViewById(R.id.blood_item);
-        // Actualizar
-        btnActualizar = view.findViewById(R.id.btnActualizar);
-        sync_button = view.findViewById(R.id.sync_button);
-        progressActualizar = view.findViewById(R.id.progressActualizar);
-        hora = view.findViewById(R.id.txtHora);
-        // Animaciones
-        circularProgress = view.findViewById(R.id.circularProgress);
+        // Inicializar SwipeRefreshLayout
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+
+        // Configurar el listener para el gesto de deslizar
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Llamar al método de actualización
+                Toast.makeText(requireContext(), "Actualizando...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Configurar colores del indicador (opcional)
+        swipeRefreshLayout.setColorSchemeColors(
+                getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light)
+        );
+        swipeRefreshLayout.setSize(1);
+
         TextView tickerText = view.findViewById(R.id.tickerText);
         // "Marqueetador"
         tickerText.setSelected(true);
-        dialog = new StepsDialogFragment();
+
+        circularProgress = view.findViewById(R.id.circularProgress);
+        circularProgress.setProgressWithAnimation(40);
+
+        blood_card = view.findViewById(R.id.blood_card);
+        oxygen_card = view.findViewById(R.id.oxygen_card);
+
+
+        //Presión Arterial
+        blood_card.applyStatus(1);
+        blood_card.setIcon(R.drawable.stethoscope);
+        blood_card.setTitle(getString(R.string.presion_arterial));
+        blood_card.setValue("120/80");
+        blood_card.setUnit("mmHg");
+        blood_card.setLastUpdate("Hace 10 min");
+
+        //Oxigeno
+        oxygen_card.applyStatus(2);
+        oxygen_card.setIcon(R.drawable.atom);
+        oxygen_card.setTitle(getString(R.string.saturacion_oxigeno));
+        oxygen_card.setValue("98");
+        oxygen_card.setUnit("%");
+        oxygen_card.setLastUpdate("Hace 5 min");
+
     }
-    private void connectDevice(){
-        if(connectState() == Constants.BLEState.Disconnect) {
-            connectToDevice();
-        }
-    }
-    public void configureButtons(){
+    /*public void configureButtons(){
         // Sports
         goalSteps_sport.setOnClickListener(v -> {
             dialog.show(getChildFragmentManager(), "StepsDialogFragment");
         });
         // Health Items
-        heart_rate_item.setOnItemClickListener(v ->{buttonsValidation(HeartRateActivity.class);});
-        frec_resp_item.setOnItemClickListener(v ->{buttonsValidation(RespiratoryRateActivity.class);});
-        tempeture_item.setOnItemClickListener(v ->{buttonsValidation(TemperatureLogActivity.class);});
-        oxygen_item.setOnItemClickListener(v -> {buttonsValidation(OxygenLogActivity.class);});
-        blood_item.setOnItemClickListener(v -> {buttonsValidation(BloodPressureActivity.class);});
-        btnActualizar.setOnClickListener(v -> {
-            if (connectState() == Constants.BLEState.ReadWriteOK) {
-                if(!isLoading){
-                    startActualizar();
-                }
-                else{
-                    Toast.makeText(requireContext(), getString(R.string.home_por_favor_espera), Toast.LENGTH_SHORT).show();
-                }
-                //startActualizar();
-                return;
-            }
-            if (connectState() == Constants.BLEState.Disconnect) {
-                Toast.makeText(requireContext(), getString(R.string.home_por_favor_conecte), Toast.LENGTH_SHORT).show();
-            }
-        });
+        heart_rate_item.setOnCardClickListener(v ->{startActivityFun(HeartRateActivity.class);});
+        frec_resp_item.setOnCardClickListener(v ->{startActivityFun(RespiratoryRateActivity.class);});
+        tempeture_item.setOnCardClickListener(v ->{startActivityFun(TemperatureLogActivity.class);});
+        oxygen_item.setOnCardClickListener(v -> {startActivityFun(OxygenLogActivity.class);});
+        blood_item.setOnCardClickListener(v -> {startActivityFun(BloodPressureActivity.class);});
         sync_button.setOnClickListener(v->{
-            if (connectState() == Constants.BLEState.ReadWriteOK) {
-                if(!isLoading){
-                    startActualizar();
+            if (isLoading){
+                Toast.makeText(requireContext(), getString(R.string.home_por_favor_espera), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                if(updateFunctions()){
+                    isLoading = true;
+                    Toast.makeText(getContext(),getString(R.string.home_actualizando), Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(() -> {
+                        isLoading = false;
+                    }, 10000); //  10 segundos
                 }
                 else{
-                    Toast.makeText(requireContext(), getString(R.string.home_por_favor_espera), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), getString(R.string.home_por_favor_conecte), Toast.LENGTH_SHORT).show();
                 }
-                //startActualizar();
-                return;
-            }
-            if (connectState() == Constants.BLEState.Disconnect) {
-                Toast.makeText(requireContext(), getString(R.string.home_por_favor_conecte), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -223,25 +240,74 @@ public class HomeFragment extends Fragment {
 
         //Historial de Salud
         viewModelH.getHealthBloodPressure().observe(getViewLifecycleOwner(), v -> {
-            blood_item.setTime(v+" "+getString(R.string.mmhg));
+            if(v==null){
+                blood_item.setMainValue("--");
+            }else{
+                blood_item.setMainValue(v+" ");
+            }
         });
         viewModelH.getHealthHeart().observe(getViewLifecycleOwner(), v -> {
-            heart_rate_item.setTime(v+" "+getString(R.string.rpm));
+            if(v==null){
+                heart_rate_item.setMainValue("--");
+            }else{
+                heart_rate_item.setMainValue(v+" ");
+                heart_rate_item.setMainUnit(getString(R.string.rpm),true);
+            }
         });
         viewModelH.getHealthRespRate().observe(getViewLifecycleOwner(), resp -> {
-            frec_resp_item.setTime(resp+" "+getString(R.string.rpm));
+            if(resp==null){
+                frec_resp_item.setMainValue("--");
+            }else{
+                frec_resp_item.setMainValue(resp+" ");
+                frec_resp_item.setMainUnit(getString(R.string.rpm),true);
+            }
         });
         viewModelH.getHealthTemp().observe(getViewLifecycleOwner(), v -> {
-            tempeture_item.setTime(v+" "+getString(R.string.celsius));
+            if(v == null){
+                tempeture_item.setMainValue("--");
+            }else{
+                tempeture_item.setMainValue(v+" ");
+                tempeture_item.setMainUnit(getString(R.string.celsius),true);
+            }
         });
         viewModelH.getHealthOxygen().observe(getViewLifecycleOwner(), v -> {
-            oxygen_item.setTime(v+" "+getString(R.string.percent));
+            if(v == null){
+                oxygen_item.setMainValue("--");
+            }else{
+                oxygen_item.setMainValue(v+" ");
+            }
+            //oxygen_item.setMainUnit(getString(R.string.percent),true);
+        });
+        viewModelH.getSleepDuration().observe(getViewLifecycleOwner(), v -> {
+            if(v == null ) {
+                sleep_item.setMainValue("0");
+                sleep_item.setMainUnit("h ",true);
+                sleep_item.setSecondaryValue("0",true);
+                sleep_item.setSecondaryUnit("m",true);
+            }else{
+                long duration = Long.parseLong(v);
+                long hours = duration / 60;
+                long minutes = duration % 60;
+                sleep_item.setMainValue(hours+"");
+                sleep_item.setMainUnit("h ",true);
+                sleep_item.setSecondaryValue(minutes+"",true);
+                sleep_item.setSecondaryUnit("m",true);
+            }
         });
         viewModelH.getHealthStartTime().observe(getViewLifecycleOwner(), v -> {
-
             if(v != null && !v.isEmpty()) {
                 String timeStr = getString(R.string.ultima_actualizacion_sin_texto)+": "+v;
                 hora.setText(timeStr);
+            }
+        });
+        viewModelH.getHealthHRVCVRR().observe(getViewLifecycleOwner(), v -> {
+            if(v != null && !v.isEmpty()) {
+
+                String hrv = viewModelH.getHealthHRV().toString();
+                String cvrr = viewModelH.getHealthCVVRR().toString();
+
+                hr_hrv_item.setMainValue(hrv+"/"+cvrr);
+
             }
         });
 
@@ -268,23 +334,25 @@ public class HomeFragment extends Fragment {
 
         //ITEMS
         prefs = setPrefs("health_prefs");
-        String heart = prefs.getString("health_heart","");
-        String resp = prefs.getString("health_resp","");
-        String temp = prefs.getString("health_temp","");
-        String oxy = prefs.getString("health_ox","");
-        String blood = prefs.getString("health_blood","");
-        String start = prefs.getString("health_start","");
-        firstStartTime = true;
+        String heart = prefs.getString("health_heart",null);
+        String resp = prefs.getString("health_resp",null);
+        String temp = prefs.getString("health_temp",null);
+        String oxy = prefs.getString("health_ox",null);
+        String blood = prefs.getString("health_blood",null);
+        String start = prefs.getString("health_start",null);
+        String sleep = prefs.getString("sleep_duration",null);
+
         viewModelH.sethealthRespRate(resp, getContext());
         viewModelH.sethealthHeart(heart, getContext());
         viewModelH.sethealthTemp(temp, getContext());
         viewModelH.sethealthOxygen(oxy, getContext());
         viewModelH.setHealthBloodPressure(blood, getContext());
         viewModelH.setHealthStartTime(start, getContext());
+        viewModelH.setSleepDuration(sleep, getContext());
     }
-    /**
+    *//**
      *YCBT
-     **/
+     **//*
     //Iniciar el Cliente
     private void initClientFun(){
         //Inicializa el YCBTClient
@@ -303,24 +371,179 @@ public class HomeFragment extends Fragment {
     private void getHealthData(){
         resetQueue();
         healthMonitoringFun(1,false);
-        //Método para obtener el historial de sueño
 
+        //Método para obtener el historial de sueño
         healthHistoryData(
                 Constants.DATATYPE.Health_HistorySleep,
                 new BleDataResponse() {
                     @Override
                     public void onDataResponse(int code, float v, HashMap hashMap) {
-                        Log.d("SLEEP", "ACTUALIZANDO... 📥 Dato recibido -> code: " + code + " | v: "+v+" | data: " + hashMap);
-                        if(hashMap.isEmpty())
-                        {
-                            //Toast.makeText(requireContext(),"El historial de sueño es nulo", Toast.LENGTH_SHORT).show();
+                        Log.d("Health_HistorySleep", "ACTUALIZANDO... 📥 Dato recibido -> code: " + code + " | v: " + v + " | data: " + hashMap);
+
+                        try {
+                            // Obtener el objeto data del hashMap
+                            Object dataObj = hashMap.get("data");
+
+                            if (dataObj == null) {
+                                Log.e("SLEEP", "❌ No hay datos en la respuesta");
+                                return;
+                            }
+
+                            // Convertir a String y luego parsear con Gson
+                            String jsonData = new Gson().toJson(dataObj);
+                            Log.d("SLEEP", "JSON Data: " + jsonData);
+
+                            // Usar List<Map> en lugar de ArrayList<HashMap>
+                            Type type = new TypeToken<List<Map<String, Object>>>() {}.getType();
+                            List<Map<String, Object>> dataList = new Gson().fromJson(jsonData, type);
+
+                            // Guardar datos crudos
+                            prefs.edit().putString("sleep", dataList.toString()).apply();
+
+                            if (dataList != null && !dataList.isEmpty()) {
+                                // Tomar el último registro de sueño (más reciente)
+                                Map<String, Object> lastSleepRecord = dataList.get(dataList.size() - 1);
+
+                                // Extraer valores con conversión segura
+                                long startTime = getLongValue(lastSleepRecord.get("startTime"));
+                                long endTime = getLongValue(lastSleepRecord.get("endTime"));
+                                int deepSleepTotal = getIntValue(lastSleepRecord.get("deepSleepTotal"));
+                                int lightSleepTotal = getIntValue(lastSleepRecord.get("lightSleepTotal"));
+                                int rapidEyeMovementTotal = getIntValue(lastSleepRecord.get("rapidEyeMovementTotal"));
+                                int wakeDuration = getIntValue(lastSleepRecord.get("wakeDuration"));
+
+                                // Convertir tiempos a formato legible
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault());
+                                String startTimeStr = sdf.format(new Date(startTime));
+                                String endTimeStr = sdf.format(new Date(endTime));
+
+                                // Calcular duración total del sueño en horas y minutos
+                                long sleepDurationMs = endTime - startTime;
+                                long sleepDurationMinutes = TimeUnit.MILLISECONDS.toMinutes(sleepDurationMs);
+                                viewModelH.setSleepDuration(String.valueOf(sleepDurationMinutes), getContext());
+                                long hours = sleepDurationMinutes / 60;
+                                long minutes = sleepDurationMinutes % 60;
+
+                                // Convertir tiempos de sueño de segundos a minutos
+                                int deepSleepMinutes = deepSleepTotal / 60;
+                                int lightSleepMinutes = lightSleepTotal / 60;
+                                int remSleepMinutes = rapidEyeMovementTotal / 60;
+                                int wakeMinutes = wakeDuration / 60;
+
+                                // Procesar segmentos de sueño detallados
+                                List<Map<String, Object>> sleepDataList = null;
+                                Object sleepDataObj = lastSleepRecord.get("sleepData");
+
+                                if (sleepDataObj != null) {
+                                    // Convertir sleepData a lista
+                                    String sleepDataJson = new Gson().toJson(sleepDataObj);
+                                    Type sleepDataType = new TypeToken<List<Map<String, Object>>>() {}.getType();
+                                    sleepDataList = new Gson().fromJson(sleepDataJson, sleepDataType);
+                                }
+
+                                StringBuilder sleepSegments = new StringBuilder();
+                                if (sleepDataList != null && !sleepDataList.isEmpty()) {
+                                    for (int i = 0; i < sleepDataList.size(); i++) {
+                                        Map<String, Object> segment = sleepDataList.get(i);
+                                        long segmentStart = getLongValue(segment.get("sleepStartTime"));
+                                        int segmentDuration = getIntValue(segment.get("sleepLen"));
+                                        int sleepType = getIntValue(segment.get("sleepType"));
+
+                                        String segmentType = getSleepTypeString(sleepType);
+                                        String segmentTime = sdf.format(new Date(segmentStart));
+
+                                        sleepSegments.append("\n  Segmento ").append(i + 1)
+                                                .append(": ").append(segmentType)
+                                                .append(" | Inicio: ").append(segmentTime)
+                                                .append(" | Duración: ").append(segmentDuration).append(" min");
+                                    }
+                                }
+
+                                // Imprimir log detallado de la última lectura
+                                Log.d("SLEEP", "══════════════════════════════════════════════════");
+                                Log.d("SLEEP", "📊 ÚLTIMA LECTURA DE SUEÑO ANALIZADA");
+                                Log.d("SLEEP", "══════════════════════════════════════════════════");
+                                Log.d("SLEEP", "⏰ Período: " + startTimeStr + " - " + endTimeStr);
+                                Log.d("SLEEP", "⏱️ Duración total: " + hours + "h " + minutes + "m");
+                                Log.d("SLEEP", "──────────────────────────────────────────────────");
+                                Log.d("SLEEP", "😴 Sueño profundo: " + deepSleepMinutes + " min (" + deepSleepTotal + " seg)");
+                                Log.d("SLEEP", "😪 Sueño ligero: " + lightSleepMinutes + " min (" + lightSleepTotal + " seg)");
+                                Log.d("SLEEP", "👁️ Sueño REM: " + remSleepMinutes + " min (" + rapidEyeMovementTotal + " seg)");
+                                Log.d("SLEEP", "👁️ Despierto durante: " + wakeMinutes + " min (" + wakeDuration + " seg)");
+                                Log.d("SLEEP", "──────────────────────────────────────────────────");
+                                Log.d("SLEEP", "📈 Segmentos de sueño:" + sleepSegments.toString());
+                                Log.d("SLEEP", "══════════════════════════════════════════════════");
+
+                                // También guardar resumen estructurado
+                                Map<String, Object> summary = new HashMap<>();
+                                summary.put("fecha_inicio", startTimeStr);
+                                summary.put("fecha_fin", endTimeStr);
+                                summary.put("duracion_total", hours + "h " + minutes + "m");
+                                summary.put("sueño_profundo", deepSleepMinutes + " min");
+                                summary.put("sueño_ligero", lightSleepMinutes + " min");
+                                summary.put("sueño_rem", remSleepMinutes + " min");
+                                summary.put("tiempo_despierto", wakeMinutes + " min");
+
+                                prefs.edit().putString("sleep_summary", new Gson().toJson(summary)).apply();
+
+                            } else {
+                                Log.d("SLEEP", "⚠️ No hay datos de sueño disponibles");
+                            }
+
+                        } catch (Exception e) {
+                            Log.e("SLEEP", "❌ Error procesando datos de sueño: " + e.getMessage());
+                            e.printStackTrace();
                         }
-                        else{
-                            //Toast.makeText(requireContext(),"El historial de sueño NO ES NULO", Toast.LENGTH_SHORT).show();
+                    }
+
+                    // Método auxiliar para convertir códigos de tipo de sueño a texto
+                    private String getSleepTypeString(int sleepType) {
+                        switch (sleepType) {
+                            case 241: return "Sueño ligero";
+                            case 242: return "Sueño profundo";
+                            case 243: return "Sueño REM";
+                            case 244: return "Despierto";
+                            default: return "Desconocido (" + sleepType + ")";
+                        }
+                    }
+
+                    // Método para obtener valores long de forma segura
+                    private long getLongValue(Object value) {
+                        if (value == null) return 0L;
+                        if (value instanceof Double) {
+                            return ((Double) value).longValue();
+                        } else if (value instanceof Long) {
+                            return (Long) value;
+                        } else if (value instanceof Integer) {
+                            return ((Integer) value).longValue();
+                        } else {
+                            try {
+                                return Long.parseLong(value.toString());
+                            } catch (NumberFormatException e) {
+                                return 0L;
+                            }
+                        }
+                    }
+
+                    // Método para obtener valores int de forma segura
+                    private int getIntValue(Object value) {
+                        if (value == null) return 0;
+                        if (value instanceof Double) {
+                            return ((Double) value).intValue();
+                        } else if (value instanceof Integer) {
+                            return (Integer) value;
+                        } else if (value instanceof Long) {
+                            return ((Long) value).intValue();
+                        } else {
+                            try {
+                                return Integer.parseInt(value.toString());
+                            } catch (NumberFormatException e) {
+                                return 0;
+                            }
                         }
                     }
                 });
-        //Método para obtener la presion arterial (si el método anterior falla)
+        //Método para obtener la presion arterial (por si el historial de salud no lo recupera)
         final int[] DBPVal = {0};
         final int[] SBPVal = {0};
         healthHistoryData(
@@ -328,23 +551,24 @@ public class HomeFragment extends Fragment {
                 new BleDataResponse() {
                     @Override
                     public void onDataResponse(int code, float v, HashMap hashMap) {
-                        Log.d("HISTORIAL_BLOOD", "ACTUALIZANDO... 📥 Dato recibido -> code: " + code + " | v: "+v+" | data: " + hashMap);
+                        Log.d("Health_HistoryBlood", "ACTUALIZANDO... 📥 Dato recibido -> code: " + code + " | v: "+v+" | data: " + hashMap);
+                        if(!hashMap.isEmpty()){
+                            Type type = new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType();
+                            ArrayList<HashMap<String, Object>> dataList = new Gson().fromJson(new Gson().toJson(hashMap.get("data")), type);
 
-                        Type type = new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType();
-                        ArrayList<HashMap<String, Object>> dataList = new Gson().fromJson(new Gson().toJson(hashMap.get("data")), type);
+                            if (dataList != null && !dataList.isEmpty()) {
+                                int totalDatos = dataList.size();
+                                int rangoDatos = totalDatos - 1; //En este caso solo tomaré el último arreglo
 
-                        if (dataList != null && !dataList.isEmpty()) {
-                            int totalDatos = dataList.size();
-                            int rangoDatos = totalDatos - 1; //En este caso solo tomaré el último arreglo
-
-                            for (int i = totalDatos - 1; i >= rangoDatos; i--) {
-                                HashMap<String, Object> r = dataList.get(i);
-                                DBPVal[0] = (int) getValue("DBPValue",r);
-                                SBPVal[0] = (int) getValue("SBPValue",r);
+                                for (int i = totalDatos - 1; i >= rangoDatos; i--) {
+                                    HashMap<String, Object> r = dataList.get(i);
+                                    DBPVal[0] = (int) getValue("DBPValue",r);
+                                    SBPVal[0] = (int) getValue("SBPValue",r);
+                                }
                             }
-                        }
-                        else {
-                            Log.d("HISTORIAL_BLOOD", "No hay presion arterial");
+                            else {
+                                Log.d("HISTORIAL_BLOOD", "No hay presion arterial");
+                            }
                         }
                     }
                 });
@@ -354,7 +578,7 @@ public class HomeFragment extends Fragment {
                 new BleDataResponse() {
                     @Override
                     public void onDataResponse(int code, float v, HashMap hashMap) {
-                        Log.d("HISTORIAL", "ACTUALIZANDO... 📥 Dato recibido -> code: " + code + " | v: "+v+" | data: " + hashMap);
+                        Log.d("Health_HistoryAll", "ACTUALIZANDO... 📥 Dato recibido -> code: " + code + " | v: "+v+" | data: " + hashMap);
 
                         Type type = new TypeToken<ArrayList<HashMap<String, Object>>>() {}.getType();
                         ArrayList<HashMap<String, Object>> dataList = new Gson().fromJson(new Gson().toJson(hashMap.get("data")), type);
@@ -455,37 +679,41 @@ public class HomeFragment extends Fragment {
                     public void onDataResponse(int code, float value, HashMap data) {
                         //Log.d("HISTORIAL", "appRealSportFromDevice" +"| code: "+code+" | data: "+ data);
                         appRegisterRealDataCallBack(new BleRealDataResponse() {
-                                                        @Override
-                                                        public void onRealDataResponse(int i, HashMap hashMap) {
-                                                            Log.d("HISTORIAL_SPORTS", "hashMap: " + hashMap );
-                                                            if (hashMap != null && !hashMap.isEmpty()) {
-                                                                int sportStep = getSportValue(hashMap,"sportStep");                  //step count
-                                                                int sportDistance = getSportValue(hashMap,"sportDistance");     //distance
-                                                                int sportCalorie = getSportValue(hashMap,"sportCalorie");       //calories
-                                                                viewModel.setSportStep(sportStep, getContext());
-                                                                viewModel.setSportDistance(sportDistance, getContext());
-                                                                viewModel.setSportCalories(sportCalorie, getContext());
-                                                            }
-                                                        }
-                                                    }
+                                @Override
+                                public void onRealDataResponse(int i, HashMap hashMap) {
+                                    Log.d("appRealSport", "hashMap: " + hashMap );
+                                    if (hashMap != null && !hashMap.isEmpty()) {
+                                        int sportStep = getSportValue(hashMap,"sportStep");                  //step count
+                                        int sportDistance = getSportValue(hashMap,"sportDistance");     //distance
+                                        int sportCalorie = getSportValue(hashMap,"sportCalorie");       //calories
+                                        viewModel.setSportStep(sportStep, getContext());
+                                        viewModel.setSportDistance(sportDistance, getContext());
+                                        viewModel.setSportCalories(sportCalorie, getContext());
+                                    }
+                                }
+                            }
                         );
                     }
                 }
         );
         //resetQueue();
         //Método para obtener el resto de datos (heart, oxygen, bloodP) en tiempo real
+        *//*
+
         appRealAllDataFromDevice(
                 0x01,
                 1,
                 new BleDataResponse() {
                     @Override
                     public void onDataResponse(int code, float value, HashMap data) {
-                        //Log.d("HISTORIAL", "appRealAllDataFromDevice");
-                        Log.d("REALDATA", "appRealAllDataFromDevice" +"| code: "+code+" | data: "+ data);
+                        Log.d("appRealAll", "appRealSportFromDevice" +"| code: "+code+" | data: "+ data);
                         appRegisterRealDataCallBack(new BleRealDataResponse() {
                             @Override
                             public void onRealDataResponse(int i, HashMap hashMap) {
-                                Log.d("HISTORIAL_HEALTH", "hashMap: " + hashMap );
+                                Log.d("appRealAll", "hashMap: " + hashMap );
+                                if (hashMap != null && !hashMap.isEmpty()) {
+                                    Log.d("appRealAll", "hashMap NO ES NULL!: " + hashMap  );
+                                }
                                 if(i == Real_UploadHeart){
                                     if (hashMap != null && !hashMap.isEmpty()) {
                                         int heart = getHealthValue(hashMap,"heartValue");
@@ -493,12 +721,10 @@ public class HomeFragment extends Fragment {
                                         int bloodSBP = getHealthValue(hashMap,"bloodSBP");
                                         int bloodDBP = getHealthValue(hashMap,"bloodDBP");
                                         //Log.d("HISTORIAL_Real_UploadHeart", "heart: " + heart);
-                                        updateHealth("heartValue",heart,""+heart,heart_rate_item,"rpm");
-                                        updateHealth("bloodOxygenValue",oxygen,""+oxygen,oxygen_item,"%");
-                                        updateHealth("bloodSBP",bloodSBP,""+bloodSBP+"/"+bloodDBP,blood_item,"mmHg");
+                                        //HACE FALTA MANDAR A LA VISTA ESTOS VALORES
                                     }
                                 }
-                                /*if(code == Real_UploadSport){
+                                if(code == Real_UploadSport){
                                     if (hashMap != null && !hashMap.isEmpty()) {
 
                                         sportStep = getAndUpdateSportValue(hashMap,"sportStep");                  //step count
@@ -510,21 +736,22 @@ public class HomeFragment extends Fragment {
                                         viewModel.setSportDistance(sportDistance, getContext());
                                         viewModel.setSportCalories(sportCalorie, getContext());
                                     }
-                                }*/
-                            }});
-                    }
-                }
+                                }
+    }});
+        }
+        }
         );
+        *//*
         //resetQueue();
         //Los datos no se borran, hasta que se llene la memoria del disposivio
-        /*deleteHealthHistoryData(
+        *//*deleteHealthHistoryData(
                 Health_DeleteAll,
                 new BleDataResponse() {
                     @Override
                     public void onDataResponse(int i, float v, HashMap hashMap) {
                         Log.d("HISTORIAL","Borrando Historial...  code: "+ i+ " | v: "+v+" | hashMap:"+hashMap);
                     }
-                });*/
+                });*//*
     }
 
     //Configurar Monitoreo
@@ -567,16 +794,21 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
-    /** AUXILIARES*/
+    *//** AUXILIARES*//*
     //------------------------------------------------------------------------------------------------
-    /** 🥅 ATAJOS */
+    *//** 🥅 ATAJOS *//*
     private void startActivityFun(Class activityClass){
         Intent intent = new Intent(requireActivity(), activityClass);
         startActivity(intent);
     }
-    private void updateFunctions() {
+    private boolean updateFunctions() {
+        if(connectState() != Constants.BLEState.ReadWriteOK) return false;
+        prefs = setPrefs("health_prefs");
+        String start = prefs.getString("health_start","");
+        viewModelH.setHealthStartTime(String.valueOf(start), getContext());
         initClientFun();
         getHealthData();
+        return true;
     }
     private SharedPreferences setPrefs(String prefsName) {
         return requireContext().getSharedPreferences(prefsName, Context.MODE_PRIVATE);
@@ -584,29 +816,9 @@ public class HomeFragment extends Fragment {
     private void mostarLog(String msg){
         Log.d("HISTORIAL", msg);
     }
-    /** 🖼️ UI */
+    *//** 🖼️ UI *//*
     //Configurar Boton de actualizar
-    private void startActualizar() {
 
-        isLoading = true;
-        btnActualizar.setEnabled(false);
-        btnActualizar.setText("");                      // quita texto
-        progressActualizar.setVisibility(View.VISIBLE); // muestra loader
-        prefs = setPrefs("health_prefs");
-        String start = prefs.getString("health_start","");
-        viewModelH.setHealthStartTime(String.valueOf(start), getContext());
-
-        // Lógica de sincronización (tu código)
-        updateFunctions();
-        Toast.makeText(getContext(),getString(R.string.home_actualizando), Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(() -> {
-            isLoading = false;
-            btnActualizar.setEnabled(true);
-            btnActualizar.setText("Actualizar"); // Tu texto original
-            progressActualizar.setVisibility(View.GONE);
-        }, 10000); // 2 segundos
-    }
     //Configurar Items con los Valores de Salud
     private void setHealthValue(String healthName, String defaultString, HealthItemView healthItemView,String unit){
         prefs = setPrefs("healthValuesHome");
@@ -624,24 +836,9 @@ public class HomeFragment extends Fragment {
         }
         healthItemView.setTime(healthText);
     }
-    private void updateHealthValue(String healthName, String healthValueString, HealthItemView healthItemView, String unit){
-        prefs = setPrefs("healthValuesHome");
-        prefs.edit().putString(healthName, healthValueString).apply();
-        //Log.d("HISTORIAL", healthName+" (put): " + healthValueString + " en "+ healthName) ;
-        String healthText = healthValueString +" "+unit;
-        healthItemView.setTime(healthText);
-    }
-    /** 🔒 VALIDACIONES */
-    public void buttonsValidation(Class activity){
-        /*if(obtenerHistorial(getContext()).isEmpty()){
-            Toast.makeText(requireContext(), getString(R.string.no_hay_datos), Toast.LENGTH_SHORT).show();
-        }
-        else{*/
-            startActivityFun(activity);
-        //}
-    }
-    /** 🌊 BLUETOOTH */
-    private void connectToDevice() {
+    *//** 🔒 VALIDACIONES *//*
+    *//** 🌊 BLUETOOTH *//*
+    *//*private void connectToDevice() {
         SharedPreferences prefs = setPrefs("BLE_PREFS");
         String mac = prefs.getString("LAST_MAC", null);
         String state = prefs.getString("LAST_STATE", null);
@@ -651,18 +848,18 @@ public class HomeFragment extends Fragment {
                 Log.d("BLE_SCAN", "Conexión código: " + code);
             }
         });
-    }
-    /** 🎲 DATA */
+    }*//*
+    *//** 🎲 DATA *//*
     private void updateHistoryData(HistoryData reg){
         Date date = new Date(reg.timestamp);
         Log.d("HISTORIAL_FECHA", String.valueOf(date));
         String timeStr = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date);
         //hora.setText(getString(R.string.ultima_actualizacion_sin_texto)+": "+timeStr);
-        /*blood_item.setTime(reg.systolicValue+"/"+reg.diastolicValue+" mmHg");
+        *//*blood_item.setTime(reg.systolicValue+"/"+reg.diastolicValue+" mmHg");
         heart_rate_item.setTime(""+reg.heartValue+" lpm");
         frec_resp_item.setTime(""+reg.respRateValue+" rpm");
         tempeture_item.setTime(reg.tempIntValue+"."+reg.tempFloatValue+" °C");
-        oxygen_item.setTime(""+reg.oxygenValue+" %");*/
+        oxygen_item.setTime(""+reg.oxygenValue+" %");*//*
     }
     //Obtener datos del HashMap
     private int getHealthValue(HashMap hashMap, String healthName){
@@ -690,11 +887,6 @@ public class HomeFragment extends Fragment {
         }
         return sportValue;
     }
-    private void updateHealth(String healthName, int healthValue,String healthValueString,HealthItemView healthItemView, String unit){
-        if(healthValue > 0){
-            updateHealthValue(healthName, healthValueString, healthItemView, unit);
-        }
-    }
     private void updateProgress(int steps, int goalSteps) {
         goalSteps_sport.setText(String.valueOf(goalSteps));
         float stepsPct = (steps * 100f / goalSteps);
@@ -702,10 +894,10 @@ public class HomeFragment extends Fragment {
         circularProgress.setProgressText(steps);
     }
     //--------------------------------------------------------------------------
-    /** DESARROLLO
-    * */
+    *//** DESARROLLO
+    * *//*
     // Método para probar desde un botón
-    private void setupUI(View view) {
+    private void testWorker(View view) {
         workManager = WorkManager.getInstance(requireContext());
         TextView btnTestWorker = view.findViewById(R.id.test_worker);
         initClientFun();
@@ -744,7 +936,5 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
-    }
-
-
+    }*/
 }

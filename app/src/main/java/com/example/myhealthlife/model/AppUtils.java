@@ -55,6 +55,25 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AppUtils {
+
+
+
+    public static void topBar(String title, Activity activity){
+        //Barra de navegación superior
+        TextView titleTextView = activity.findViewById(R.id.TITLE); // Titulo
+        titleTextView.setText(title);
+        ImageView btnBack = activity.findViewById(R.id.backTop);
+        btnBack.setImageResource(R.drawable.keyboard_arrow_left);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.finish();
+            }
+        });
+    }
+
+    //-------------------------- GRAFICAS -----------------------
+
     /** Mostrar Datos en Tabla **/
     public static void filterShowTable(Activity activity, TableLayout tableHistory, ArrayList<HistoryData> listaRecuperada, Spinner spinnerFiltro,String titulo, String unidad, Integer colorG, Integer idG, String paremeter){
         tableHistory.removeAllViews();
