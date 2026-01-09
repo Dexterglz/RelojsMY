@@ -264,5 +264,9 @@ Para todo lo relacionado con la interpretación y cumplimiento de los presentes 
     <string name="hr_hrv">HR / HRV</string>
     <string name="deporte">Deporte</string>
     <string name="cuidado">Cuidado</string>
+    <string name="completado">¡Completado!</string>
+    <string name="todos_los_datos">Todos los datos están actualizados</string>
+    <string name="continuar">Continuar</string>
+    <string name="lista_dispositivos">Lista de Dispositivos</string>
 
 </resources>

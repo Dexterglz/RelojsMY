@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return new HomeFragment();
                 case 1:
-                    return new InboxFragment();
+                    return new SportFragment();
                 case 2:
                     return new HealthFragment();
                 case 3:

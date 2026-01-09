@@ -5,7 +5,9 @@ import static com.example.myhealthlife.model.HealthWorker.getUserId;
 import static com.example.myhealthlife.model.HealthWorker.getValue;
 import static com.example.myhealthlife.model.MetallicTint.applyMetallicGradient;
 import static com.example.myhealthlife.model.PrefsHelper.agregarHistorial;
+import static com.yucheng.ycbtsdk.Constants.DATATYPE.Health_DeleteAll;
 import static com.yucheng.ycbtsdk.Constants.DATATYPE.Real_UploadHeart;
+import static com.yucheng.ycbtsdk.Constants.DATATYPE.Real_UploadSport;
 import static com.yucheng.ycbtsdk.YCBTClient.appRealAllDataFromDevice;
 import static com.yucheng.ycbtsdk.YCBTClient.appRealSportFromDevice;
 import static com.yucheng.ycbtsdk.YCBTClient.appRegisterRealDataCallBack;
@@ -13,6 +15,7 @@ import static com.yucheng.ycbtsdk.YCBTClient.appSengMessageToDevice;
 import static com.yucheng.ycbtsdk.YCBTClient.appSleepWriteBack;
 import static com.yucheng.ycbtsdk.YCBTClient.connectBle;
 import static com.yucheng.ycbtsdk.YCBTClient.connectState;
+import static com.yucheng.ycbtsdk.YCBTClient.deleteHealthHistoryData;
 import static com.yucheng.ycbtsdk.YCBTClient.getBindDeviceName;
 import static com.yucheng.ycbtsdk.YCBTClient.healthHistoryData;
 import static com.yucheng.ycbtsdk.YCBTClient.initClient;
@@ -87,11 +90,11 @@ public class HomeFragment extends Fragment {
     private TextView kcal_sport, goalSteps_sport, distance_sport, hora;
     private AnimatedCircularProgress circularProgress;
     private HealthInfoCardView blood_card, oxygen_card, heart_rate_card, tempeture_card, ecg_card, sleep_card, frec_resp_card,hr_hrv_card ;
-    private LinearLayout cards_container;
+    private LinearLayout cards_container, ble_icon;
     private boolean isLoading = false;
     private ImageView sync_button, iconRight;
     SharedPreferences prefs;
-    private StepsDialogFragment dialog;
+    private BluetoothDialogFragment dialog;
     private SportViewModel viewModel;
     private HealthViewModel viewModelH;
     private WorkManager workManager;
@@ -106,8 +109,8 @@ public class HomeFragment extends Fragment {
 
 
         initViews(view);                                        //Iniciar Vistas
-        /*configureButtons();                                     //Configurar las acciones de los botones
-        setDashboard(view);                                     //Configurar los datos de las vistas
+        configureButtons();                                     //Configurar las acciones de los botones
+        /*setDashboard(view);                                     //Configurar los datos de las vistas
         testWorker(view);
         updateFunctions();*/
 
@@ -145,18 +148,30 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
                 // Llamar al método de actualización
-                Toast.makeText(requireContext(), "Actualizando...", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(requireContext(), getString(R.string.home_actualizando), Toast.LENGTH_SHORT).show();
+                if (isLoading){
+                    Toast.makeText(requireContext(), getString(R.string.home_por_favor_espera), Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if(updateFunctions()){
+                        isLoading = true;
+                        Toast.makeText(getContext(),getString(R.string.home_actualizando), Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(() -> {
+                            isLoading = false;
+                            swipeRefreshLayout.setRefreshing(false);
+
+                        }, 10000); //  10 segundos
+                    }
+                    else{
+                        Toast.makeText(requireContext(), getString(R.string.home_por_favor_conecte), Toast.LENGTH_SHORT).show();
+                        swipeRefreshLayout.setRefreshing(false);
+                        //swipeRefreshLayout.setEnabled(false);
+                    }
+                }
             }
         });
 
-        // Configurar colores del indicador (opcional)
-        swipeRefreshLayout.setColorSchemeColors(
-                getResources().getColor(android.R.color.holo_blue_bright),
-                getResources().getColor(android.R.color.holo_green_light),
-                getResources().getColor(android.R.color.holo_orange_light),
-                getResources().getColor(android.R.color.holo_red_light)
-        );
-        swipeRefreshLayout.setSize(1);
+        //swipeRefreshLayout.setSize(1);
 
         TextView tickerText = view.findViewById(R.id.tickerText);
         // "Marqueetador"
@@ -168,9 +183,10 @@ public class HomeFragment extends Fragment {
         blood_card = view.findViewById(R.id.blood_card);
         oxygen_card = view.findViewById(R.id.oxygen_card);
 
+        ble_icon = view.findViewById(R.id.ble_icon);
 
         //Presión Arterial
-        blood_card.applyStatus(1);
+        blood_card.applyStatus(2);
         blood_card.setIcon(R.drawable.stethoscope);
         blood_card.setTitle(getString(R.string.presion_arterial));
         blood_card.setValue("120/80");
@@ -185,36 +201,17 @@ public class HomeFragment extends Fragment {
         oxygen_card.setUnit("%");
         oxygen_card.setLastUpdate("Hace 5 min");
 
+
     }
-    /*public void configureButtons(){
-        // Sports
-        goalSteps_sport.setOnClickListener(v -> {
-            dialog.show(getChildFragmentManager(), "StepsDialogFragment");
-        });
+    public void configureButtons(){
+    // Sports
+    dialog = new BluetoothDialogFragment();
+
+    ble_icon.setOnClickListener(v -> {
+        dialog.show(getChildFragmentManager(), "BluetoothDialogFragment");
+    });
         // Health Items
-        heart_rate_item.setOnCardClickListener(v ->{startActivityFun(HeartRateActivity.class);});
-        frec_resp_item.setOnCardClickListener(v ->{startActivityFun(RespiratoryRateActivity.class);});
-        tempeture_item.setOnCardClickListener(v ->{startActivityFun(TemperatureLogActivity.class);});
-        oxygen_item.setOnCardClickListener(v -> {startActivityFun(OxygenLogActivity.class);});
-        blood_item.setOnCardClickListener(v -> {startActivityFun(BloodPressureActivity.class);});
-        sync_button.setOnClickListener(v->{
-            if (isLoading){
-                Toast.makeText(requireContext(), getString(R.string.home_por_favor_espera), Toast.LENGTH_SHORT).show();
-            }
-            else {
-                if(updateFunctions()){
-                    isLoading = true;
-                    Toast.makeText(getContext(),getString(R.string.home_actualizando), Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(() -> {
-                        isLoading = false;
-                    }, 10000); //  10 segundos
-                }
-                else{
-                    Toast.makeText(requireContext(), getString(R.string.home_por_favor_conecte), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+    }/*
     private void setDashboard(View view){
         // Observar cambios en los datos
 
@@ -352,7 +349,7 @@ public class HomeFragment extends Fragment {
     }
     *//**
      *YCBT
-     **//*
+     **/
     //Iniciar el Cliente
     private void initClientFun(){
         //Inicializa el YCBTClient
@@ -683,12 +680,12 @@ public class HomeFragment extends Fragment {
                                 public void onRealDataResponse(int i, HashMap hashMap) {
                                     Log.d("appRealSport", "hashMap: " + hashMap );
                                     if (hashMap != null && !hashMap.isEmpty()) {
-                                        int sportStep = getSportValue(hashMap,"sportStep");                  //step count
+                                        /*int sportStep = getSportValue(hashMap,"sportStep");                  //step count
                                         int sportDistance = getSportValue(hashMap,"sportDistance");     //distance
                                         int sportCalorie = getSportValue(hashMap,"sportCalorie");       //calories
                                         viewModel.setSportStep(sportStep, getContext());
                                         viewModel.setSportDistance(sportDistance, getContext());
-                                        viewModel.setSportCalories(sportCalorie, getContext());
+                                        viewModel.setSportCalories(sportCalorie, getContext());*/
                                     }
                                 }
                             }
@@ -698,7 +695,6 @@ public class HomeFragment extends Fragment {
         );
         //resetQueue();
         //Método para obtener el resto de datos (heart, oxygen, bloodP) en tiempo real
-        *//*
 
         appRealAllDataFromDevice(
                 0x01,
@@ -727,31 +723,31 @@ public class HomeFragment extends Fragment {
                                 if(code == Real_UploadSport){
                                     if (hashMap != null && !hashMap.isEmpty()) {
 
-                                        sportStep = getAndUpdateSportValue(hashMap,"sportStep");                  //step count
-                                        int sportDistance = getAndUpdateSportValue(hashMap,"sportDistance");     //distance
-                                        int sportCalorie = getAndUpdateSportValue(hashMap,"sportCalorie");       //calories
-                                        Log.d("HISTORIAL_Real_UploadSport", "sportStep: " + sportStep);
+                                        //int sportStep = getAndUpdateSportValue(hashMap,"sportStep");                  //step count
+                                        //int sportDistance = getAndUpdateSportValue(hashMap,"sportDistance");     //distance
+                                        //int sportCalorie = getAndUpdateSportValue(hashMap,"sportCalorie");       //calories
+                                        //Log.d("HISTORIAL_Real_UploadSport", "sportStep: " + sportStep);
 
-                                        viewModel.setSportStep(sportStep, getContext());
-                                        viewModel.setSportDistance(sportDistance, getContext());
-                                        viewModel.setSportCalories(sportCalorie, getContext());
+                                        //viewModel.setSportStep(sportStep, getContext());
+                                        //viewModel.setSportDistance(sportDistance, getContext());
+                                        //viewModel.setSportCalories(sportCalorie, getContext());
                                     }
                                 }
     }});
         }
         }
         );
-        *//*
         //resetQueue();
         //Los datos no se borran, hasta que se llene la memoria del disposivio
-        *//*deleteHealthHistoryData(
+
+        deleteHealthHistoryData(
                 Health_DeleteAll,
                 new BleDataResponse() {
                     @Override
                     public void onDataResponse(int i, float v, HashMap hashMap) {
                         Log.d("HISTORIAL","Borrando Historial...  code: "+ i+ " | v: "+v+" | hashMap:"+hashMap);
                     }
-                });*//*
+                });
     }
 
     //Configurar Monitoreo
@@ -794,9 +790,9 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
-    *//** AUXILIARES*//*
+    //** AUXILIARES*//
     //------------------------------------------------------------------------------------------------
-    *//** 🥅 ATAJOS *//*
+    //** 🥅 ATAJOS */
     private void startActivityFun(Class activityClass){
         Intent intent = new Intent(requireActivity(), activityClass);
         startActivity(intent);
@@ -805,7 +801,7 @@ public class HomeFragment extends Fragment {
         if(connectState() != Constants.BLEState.ReadWriteOK) return false;
         prefs = setPrefs("health_prefs");
         String start = prefs.getString("health_start","");
-        viewModelH.setHealthStartTime(String.valueOf(start), getContext());
+
         initClientFun();
         getHealthData();
         return true;
@@ -815,7 +811,7 @@ public class HomeFragment extends Fragment {
     }
     private void mostarLog(String msg){
         Log.d("HISTORIAL", msg);
-    }
+    }/*
     *//** 🖼️ UI *//*
     //Configurar Boton de actualizar
 
@@ -849,17 +845,17 @@ public class HomeFragment extends Fragment {
             }
         });
     }*//*
-    *//** 🎲 DATA *//*
+    *//** 🎲 DATA */
     private void updateHistoryData(HistoryData reg){
         Date date = new Date(reg.timestamp);
         Log.d("HISTORIAL_FECHA", String.valueOf(date));
         String timeStr = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date);
         //hora.setText(getString(R.string.ultima_actualizacion_sin_texto)+": "+timeStr);
-        *//*blood_item.setTime(reg.systolicValue+"/"+reg.diastolicValue+" mmHg");
+        /*blood_item.setTime(reg.systolicValue+"/"+reg.diastolicValue+" mmHg");
         heart_rate_item.setTime(""+reg.heartValue+" lpm");
         frec_resp_item.setTime(""+reg.respRateValue+" rpm");
         tempeture_item.setTime(reg.tempIntValue+"."+reg.tempFloatValue+" °C");
-        oxygen_item.setTime(""+reg.oxygenValue+" %");*//*
+        oxygen_item.setTime(""+reg.oxygenValue+" %");*/
     }
     //Obtener datos del HashMap
     private int getHealthValue(HashMap hashMap, String healthName){
@@ -892,7 +888,7 @@ public class HomeFragment extends Fragment {
         float stepsPct = (steps * 100f / goalSteps);
         circularProgress.setProgressWithAnimation(stepsPct);
         circularProgress.setProgressText(steps);
-    }
+    }/*
     //--------------------------------------------------------------------------
     *//** DESARROLLO
     * *//*

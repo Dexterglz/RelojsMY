@@ -60,6 +60,7 @@
             </LinearLayout>
             <!--Iconos-->
             <LinearLayout
+                android:id="@+id/ble_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -293,7 +294,7 @@
                                             android:layout_width="35dp"
                                             android:layout_height="35dp"
                                             android:src="@drawable/location"
-                                            android:tint="@color/red_ecg"
+                                            app:tint="@color/red_ecg"
                                             android:background="@color/white_transparent_1"/>
 
                                     </com.google.android.material.card.MaterialCardView>
@@ -366,7 +367,7 @@
                             android:layout_height="50dp"
                             android:background="@color/white_transparent_1"
                             android:src="@drawable/scan_heart"
-                            android:tint="@color/white"/>
+                            app:tint="@color/white"/>
 
                     </com.google.android.material.card.MaterialCardView>
 
