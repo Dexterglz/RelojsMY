@@ -71,12 +71,50 @@
     <string name="health_diagnostico_no_diponible">Diagnosis not available. Please wait for the next monitoring</string>
     <string name="health_no_tienes_app_pdf">You don\'t have any app to open PDFs</string>
 
+    <string name="cuidado_health">Careful</string>
+    <string name="bienestar_diario">Your daily well-being</string>
+    <string name="estado_salud">Health status</string>
+    <string name="actualizado">Updated 5 minutes ago</string>
+    <string name="bueno">Well</string>
+    <string name="tendencia">Tendency</string>
+    <string name="positiva">Positive</string>
+    <string name="mejorando_semana">Improving this week</string>
+    <string name="chequeos">Check</string>
+    <string name="completados_esta_semana">completed this week</string>
+    <string name="consejos_dia">Tips of the day</string>
+    <string name="mantente_hidratado">Stay hydrated</string>
+    <string name="recuerda_beber">Remember to drink at least 8 glasses of water a day to keep your body functioning properly.</string>
+    <string name="ejercicio_regular">Regular exercise</string>
+    <string name="minutos_actividad">30 minutes of moderate activity a day can significantly improve your cardiovascular health.</string>
+    <string name="alertas_recientes">Recent alerts</string>
+    <string name="tu_presion_arterial">Your blood pressure has been stable this week</string>
+    <string name="hace_horas">2 hours ago</string>
+    <string name="recuerda_medir">Remember to check your glucose after lunch</string>
+
     <!--Profile Fragment-->
     <string name="modificar_monitoreo">Modify Monitoring</string>
     <string name="modificar_peso_altura">Modify Weight and Height</string>
     <string name="conectar_dispositivo">Connect Device</string>
     <string name="cambiar_idioma">Change Language</string>
     <string name="cerrar_sesion">Log Out</string>
+
+    <string name="edad">32 years</string>
+    <string name="status">Premium</string>
+    <string name="conexion">Connected watch</string>
+    <string name="dias">Active days</string>
+    <string name="mediciones">Measurements</string>
+    <string name="logros">Achievements</string>
+    <string name="mi_dispositivo">My device</string>
+    <string name="configurar_reloj">Set clock</string>
+    <string name="configuraciones">Settings</string>
+    <string name="historial_registros">History</string>
+    <string name="ver_registros">View logs</string>
+    <string name="notificaciones">Notifications</string>
+    <string name="recordatorios">Alerts and reminders</string>
+    <string name="privacidad">Privacy</string>
+    <string name="permisos">Permissions and data</string>
+    <string name="ayuda">Help</string>
+    <string name="soporte">Support Center</string>
 
     <!--Monitoring Dialog-->
     <string name="intervalo_monitoreo">Monitoring interval minutes</string>
