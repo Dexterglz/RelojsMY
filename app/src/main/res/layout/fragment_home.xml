@@ -127,22 +127,24 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hoy"
+                            android:text="@string/hoy"
                             android:textColor="@color/white"
                             android:textSize="19sp"/>
 
                         <TextView
+                            android:id="@+id/steps_sport"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="7,842"
+                            android:text="--"
                             android:textColor="@color/white"
                             android:textSize="36sp"
                             android:textStyle="bold"/>
 
                         <TextView
+                            android:id="@+id/goalSteps_sport"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="de 10,000 pasos"
+                            android:text="..."
                             android:textColor="@color/white"
                             android:textSize="16sp" />
 
@@ -227,9 +229,10 @@
                                     android:layout_marginLeft="10dp">
 
                                     <TextView
+                                        android:id="@+id/kcal_sport"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="324"
+                                        android:text="--"
                                         android:textColor="@color/white"
                                         android:textStyle="bold"
                                         android:textSize="17sp" />
@@ -309,9 +312,10 @@
                                     android:layout_marginLeft="10dp">
 
                                     <TextView
+                                        android:id="@+id/distance_sport"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="5.2"
+                                        android:text="--"
                                         android:textColor="@color/white"
                                         android:textStyle="bold"
                                         android:textSize="17sp" />
@@ -428,14 +432,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Módulos de Monitoreo de Salud"
+                    android:text="@string/modulos_monitoreo_salud"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="18dp"/>
                 <TextView
+                    android:id="@+id/last_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Última actualización: 19/12/2025 a las 12:19pm"
+                    android:text="@string/ultima_actualizacion"
                     android:textSize="10sp"/>
             </LinearLayout>
             <!--Editar-->
@@ -474,7 +479,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--Primera Fila-->
+            <!--Fila-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -487,13 +492,77 @@
                 <View
                     android:layout_width="15dp"
                     android:layout_height="0dp"/>
+                <!--Frecuencia Respiratoria-->
+                <com.example.myhealthlife.model.HealthInfoCardView
+                    android:id="@+id/frec_resp_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <!--Fila-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <!--Primera Tarjeta-->
+                <com.example.myhealthlife.model.HealthInfoCardView
+                    android:id="@+id/heart_rate_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="0dp"/>
                 <!--Segunda tarjeta-->
+                <com.example.myhealthlife.model.HealthInfoCardView
+                    android:id="@+id/tempeture_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <!--Fila-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <!--CVRR-->
+                <com.example.myhealthlife.model.HealthInfoCardView
+                    android:id="@+id/hr_cvrr_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <View
+                android:layout_width="15dp"
+                android:layout_height="0dp"/>
+                <!--HRV-->
+                <com.example.myhealthlife.model.HealthInfoCardView
+                    android:id="@+id/hr_hrv_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <!--Fila-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <!--Sueño-->
+                <com.example.myhealthlife.model.HealthInfoCardView
+                    android:id="@+id/sleep_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="0dp"/>
+                <!--HRV-->
                 <com.example.myhealthlife.model.HealthInfoCardView
                     android:id="@+id/oxygen_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
             </LinearLayout>
+
 
         </LinearLayout>
 

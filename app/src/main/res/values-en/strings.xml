@@ -243,9 +243,9 @@ For everything related to the interpretation and compliance with these terms and
     <string name="startScanDIA">The Diagnosis will generate a categorized summary of your vital signs, showing your current status with color indicators: green (healthy) and orange (possible alteration). Note: This information is for reference only. Consult a doctor if you feel unwell.</string>
     <string name="no_hay_datos_disponibles">No data available</string>
 
-
+    <string name="hoy">Today</string>
     <string name="selecciona_tu_pais">Select your country</string>
-    <string name="pasos">Steps</string>
+    <string name="pasos">steps</string>
     <string name="metaPasos">Steps Goal</string>
     <string name="steps_por_favor_ingresa_un_numero">Enter a step goal</string>
     <string name="cambiar_pais">Change country</string>
@@ -281,9 +281,9 @@ For everything related to the interpretation and compliance with these terms and
     <string name="month">Month</string>
     <string name="week">Week</string>
     <string name="day">Day</string>
-    <string name="average">average</string>
-    <string name="highest">highest</string>
-    <string name="lowset">lowset</string>
+    <string name="average">Average</string>
+    <string name="highest">Highest</string>
+    <string name="lowset">Lowset</string>
     <string name="ms">ms</string>
     <string name="percent">%</string>
     <string name="mmhg">mmHg</string>
@@ -332,6 +332,24 @@ For everything related to the interpretation and compliance with these terms and
     <string name="todos_los_datos">Todos los datos están actualizados</string>
     <string name="continuar">Continuar</string>
     <string name="lista_dispositivos">Lista de Dispositivos</string>
+    <string name="buscando_dispositvos">Buscando dispositvos...</string>
+    <string name="optima">Óptima</string>
+    <string name="diario">Diario</string>
+    <string name="semanal">Semanal</string>
+    <string name="mensual">Mensual</string>
+    <string name="de">of</string>
+
+    <!-- Relative time -->
+    <string name="now">Now</string>
+    <string name="just_now">Just now</string>
+    <string name="minutes_ago">%d min ago</string>
+    <string name="one_hour_ago">1 hr ago</string>
+    <string name="hours_ago">%d hr ago</string>
+    <string name="more_than_one_hour_ago">>1 hr ago</string>
+
+    <string name="modulos_monitoreo_salud">Health Monitoring Modules</string>
+
+    <string name="hola_mundo">Hello World</string>
 
 
 </resources>

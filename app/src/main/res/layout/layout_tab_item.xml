@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tabContainer"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tabText"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardTabContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Texto"
-        android:textSize="15sp" />
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/active_temp"
+        android:outlineSpotShadowColor="@color/transparent"
+        android:outlineAmbientShadowColor="@color/transparent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-    <View
-        android:id="@+id/tabLine"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorPrimary"
-        android:visibility="gone" />
+            <TextView
+                android:id="@+id/tabText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Texto"
+                android:textSize="10sp" />
+
+            <View
+                android:id="@+id/tabLine"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

@@ -64,8 +64,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end">
+            android:gravity="end"
+            android:layout_margin="10dp">
+            <TextView
+                android:id="@+id/dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lista_dispositivos"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
             <ImageView
+                android:id="@+id/closeDialog"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 app:tint="@color/gray"
@@ -75,14 +89,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lista_dispositivos"
-                android:layout_marginLeft="10dp"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
+
         </LinearLayout>
 
         <!--Completado-->
@@ -170,16 +177,24 @@
         <!--Lista de Dispositivos-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="250dp"
             android:orientation="horizontal">
 
             <!--Lista de dispositvos-->
             <LinearLayout
                 android:id="@+id/devices_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/buscando_dispositivos"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_margin="8dp"
+                    android:text="@string/buscando_dispositvos"/>
 
                 <!-- ListView con card moderno -->
                 <com.google.android.material.card.MaterialCardView

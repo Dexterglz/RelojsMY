@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ViewPagerFragmentAdapter(MainActivity.this, bottomNavigationView.getItemIconSize(), MainActivity.this);
         pager.setAdapter(adapter);
         pager.setOffscreenPageLimit(1);
-        pager.setUserInputEnabled(true);  // Permite deslizamiento
+        pager.setUserInputEnabled(false);  // Permite deslizamiento
         pager.setCurrentItem(0);
         pager.setPadding(0,0,0,0);
         pager.setBottom(0);
@@ -284,23 +284,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupBottomNav() {
-
-        /*leftArrow.setOnClickListener(item -> {
-
-            if(pager.getCurrentItem() == 1); {
-                pager.setCurrentItem(0);
-            }
-        });
-*/
-        /*rightArrow.setOnClickListener(item -> {
-
-            if(pager.getCurrentItem() == 0); {
-                pager.setCurrentItem(1);
-            }
-            if (pager.getCurrentItem() == 1) {
-                pager.setCurrentItem(2);
-            }
-        });*/
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();

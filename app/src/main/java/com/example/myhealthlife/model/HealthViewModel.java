@@ -11,24 +11,24 @@ import java.util.Objects;
 
 public class HealthViewModel extends ViewModel {
     private SharedPreferences sharedPreferences;
-    private MutableLiveData<String> healthHeart = new MutableLiveData<>();
-    private MutableLiveData<String> healthHRV = new MutableLiveData<>();
+    private static MutableLiveData<String> healthHeart = new MutableLiveData<>();
+    private static MutableLiveData<String> healthHRV = new MutableLiveData<>();
     private MutableLiveData<String> healthHRVCVRR = new MutableLiveData<>();
-    private MutableLiveData<String> healthCVVRR = new MutableLiveData<>();
+    private static MutableLiveData<String> healthCVVRR = new MutableLiveData<>();
     private MutableLiveData<String> healthStep = new MutableLiveData<>();
-    private MutableLiveData<String> healthDBP = new MutableLiveData<>();
-    private MutableLiveData<String> healthSBP = new MutableLiveData<>();
-    private MutableLiveData<String> healthBloodPressure = new MutableLiveData<>();
+    private static MutableLiveData<String> healthDBP = new MutableLiveData<>();
+    private static MutableLiveData<String> healthSBP = new MutableLiveData<>();
+    private static MutableLiveData<String> healthBloodPressure = new MutableLiveData<>();
     private MutableLiveData<String> healthBody = new MutableLiveData<>();
     private MutableLiveData<String> healthBloodSugar = new MutableLiveData<>();
-    private MutableLiveData<String> healthOxygen = new MutableLiveData<>();
-    private MutableLiveData<String> healthTemp = new MutableLiveData<>();
-    private MutableLiveData<String> healthStartTime = new MutableLiveData<>();
-    private MutableLiveData<String> healthRespRate = new MutableLiveData<>();
+    private static MutableLiveData<String> healthOxygen = new MutableLiveData<>();
+    private static MutableLiveData<String> healthTemp = new MutableLiveData<>();
+    private static MutableLiveData<String> healthStartTime = new MutableLiveData<>();
+    private static MutableLiveData<String> healthRespRate = new MutableLiveData<>();
     // Variables para almacenar los datos
     private MutableLiveData<String> sleepStartTime = new MutableLiveData<>() ;
     private MutableLiveData<String> sleepEndTime = new MutableLiveData<>() ;
-    private MutableLiveData<String> sleepDuration = new MutableLiveData<>() ;
+    private static MutableLiveData<String> sleepDuration = new MutableLiveData<>() ;
     private MutableLiveData<String> deepSleepTotal = new MutableLiveData<>() ;
     private MutableLiveData<String> lightSleepTotal = new MutableLiveData<>() ;
     private MutableLiveData<String> remSleepTotal = new MutableLiveData<>() ;
@@ -136,5 +136,44 @@ public class HealthViewModel extends ViewModel {
         SharedPreferences sharedPreferences = context.getSharedPreferences("health_prefs", Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(paramName, param).apply();
         paramL.postValue(param);
+    }
+
+    public static void setHealthInitialParams(Context context){
+        SharedPreferences prefs = context.getSharedPreferences("health_prefs", Context.MODE_PRIVATE);
+        
+        String heart = prefs.getString("health_heart",null);
+        String hrv = prefs.getString("health_hrv",null);
+        String cvrr = prefs.getString("health_cvvrr",null);
+        String resp = prefs.getString("health_resp",null);
+        String temp = prefs.getString("health_temp",null);
+        String oxy = prefs.getString("health_ox",null);
+        String sbp = prefs.getString("health_sbp",null);
+        String dbp = prefs.getString("health_dbp",null);
+        String start = prefs.getString("health_start",null);
+        String sleep = prefs.getString("sleep_duration",null);
+
+        //Presion Arterial-
+        healthBloodPressure.postValue(dbp+"/"+sbp);
+        //Corazon-
+        healthHeart.postValue(heart);
+        //HRV-
+        healthHRV.postValue(hrv);
+        //CVRR-
+        healthCVVRR.postValue(cvrr);
+        //Temperatura-
+        healthTemp.postValue(temp);
+        //Oxigeno-
+        healthOxygen.postValue(oxy);
+        //Presion SBP-
+        healthSBP.postValue(sbp);
+        //Presion DBP-
+        healthDBP.postValue(dbp);
+        //FR
+        healthRespRate.postValue(resp);
+        //StartTime
+        healthStartTime.postValue(start);
+        //Sleep Duration
+        sleepDuration.postValue(sleep);
+
     }
 }

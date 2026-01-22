@@ -9,10 +9,10 @@ import androidx.lifecycle.ViewModel;
 
 public class SportViewModel extends ViewModel {
     private SharedPreferences sharedPreferences;
-    private MutableLiveData<Integer> sportSteps = new MutableLiveData<>();
-    private MutableLiveData<Integer> sportGoalSteps = new MutableLiveData<>();
-    private MutableLiveData<Integer> sportDistance = new MutableLiveData<>();
-    private MutableLiveData<Integer> sportCalories = new MutableLiveData<>();
+    private static MutableLiveData<Integer> sportSteps = new MutableLiveData<>();
+    private static MutableLiveData<Integer> sportGoalSteps = new MutableLiveData<>();
+    private static MutableLiveData<Integer> sportDistance = new MutableLiveData<>();
+    private static MutableLiveData<Integer> sportCalories = new MutableLiveData<>();
 
     public void setSportStep(int steps, Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("sport_prefs", Context.MODE_PRIVATE);
@@ -41,4 +41,18 @@ public class SportViewModel extends ViewModel {
     public LiveData<Integer> getSportSteps() { return sportSteps; }
     public LiveData<Integer> getSportDistance() { return sportDistance; }
     public LiveData<Integer> getSportCalories() { return sportCalories; }
+
+    public static void setSportInitialParams(Context context){
+        SharedPreferences prefs = context.getSharedPreferences("sport_prefs", Context.MODE_PRIVATE);
+        int lastgoalSteps = prefs.getInt("sport_goal_steps", 0);
+        int lastSteps = prefs.getInt("sport_steps", 0);
+        int lastCalories = prefs.getInt("sport_calories", 0);
+        int lastDistance = prefs.getInt("sport_distance", 0);
+
+        //Configurar valores al cargar por primera vez la vista
+        sportGoalSteps.postValue(lastgoalSteps);
+        sportSteps.postValue(lastSteps);
+        sportCalories.postValue(lastCalories);
+        sportDistance.postValue(lastDistance);
+    }
 }

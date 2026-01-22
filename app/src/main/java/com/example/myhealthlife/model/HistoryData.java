@@ -32,6 +32,7 @@ public class HistoryData {
     public int tempFloatValue;
     public long timestamp;
 
+
     public HistoryData(int heartValue, int hrvValue, int cvrrValue, int oxygenValue, int stepValue,
                          int diastolicValue, int systolicValue, int respRateValue, int bodyFatValue,
                          int bodyFatFracValue, int bloodSugarValue, int tempIntValue, int tempFloatValue,
@@ -45,9 +46,9 @@ public class HistoryData {
         this.diastolicValue = diastolicValue;
         this.systolicValue = systolicValue;
         this.respRateValue = respRateValue;
-        this.bodyFatValue = bodyFatValue;
-        this.bodyFatFracValue = bodyFatFracValue;
-        this.bloodSugarValue = bloodSugarValue;
+        this.bodyFatValue = bodyFatValue;//*
+        this.bodyFatFracValue = bodyFatFracValue;//*
+        this.bloodSugarValue = bloodSugarValue;//*
         this.tempIntValue = tempIntValue;
         this.tempFloatValue = tempFloatValue;
         this.timestamp = timestamp;

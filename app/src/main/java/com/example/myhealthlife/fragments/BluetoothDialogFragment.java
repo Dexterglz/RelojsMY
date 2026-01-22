@@ -59,8 +59,8 @@ public class BluetoothDialogFragment extends DialogFragment {
     private DeviceAdapter adapter;
     private List<BluetoothDevice> devices;
     private List<ScanDeviceBean> scannedDevices = new ArrayList<>();
-    private ImageView rightIcon, image_device;
-    private TextView device_name, device_battery;
+    private ImageView rightIcon, image_device,closeDialog;
+    private TextView device_name, device_battery, buscando_dispositivos, title;
     private LinearLayout devices_list, my_equipment;
     private View desconectar;
     BleManager bleCore = AppBleManager.getInstance(getContext()).getBle();
@@ -92,14 +92,20 @@ public class BluetoothDialogFragment extends DialogFragment {
         listView = view.findViewById(R.id.device_list);
 
         desconectar = view.findViewById(R.id.desconectar);
+        title = view.findViewById(R.id.dialog_title);
 
         device_name = view.findViewById(R.id.device_name);
         device_battery = view.findViewById(R.id.device_battery);
         image_device = view.findViewById(R.id.image_device);
+        closeDialog = view.findViewById(R.id.closeDialog);
+
+        buscando_dispositivos = view.findViewById(R.id.buscando_dispositivos);
 
         devices = new ArrayList<>();
         adapter = new DeviceAdapter(view.getContext(), devices);
         listView.setAdapter(adapter);
+
+        closeDialog.setOnClickListener(v->{dismiss();});
     }
 
     @Override
@@ -107,8 +113,8 @@ public class BluetoothDialogFragment extends DialogFragment {
         super.onStart();
         Dialog dialog = getDialog();
         if (dialog != null && dialog.getWindow() != null) {
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(true);
+            dialog.setCanceledOnTouchOutside(true);
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             dialog.getWindow().setBackgroundDrawableResource(R.drawable.rounded_dialog_background);
         }
@@ -172,8 +178,7 @@ public class BluetoothDialogFragment extends DialogFragment {
         switch (bleCore.getState()) {
 
             case Constants.BLEState.ReadWriteOK:
-                //setMyEquipmentContent();
-                Toast.makeText(getContext(), "00 this is 00", Toast.LENGTH_SHORT).show();
+                setMyEquipmentContent();
                 break;
 
             case Constants.BLEState.Disconnect:
@@ -255,6 +260,12 @@ public class BluetoothDialogFragment extends DialogFragment {
             // Guardar item visible en lista
             devices.add(new BluetoothDevice(name, mac, rssi));
 
+
+
+            buscando_dispositivos.setVisibility(GONE);
+            /*if(devices.size()>1){
+            }*/
+
             getActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
         });
     }
@@ -331,6 +342,9 @@ public class BluetoothDialogFragment extends DialogFragment {
         my_equipment.setVisibility(GONE);
         devices_list.setVisibility(VISIBLE);
 
+        title.setText(getString(R.string.lista_dispositivos));
+
+
         //rightIcon.setImageResource(R.drawable.baseline_sync_24);
         disconnectBle();
         startScan();
@@ -343,6 +357,8 @@ public class BluetoothDialogFragment extends DialogFragment {
 
         DeviceAdapter.setDeviceImage(image_device,name);
 
+        title.setText(getString(R.string.mi_equipo));
+
         device_name.setText(name);
         device_battery.setText(battery+"%");
         devices_list.setVisibility(GONE);
@@ -354,6 +370,7 @@ public class BluetoothDialogFragment extends DialogFragment {
 
             Toast.makeText(getContext(), getString(R.string.dispositivo_desconectado), Toast.LENGTH_SHORT).show();
             disconnectBle();
+            setDevicesListContent();
         });
     }
 

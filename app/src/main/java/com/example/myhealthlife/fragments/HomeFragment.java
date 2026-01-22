@@ -1,10 +1,12 @@
 package com.example.myhealthlife.fragments;
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.myhealthlife.model.DeviceAdapter.setDeviceImage;
+import static com.example.myhealthlife.model.HealthViewModel.setHealthInitialParams;
 import static com.example.myhealthlife.model.HealthWorker.getUserId;
 import static com.example.myhealthlife.model.HealthWorker.getValue;
 import static com.example.myhealthlife.model.MetallicTint.applyMetallicGradient;
 import static com.example.myhealthlife.model.PrefsHelper.agregarHistorial;
+import static com.example.myhealthlife.model.SportViewModel.setSportInitialParams;
 import static com.yucheng.ycbtsdk.Constants.DATATYPE.Health_DeleteAll;
 import static com.yucheng.ycbtsdk.Constants.DATATYPE.Real_UploadHeart;
 import static com.yucheng.ycbtsdk.Constants.DATATYPE.Real_UploadSport;
@@ -52,6 +54,7 @@ import com.example.myhealthlife.activities.BloodPressureActivity;
 import com.example.myhealthlife.activities.HeartRateActivity;
 import com.example.myhealthlife.activities.OxygenLogActivity;
 import com.example.myhealthlife.activities.RespiratoryRateActivity;
+import com.example.myhealthlife.activities.SleepActivity;
 import com.example.myhealthlife.activities.TemperatureLogActivity;
 import com.example.myhealthlife.model.AnimatedCircularProgress;
 
@@ -60,6 +63,7 @@ import com.example.myhealthlife.model.HealthViewModel;
 import com.example.myhealthlife.model.HealthWorker;
 import com.example.myhealthlife.model.HistoryData;
 import com.example.myhealthlife.model.SportViewModel;
+import com.example.myhealthlife.model.TipoDato;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yucheng.ycbtsdk.Constants;
@@ -87,19 +91,15 @@ import androidx.work.WorkManager;
 
 public class HomeFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView kcal_sport, goalSteps_sport, distance_sport, hora;
+    private TextView steps_sport, kcal_sport, goalSteps_sport, distance_sport, last_update;
     private AnimatedCircularProgress circularProgress;
-    private HealthInfoCardView blood_card, oxygen_card, heart_rate_card, tempeture_card, ecg_card, sleep_card, frec_resp_card,hr_hrv_card ;
-    private LinearLayout cards_container, ble_icon;
+    private HealthInfoCardView blood_card, oxygen_card, heart_rate_card, tempeture_card, ecg_card, sleep_card, frec_resp_card,hr_hrv_card, hr_cvrr_card ;
+    private LinearLayout ble_icon;
     private boolean isLoading = false;
-    private ImageView sync_button, iconRight;
     SharedPreferences prefs;
     private BluetoothDialogFragment dialog;
     private SportViewModel viewModel;
     private HealthViewModel viewModelH;
-    private WorkManager workManager;
-    private LinearLayout row1, row2, row3, row4;
-    private final List<View.OnLayoutChangeListener> layoutChangeListeners = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -107,11 +107,9 @@ public class HomeFragment extends Fragment {
         Log.d("HOME","Vista Creada");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
         initViews(view);                                        //Iniciar Vistas
-        configureButtons();                                     //Configurar las acciones de los botones
-        /*setDashboard(view);                                     //Configurar los datos de las vistas
-        testWorker(view);
+        healthGetters(view);                                     //Configurar los datos de las vistas
+        /*testWorker(view);
         updateFunctions();*/
 
         return view;
@@ -120,19 +118,19 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        /*healthMonitoringFun(1,false);
-        updateFunctions();*/
-        super.onResume();
+        healthMonitoringFun(1,false);
+        getInitialData();
+        updateFunctions();
     }
     @Override
     public void onStart() {
         super.onStart();
-        /*healthMonitoringFun(1,false);*/
+        healthMonitoringFun(1,false);
     }
     @Override
     public void onStop() {
         super.onStop();
-        //healthMonitoringFun(0,false);
+        healthMonitoringFun(0,false);
     }
 
     //------------------------------------------------------------------------------------------------
@@ -140,10 +138,15 @@ public class HomeFragment extends Fragment {
      * PRINCIPALES
      **/
     private void initViews(@NonNull View view) {
-        // Inicializar SwipeRefreshLayout
+        // SwipeRefreshLayout
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
-        // Configurar el listener para el gesto de deslizar
+        int density = (int) getResources().getDisplayMetrics().density;
+        swipeRefreshLayout.setSlingshotDistance(10 * density);
+        swipeRefreshLayout.setProgressViewOffset(
+                false,
+                0,
+                40 * density
+        );
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -171,51 +174,65 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //swipeRefreshLayout.setSize(1);
-
+        // Marqueetador
         TextView tickerText = view.findViewById(R.id.tickerText);
-        // "Marqueetador"
         tickerText.setSelected(true);
 
-        circularProgress = view.findViewById(R.id.circularProgress);
-        circularProgress.setProgressWithAnimation(40);
+        //last update
+        last_update = view.findViewById(R.id.last_update);
 
+        // Sport Views
+        circularProgress = view.findViewById(R.id.circularProgress);
+        steps_sport = view.findViewById(R.id.steps_sport);
+        goalSteps_sport = view.findViewById(R.id.goalSteps_sport);
+        kcal_sport = view.findViewById(R.id.kcal_sport);
+        distance_sport = view.findViewById(R.id.distance_sport);
+
+        // Steps Progreso
+        SharedPreferences prefs = getContext().getSharedPreferences("sport_prefs", Context.MODE_PRIVATE);
+        int lastgoalSteps = prefs.getInt("sport_goal_steps", 0);
+        int lastSteps = prefs.getInt("sport_steps", 0);
+        float stepsPct = (lastSteps * 100f / lastgoalSteps);
+        circularProgress.setProgressWithAnimation(50);
+
+        // Health Views --
         blood_card = view.findViewById(R.id.blood_card);
         oxygen_card = view.findViewById(R.id.oxygen_card);
+        heart_rate_card = view.findViewById(R.id.heart_rate_card);
+        tempeture_card = view.findViewById(R.id.tempeture_card);
+        frec_resp_card = view.findViewById(R.id.frec_resp_card);
+        hr_hrv_card = view.findViewById(R.id.hr_hrv_card);
+        hr_cvrr_card = view.findViewById(R.id.hr_cvrr_card);
+        sleep_card = view.findViewById(R.id.sleep_card);
+        healthCards();
 
+        //Bluetooth
         ble_icon = view.findViewById(R.id.ble_icon);
+        dialog = new BluetoothDialogFragment();
+        ble_icon.setOnClickListener(v -> {
+            dialog.show(getChildFragmentManager(), "BluetoothDialogFragment");
+        });
 
-        //Presión Arterial
-        blood_card.applyStatus(2);
-        blood_card.setIcon(R.drawable.stethoscope);
-        blood_card.setTitle(getString(R.string.presion_arterial));
-        blood_card.setValue("120/80");
-        blood_card.setUnit("mmHg");
-        blood_card.setLastUpdate("Hace 10 min");
-
-        //Oxigeno
-        oxygen_card.applyStatus(2);
-        oxygen_card.setIcon(R.drawable.atom);
-        oxygen_card.setTitle(getString(R.string.saturacion_oxigeno));
-        oxygen_card.setValue("98");
-        oxygen_card.setUnit("%");
-        oxygen_card.setLastUpdate("Hace 5 min");
-
+        //
+        viewModel = new ViewModelProvider(requireActivity()).get(SportViewModel.class);
+        viewModelH = new ViewModelProvider(requireActivity()).get(HealthViewModel.class);
 
     }
-    public void configureButtons(){
-    // Sports
-    dialog = new BluetoothDialogFragment();
 
-    ble_icon.setOnClickListener(v -> {
-        dialog.show(getChildFragmentManager(), "BluetoothDialogFragment");
-    });
-        // Health Items
-    }/*
-    private void setDashboard(View view){
-        // Observar cambios en los datos
+    /** HEALTH **/
+    private void healthCards() {
 
-        //Historial de Salud
+        blood_card.configureCard(getContext(),TipoDato.BLOOD_PRESSURE);
+        frec_resp_card.configureCard(getContext(),TipoDato.RESP_RATE_VALUE);
+        oxygen_card.configureCard(getContext(),TipoDato.OXYGEN_VALUE);
+        heart_rate_card.configureCard(getContext(),TipoDato.HEART_VALUE);
+        tempeture_card.configureCard(getContext(),TipoDato.TEMP);
+        hr_hrv_card.configureCard(getContext(),TipoDato.HRV_VALUE);
+        hr_cvrr_card.configureCard(getContext(),TipoDato.CVRR_VALUE);
+        sleep_card.configureCard(getContext(),TipoDato.SLEEP);
+
+    }
+    private void healthGetters(View view){
         viewModel.getSportSteps().observe(getViewLifecycleOwner(), steps -> {
             Integer goalSteps = viewModel.getSportGoalSteps().getValue();
             if (goalSteps != null && goalSteps > 0) {
@@ -229,125 +246,106 @@ public class HomeFragment extends Fragment {
             }
         });
         viewModel.getSportCalories().observe(getViewLifecycleOwner(), calories -> {
-            kcal_sport.setText(calories + " Kcal");
+            kcal_sport.setText(calories+"");
         });
         viewModel.getSportDistance().observe(getViewLifecycleOwner(), distance -> {
-            distance_sport.setText((float)distance/1000 + " Km");
+            distance_sport.setText((float)distance/1000 + "");
         });
 
-        //Historial de Salud
+        //Health --
         viewModelH.getHealthBloodPressure().observe(getViewLifecycleOwner(), v -> {
             if(v==null){
-                blood_item.setMainValue("--");
+                blood_card.setValue("--");
             }else{
-                blood_item.setMainValue(v+" ");
+                blood_card.setValue(v);
             }
         });
         viewModelH.getHealthHeart().observe(getViewLifecycleOwner(), v -> {
             if(v==null){
-                heart_rate_item.setMainValue("--");
+                heart_rate_card.setValue("--");
             }else{
-                heart_rate_item.setMainValue(v+" ");
-                heart_rate_item.setMainUnit(getString(R.string.rpm),true);
+                heart_rate_card.setValue(v+" ");
             }
         });
         viewModelH.getHealthRespRate().observe(getViewLifecycleOwner(), resp -> {
             if(resp==null){
-                frec_resp_item.setMainValue("--");
+                frec_resp_card.setValue("--");
             }else{
-                frec_resp_item.setMainValue(resp+" ");
-                frec_resp_item.setMainUnit(getString(R.string.rpm),true);
+                frec_resp_card.setValue(resp+" ");
             }
         });
         viewModelH.getHealthTemp().observe(getViewLifecycleOwner(), v -> {
             if(v == null){
-                tempeture_item.setMainValue("--");
+                tempeture_card.setValue("--");
             }else{
-                tempeture_item.setMainValue(v+" ");
-                tempeture_item.setMainUnit(getString(R.string.celsius),true);
+                tempeture_card.setValue(v+" ");
             }
         });
         viewModelH.getHealthOxygen().observe(getViewLifecycleOwner(), v -> {
             if(v == null){
-                oxygen_item.setMainValue("--");
+                oxygen_card.setValue("--");
             }else{
-                oxygen_item.setMainValue(v+" ");
+                oxygen_card.setValue(v+" ");
             }
             //oxygen_item.setMainUnit(getString(R.string.percent),true);
         });
         viewModelH.getSleepDuration().observe(getViewLifecycleOwner(), v -> {
             if(v == null ) {
-                sleep_item.setMainValue("0");
-                sleep_item.setMainUnit("h ",true);
-                sleep_item.setSecondaryValue("0",true);
-                sleep_item.setSecondaryUnit("m",true);
+                sleep_card.setValue("--");
             }else{
                 long duration = Long.parseLong(v);
                 long hours = duration / 60;
                 long minutes = duration % 60;
-                sleep_item.setMainValue(hours+"");
-                sleep_item.setMainUnit("h ",true);
-                sleep_item.setSecondaryValue(minutes+"",true);
-                sleep_item.setSecondaryUnit("m",true);
+                sleep_card.setValue(hours+"hr "+ minutes + "m");
             }
         });
+        viewModelH.getHealthHRV().observe(getViewLifecycleOwner(), v -> {
+            if(v != null && !v.isEmpty()) {
+                hr_hrv_card.setValue(v);
+            }
+        });
+        viewModelH.getHealthCVVRR().observe(getViewLifecycleOwner(), v -> {
+            if(v != null && !v.isEmpty()) {
+                hr_cvrr_card.setValue(v);
+            }
+        });
+
         viewModelH.getHealthStartTime().observe(getViewLifecycleOwner(), v -> {
             if(v != null && !v.isEmpty()) {
-                String timeStr = getString(R.string.ultima_actualizacion_sin_texto)+": "+v;
-                hora.setText(timeStr);
+                blood_card.setLastUpdate(getContext(),v);
+                oxygen_card.setLastUpdate(getContext(),v);
+                heart_rate_card.setLastUpdate(getContext(),v);
+                tempeture_card.setLastUpdate(getContext(),v);
+                frec_resp_card.setLastUpdate(getContext(),v);
+                hr_hrv_card.setLastUpdate(getContext(),v);
+                hr_cvrr_card.setLastUpdate(getContext(),v);
+                sleep_card.setLastUpdate(getContext(),v);
+
+                String timeStr = setLastUpdateFormatted(v);
+                last_update.setText(getString(R.string.ultima_actualizacion_sin_texto)+" : "+timeStr);
+
             }
         });
-        viewModelH.getHealthHRVCVRR().observe(getViewLifecycleOwner(), v -> {
-            if(v != null && !v.isEmpty()) {
 
-                String hrv = viewModelH.getHealthHRV().toString();
-                String cvrr = viewModelH.getHealthCVVRR().toString();
-
-                hr_hrv_item.setMainValue(hrv+"/"+cvrr);
-
-            }
-        });
-
-        getData();
+        getInitialData();
     }
-    private void getData(){
-
-        //DEPORTES
-        prefs = setPrefs("sport_prefs");
-        int lastgoalSteps = prefs.getInt("sport_goal_steps", 0);
-        int lastSteps = prefs.getInt("sport_steps", 0);
-        int lastCalories = prefs.getInt("sport_calories", 0);
-        int lastDistance = prefs.getInt("sport_distance", 0);
-
-        //Configurar valores al cargar por primera vez la vista
-        viewModel.setSportGoalStep(lastgoalSteps, getContext());
-        viewModel.setSportStep(lastSteps, getContext());
-        viewModel.setSportCalories(lastCalories, getContext());
-        viewModel.setSportDistance(lastDistance, getContext());
-        // Inicia animación del progreso
-        circularProgress.setProgressText(lastSteps);
-        float stepsPct = (lastSteps * 100f / lastgoalSteps);
-        circularProgress.setProgressWithAnimation(stepsPct);
-
-        //ITEMS
-        prefs = setPrefs("health_prefs");
-        String heart = prefs.getString("health_heart",null);
-        String resp = prefs.getString("health_resp",null);
-        String temp = prefs.getString("health_temp",null);
-        String oxy = prefs.getString("health_ox",null);
-        String blood = prefs.getString("health_blood",null);
-        String start = prefs.getString("health_start",null);
-        String sleep = prefs.getString("sleep_duration",null);
-
-        viewModelH.sethealthRespRate(resp, getContext());
-        viewModelH.sethealthHeart(heart, getContext());
-        viewModelH.sethealthTemp(temp, getContext());
-        viewModelH.sethealthOxygen(oxy, getContext());
-        viewModelH.setHealthBloodPressure(blood, getContext());
-        viewModelH.setHealthStartTime(start, getContext());
-        viewModelH.setSleepDuration(sleep, getContext());
+    private void getInitialData(){
+        setSportInitialParams(getContext());
+        setHealthInitialParams(getContext());
     }
-    *//**
+    public String setLastUpdateFormatted(String timestamp) {
+        try {
+            // Intentar parsear como timestamp long
+            long timestampLong = Long.parseLong(timestamp);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mma", Locale.getDefault());
+            return sdf.format(new Date(timestampLong));
+        }
+        catch (NumberFormatException e) {
+            return timestamp; // Devolver el string original
+        }
+    }
+
+    /**
      *YCBT
      **/
     //Iniciar el Cliente
@@ -367,7 +365,7 @@ public class HomeFragment extends Fragment {
     //Obtener Datos del Reloj
     private void getHealthData(){
         resetQueue();
-        healthMonitoringFun(1,false);
+        //healthMonitoringFun(1,false);
 
         //Método para obtener el historial de sueño
         healthHistoryData(
@@ -604,25 +602,26 @@ public class HomeFragment extends Fragment {
                                 int bffValue =              (int) getValue("bodyFatIntValue", r);
                                 int bloodsValue =           (int) getValue("bloodSugarValue", r);
                                 int tempIntValue =          (int) getValue("tempIntValue", r);
-                                    if(tempIntValue == 0) tempIntValue = 35;
+                                if(tempIntValue == 0) tempIntValue = 35;
                                 int tempFloatValue =        (int) getValue("tempFloatValue", r);
-                                    if(tempFloatValue == 0) tempFloatValue = 35;
+                                if(tempFloatValue == 0) tempFloatValue = 35;
                                 long startTime =            (long) getValue("startTime", r);
                                 String startTimeStr = new SimpleDateFormat("hh:mm:ss a", Locale.getDefault()).format(startTime);
 
-                                viewModelH.sethealthHeart(""+heartValue, getContext());
-                                viewModelH.sethealthHRV(""+hrvValue, getContext());
-                                viewModelH.sethealthCVVRR(""+cvrrValue, getContext());
-                                viewModelH.sethealthStep(""+stepValue, getContext());
-                                viewModelH.sethealthOxygen(""+ OOValue, getContext());
 
-                                viewModelH.setHealthBloodPressure(SBPValue+"/"+DBPValue, getContext());
+                                //Actualizar Health --
+                                if(heartValue > 0) viewModelH.sethealthHeart(""+heartValue, getContext());//*
+                                if(hrvValue > 0)   viewModelH.sethealthHRV(""+hrvValue, getContext());//*
+                                if(cvrrValue > 0)  viewModelH.sethealthCVVRR(""+cvrrValue, getContext());//*
+                                if(stepValue > 0)  viewModelH.sethealthStep(""+stepValue, getContext());//*
+                                if(OOValue > 0)    viewModelH.sethealthOxygen(""+ OOValue, getContext());//*
+                                if(tempIntValue > 0)   viewModelH.sethealthTemp(tempIntValue+"."+tempFloatValue, getContext());//*
+                                if(DBPValue > 0)   viewModelH.sethealthDBP(""+DBPValue, getContext());
+                                if(SBPValue > 0)   viewModelH.sethealthSBP(""+SBPValue, getContext());
+                                if(rrrValue > 0)   viewModelH.sethealthRespRate(""+rrrValue, getContext());
 
-
-                                viewModelH.sethealthRespRate(""+DBPValue, getContext());
-                                viewModelH.sethealthBody(bfiValue+"."+bffValue, getContext());
-                                viewModelH.sethealthTemp(tempIntValue+"."+tempFloatValue, getContext());
-                                viewModelH.setHealthStartTime(startTimeStr, getContext());
+                                if(bfiValue > 0)   viewModelH.sethealthBody(bfiValue+"."+bffValue, getContext());
+                                viewModelH.setHealthStartTime(String.valueOf(startTime), getContext());
 
                                 HistoryData reg = new HistoryData(
                                         heartValue      ,
@@ -676,19 +675,19 @@ public class HomeFragment extends Fragment {
                     public void onDataResponse(int code, float value, HashMap data) {
                         //Log.d("HISTORIAL", "appRealSportFromDevice" +"| code: "+code+" | data: "+ data);
                         appRegisterRealDataCallBack(new BleRealDataResponse() {
-                                @Override
-                                public void onRealDataResponse(int i, HashMap hashMap) {
-                                    Log.d("appRealSport", "hashMap: " + hashMap );
-                                    if (hashMap != null && !hashMap.isEmpty()) {
-                                        /*int sportStep = getSportValue(hashMap,"sportStep");                  //step count
-                                        int sportDistance = getSportValue(hashMap,"sportDistance");     //distance
-                                        int sportCalorie = getSportValue(hashMap,"sportCalorie");       //calories
-                                        viewModel.setSportStep(sportStep, getContext());
-                                        viewModel.setSportDistance(sportDistance, getContext());
-                                        viewModel.setSportCalories(sportCalorie, getContext());*/
-                                    }
-                                }
-                            }
+                                                        @Override
+                                                        public void onRealDataResponse(int i, HashMap hashMap) {
+                                                            Log.d("appRealSport", "hashMap: " + hashMap );
+                                                            if (hashMap != null && !hashMap.isEmpty()) {
+                                                                int sportStep = getSportValue(hashMap,"sportStep");                  //step count
+                                                                int sportDistance = getSportValue(hashMap,"sportDistance");     //distance
+                                                                int sportCalorie = getSportValue(hashMap,"sportCalorie");       //calories
+                                                                viewModel.setSportStep(sportStep, getContext());
+                                                                viewModel.setSportDistance(sportDistance, getContext());
+                                                                viewModel.setSportCalories(sportCalorie, getContext());
+                                                            }
+                                                        }
+                                                    }
                         );
                     }
                 }
@@ -718,6 +717,7 @@ public class HomeFragment extends Fragment {
                                         int bloodDBP = getHealthValue(hashMap,"bloodDBP");
                                         //Log.d("HISTORIAL_Real_UploadHeart", "heart: " + heart);
                                         //HACE FALTA MANDAR A LA VISTA ESTOS VALORES
+                                        //Nota: solo si el método anterior no funciona
                                     }
                                 }
                                 if(code == Real_UploadSport){
@@ -733,9 +733,9 @@ public class HomeFragment extends Fragment {
                                         //viewModel.setSportCalories(sportCalorie, getContext());
                                     }
                                 }
-    }});
-        }
-        }
+                            }});
+                    }
+                }
         );
         //resetQueue();
         //Los datos no se borran, hasta que se llene la memoria del disposivio
@@ -790,13 +790,6 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
-    //** AUXILIARES*//
-    //------------------------------------------------------------------------------------------------
-    //** 🥅 ATAJOS */
-    private void startActivityFun(Class activityClass){
-        Intent intent = new Intent(requireActivity(), activityClass);
-        startActivity(intent);
-    }
     private boolean updateFunctions() {
         if(connectState() != Constants.BLEState.ReadWriteOK) return false;
         prefs = setPrefs("health_prefs");
@@ -809,54 +802,7 @@ public class HomeFragment extends Fragment {
     private SharedPreferences setPrefs(String prefsName) {
         return requireContext().getSharedPreferences(prefsName, Context.MODE_PRIVATE);
     }
-    private void mostarLog(String msg){
-        Log.d("HISTORIAL", msg);
-    }/*
-    *//** 🖼️ UI *//*
-    //Configurar Boton de actualizar
 
-    //Configurar Items con los Valores de Salud
-    private void setHealthValue(String healthName, String defaultString, HealthItemView healthItemView,String unit){
-        prefs = setPrefs("healthValuesHome");
-        String lastHealthValue = prefs.getString(healthName, "");
-        Log.d("HISTORIAL", healthName+" (set): "+lastHealthValue);
-
-        String healthText;
-        //Si esta vacio, se establece el patrón
-        if (lastHealthValue.isEmpty()) {
-            healthText = defaultString +" "+unit;
-        }
-        //Sino, se establece el último valor
-        else {
-            healthText = lastHealthValue +" "+unit;
-        }
-        healthItemView.setTime(healthText);
-    }
-    *//** 🔒 VALIDACIONES *//*
-    *//** 🌊 BLUETOOTH *//*
-    *//*private void connectToDevice() {
-        SharedPreferences prefs = setPrefs("BLE_PREFS");
-        String mac = prefs.getString("LAST_MAC", null);
-        String state = prefs.getString("LAST_STATE", null);
-        connectBle(mac, new BleConnectResponse() {
-            @Override
-            public void onConnectResponse(int code) {
-                Log.d("BLE_SCAN", "Conexión código: " + code);
-            }
-        });
-    }*//*
-    *//** 🎲 DATA */
-    private void updateHistoryData(HistoryData reg){
-        Date date = new Date(reg.timestamp);
-        Log.d("HISTORIAL_FECHA", String.valueOf(date));
-        String timeStr = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date);
-        //hora.setText(getString(R.string.ultima_actualizacion_sin_texto)+": "+timeStr);
-        /*blood_item.setTime(reg.systolicValue+"/"+reg.diastolicValue+" mmHg");
-        heart_rate_item.setTime(""+reg.heartValue+" lpm");
-        frec_resp_item.setTime(""+reg.respRateValue+" rpm");
-        tempeture_item.setTime(reg.tempIntValue+"."+reg.tempFloatValue+" °C");
-        oxygen_item.setTime(""+reg.oxygenValue+" %");*/
-    }
     //Obtener datos del HashMap
     private int getHealthValue(HashMap hashMap, String healthName){
         int healthValue = 0;
@@ -884,14 +830,14 @@ public class HomeFragment extends Fragment {
         return sportValue;
     }
     private void updateProgress(int steps, int goalSteps) {
-        goalSteps_sport.setText(String.valueOf(goalSteps));
+        goalSteps_sport.setText(getString(R.string.de)+" " + goalSteps +" "+ getString(R.string.pasos));
+        steps_sport.setText(""+steps);
         float stepsPct = (steps * 100f / goalSteps);
         circularProgress.setProgressWithAnimation(stepsPct);
-        circularProgress.setProgressText(steps);
     }/*
     //--------------------------------------------------------------------------
     *//** DESARROLLO
-    * *//*
+     * *//*
     // Método para probar desde un botón
     private void testWorker(View view) {
         workManager = WorkManager.getInstance(requireContext());

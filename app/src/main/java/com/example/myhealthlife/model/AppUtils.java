@@ -538,7 +538,7 @@ public class AppUtils {
 
         // Crear el dataset
         LineDataSet dataSet = new LineDataSet(entries, parametro);
-        int primaryColor = getColor(activity, R.color.colorPrimary);
+        int primaryColor = getColor(activity, R.color.accent);
 
         // Estilo de línea
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
@@ -620,8 +620,10 @@ public class AppUtils {
 
         float min = Float.MAX_VALUE;
         for (DataPoint point : dataPoints) {
-            if (point.getValue() < min) {
+            if (point.getValue() < min && point.getValue() > 0) {
                 min = point.getValue();
+                Log.d("TEST","MINIMO: "+point.getValue()+"\n"
+                                    +  "TIEMPO: "+point.getTimestamp());
             }
         }
         return min;
@@ -646,13 +648,40 @@ public class AppUtils {
     }
     private static float getAverage(Activity activity, TipoDato param, String intervalo) {
         String parametro = paramStr(param);
-        //Obtener los datapoints
+        // Obtener los datapoints
         ArrayList<HistoryData> listaRecuperada = PrefsHelper.obtenerHistorial(activity);
         ArrayList<DataPoint> lista = prepararDatosGrafico(listaRecuperada, parametro, intervalo);
 
         float sum = 0;
-        for (DataPoint v : lista) sum += v.getValue();
-        return lista.isEmpty() ? 0 : sum / lista.size();
+        int count = 0; // Contador de valores no cero
+
+        for (DataPoint v : lista) {
+            float value = v.getValue();
+            // Descartar valores en 0 (o muy cercanos a 0)
+            if (value != 0.0f) {
+                sum += value;
+                count++;
+            }
+        }
+
+        // Si no hay valores no-cero, retornar 0
+        return count == 0 ? 0 : sum / count;
+    }
+    private static String getActual(Activity activity, TipoDato param) {
+        String parametro = paramStr(param);
+        //Obtener los datapoints
+        ArrayList<HistoryData> listaRecuperada = PrefsHelper.obtenerHistorial(activity);
+        HistoryData lista = listaRecuperada.get(listaRecuperada.size()-1);
+
+
+        String valTxt = "--";
+
+        float dato = obtenerValorParametro(lista,parametro);
+        if(dato > 1){
+            valTxt = String.valueOf(dato);
+        }
+
+        return valTxt;
     }
     public static void setDashboardParam(Activity activity, TipoDato param, String intervalo){
         float avg = getAverage(activity,param,intervalo);
@@ -672,9 +701,9 @@ public class AppUtils {
         String minTxt = String.valueOf(min);
 
         if(param != TipoDato.TEMP){
-            avgTxt = String.valueOf((int) avg);
-            maxTxt = String.valueOf((int) max);
-            minTxt = String.valueOf((int) min);
+            avgTxt = Float.isNaN(avg) ? "" : String.valueOf((int) avg);
+            maxTxt = Float.isNaN(max) ? "" : String.valueOf((int) max);
+            minTxt = Float.isNaN(min) ? "" : String.valueOf((int) min);
         }
 
         average.setText(avgTxt);
@@ -732,22 +761,29 @@ public class AppUtils {
 
     public static void setParam(Activity activity, TipoDato param, String title, String u) {
         TabManager tabManager = new TabManager(
-                getColor(activity, R.color.colorPrimary),
-                getColor(activity, R.color.gray)
+                getColor(activity, R.color.white),
+                getColor(activity, R.color.gray),
+                getColor(activity, R.color.active_temp),
+                getColor(activity, R.color.white)
         );
         // Configurar tabs
-        tabManager.addTab(activity.findViewById(R.id.tabDay), getString(activity, R.string.day));
-        tabManager.addTab(activity.findViewById(R.id.tabWeek), getString(activity, R.string.week));
-        tabManager.addTab(activity.findViewById(R.id.tabMonth), getString(activity, R.string.month));
+        tabManager.addTab(activity.findViewById(R.id.tabDay), getString(activity, R.string.diario));
+        tabManager.addTab(activity.findViewById(R.id.tabWeek), getString(activity, R.string.semanal));
+        tabManager.addTab(activity.findViewById(R.id.tabMonth), getString(activity, R.string.mensual));
         LinearLayout tabDay = activity.findViewById(R.id.tabDay);
         LinearLayout tabWeek = activity.findViewById(R.id.tabWeek);
         LinearLayout tabMonth = activity.findViewById(R.id.tabMonth);
         TextView titulo = activity.findViewById(R.id.TITLE);
+        TextView datoActual = activity.findViewById(R.id.datoActual);
+        TextView unidad = activity.findViewById(R.id.unidad);
 
         titulo.setText(title);
         ImageView back = activity.findViewById(R.id.backTop);
         ImageView rightIcon = activity.findViewById(R.id.connect_device);
         rightIcon.setVisibility(INVISIBLE);
+
+        datoActual.setText(getActual(activity,param));
+        unidad.setText(u);
 
         back.setImageResource(R.drawable.keyboard_arrow_left);
         back.setOnClickListener(v->{

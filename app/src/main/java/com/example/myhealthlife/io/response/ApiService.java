@@ -16,15 +16,15 @@ import retrofit2.http.POST;
 
 public interface ApiService {
     @POST("auth/login") // Ruta de tu endpoint (ej: "auth/login")
-    @Headers("Content-Type: application/json") // Fuerza el encabezado JSON
+    @Headers("Content-Type: application/json")
     Call<LoginResponse> loginUser(@Body LoginRequest loginRequest); // @Body = JSON
 
     @POST("auth/signup")
-    @Headers("Content-Type: application/json") // Fuerza el encabezado JSON
+    @Headers("Content-Type: application/json")
     Call<RegisterResponse> registerUser(@Body RegisterRequest registerRequest);
 
     @POST("datosmedicos")
-    @Headers("Content-Type: application/json") // Fuerza el encabezado JSON
+    @Headers("Content-Type: application/json")
     Call<ResponseBody> agregarHistorial(@Body HistorySendData registro);
 
     @GET("users")

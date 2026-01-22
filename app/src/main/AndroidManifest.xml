@@ -78,6 +78,8 @@
         <activity android:name=".activities.BloodPressureActivity" />
         <activity android:name=".activities.TemperatureLogActivity" />
         <activity android:name=".activities.OxygenLogActivity" />
+        <activity android:name=".activities.HRVLogActivity" />
+        <activity android:name=".activities.CVRLogActivity" />
     </application>
 
 </manifest>

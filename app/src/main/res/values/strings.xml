@@ -48,6 +48,8 @@
     <string name="frecuencia_respiratoria">Frecuencia Respiratoria</string>
     <string name="temperatura_corporal">Temperatura Corporal</string>
     <string name="saturacion_oxigeno">Oxígeno</string>
+    <string name="hrv" translatable="false">HRV</string>
+    <string name="cvrr" translatable="false">CVRR</string>
     <string name="home_por_favor_espera">Por favor espera un minuto</string>
     <string name="home_por_favor_conecte">Por favor, conecte el dispositivo</string>
     <string name="home_actualizando">Actualizando...</string>
@@ -181,8 +183,9 @@ Para todo lo relacionado con la interpretación y cumplimiento de los presentes 
     <string name="no_hay_datos_disponibles">No hay datos disponibles</string>
 
 
+    <string name="hoy">Hoy</string>
     <string name="selecciona_tu_pais">Selecciona tu país</string>
-    <string name="pasos">Pasos</string>
+    <string name="pasos">pasos</string>
     <string name="metaPasos">Meta de Pasos</string>
     <string name="steps_por_favor_ingresa_un_numero">Ingresa una meta de pasos.</string>
     <string name="cambiar_pais">Cambiar país</string>
@@ -217,9 +220,9 @@ Para todo lo relacionado con la interpretación y cumplimiento de los presentes 
     <string name="month">Month</string>
     <string name="week">Week</string>
     <string name="day">Day</string>
-    <string name="average">average</string>
-    <string name="highest">highest</string>
-    <string name="lowset">lowset</string>
+    <string name="average">Promedio</string>
+    <string name="highest">Máxima</string>
+    <string name="lowset">Mínima</string>
     <string name="ms">ms</string>
     <string name="percent">%</string>
     <string name="mmhg">mmHg</string>
@@ -227,6 +230,7 @@ Para todo lo relacionado con la interpretación y cumplimiento de los presentes 
     <string name="mgdl">mg/dL</string>
     <string name="celsius">°C</string>
     <string name="mi_equipo">Mi Equipo</string>
+    <string name="hola_mundo">Hola mundo</string>
     <string name="dormir">Dormir</string>
     <string name="informacion_personal">Información Personal</string>
     <string name="altura">Altura</string>
@@ -268,5 +272,22 @@ Para todo lo relacionado con la interpretación y cumplimiento de los presentes 
     <string name="todos_los_datos">Todos los datos están actualizados</string>
     <string name="continuar">Continuar</string>
     <string name="lista_dispositivos">Lista de Dispositivos</string>
+    <string name="buscando_dispositvos">Buscando dispositvos...</string>
+    <string name="optima">Óptima</string>
+    <string name="diario">Diario</string>
+    <string name="semanal">Semanal</string>
+    <string name="mensual">Mensual</string>
+    <string name="de">de</string>
+
+
+    <!-- Tiempo relativo -->
+    <string name="now">Ahora</string>
+    <string name="just_now">Ahora mismo</string>
+    <string name="minutes_ago">Hace %d min</string>
+    <string name="one_hour_ago">Hace 1 hr</string>
+    <string name="hours_ago">Hace %d hr</string>
+    <string name="more_than_one_hour_ago">Hace >1 hr</string>
+
+    <string name="modulos_monitoreo_salud">Módulos de Monitoreo de Salud</string>
 
 </resources>
