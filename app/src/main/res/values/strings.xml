@@ -74,12 +74,50 @@
     <string name="health_diagnostico_no_diponible">Diagnóstico no disponible. Por favor espera al siguiente monitoreo</string>
     <string name="health_no_tienes_app_pdf">No tienes ninguna app para abrir PDFs</string>
 
+    <string name="cuidado_health">Cuidado</string>
+    <string name="bienestar_diario">Tu bienestar diario</string>
+    <string name="estado_salud">Estado de salud</string>
+    <string name="actualizado">Actualizado hace 5 min</string>
+    <string name="bueno">Bueno</string>
+    <string name="tendencia">Tendencia</string>
+    <string name="positiva">Positiva</string>
+    <string name="mejorando_semana">Mejorando esta semana</string>
+    <string name="chequeos">Chequeos</string>
+    <string name="completados_esta_semana">completados esta semana</string>
+    <string name="consejos_dia">Consejos del día</string>
+    <string name="mantente_hidratado">Mantente hidratado</string>
+    <string name="recuerda_beber">Recuerda beber al menos 8 vasos de agua al día para mantener tu cuerpo funcionando correctamente.</string>
+    <string name="ejercicio_regular">Ejercicio regular</string>
+    <string name="minutos_actividad">30 minutos de actividad moderada al día pueden mejorar significativamente tu salud cardiovascular.</string>
+    <string name="alertas_recientes">Alertas recientes</string>
+    <string name="tu_presion_arterial">Tu presión arterial ha sido estable esta semana</string>
+    <string name="hace_horas">Hace 2h</string>
+    <string name="recuerda_medir">Recuerda medir tu glucosa después del almuerzo</string>
+
     <!--Profile Fragment-->
     <string name="modificar_monitoreo">Modificar Monitoreo</string>
     <string name="modificar_peso_altura">Modificar Peso y Altura</string>
     <string name="conectar_dispositivo">Conectar Dispositivo</string>
     <string name="cambiar_idioma">Cambiar Idioma</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
+    
+    <string name="edad">32 años</string>
+    <string name="status">Premium</string>
+    <string name="conexion">Reloj conectado</string>
+    <string name="dias">Días activos</string>
+    <string name="mediciones">Mediciones</string>
+    <string name="logros">Logros</string>
+    <string name="mi_dispositivo">Mi dispositivo</string>
+    <string name="configurar_reloj">Configurar reloj</string>
+    <string name="configuraciones">Configuraciones</string>
+    <string name="historial_registros">Historial</string>
+    <string name="ver_registros">Ver registros</string>
+    <string name="notificaciones">Notificaciones</string>
+    <string name="recordatorios">Alertas y recordatorios</string>
+    <string name="privacidad">Privacidad</string>
+    <string name="permisos">Permisos y datos</string>
+    <string name="ayuda">Ayuda</string>
+    <string name="soporte">Centro de soporte</string>
 
     <!--Monitoring Dialog-->
     <string name="intervalo_monitoreo">Minutos del intervalo del monitoreo</string>
