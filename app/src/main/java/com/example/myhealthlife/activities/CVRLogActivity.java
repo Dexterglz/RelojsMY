@@ -1,13 +1,13 @@
 package com.example.myhealthlife.activities;
 
-import static com.example.myhealthlife.model.AppUtils.setParam;
+import static com.example.myhealthlife.domain.util.AppUtils.setParam;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myhealthlife.R;
-import com.example.myhealthlife.model.TipoDato;
+import com.example.myhealthlife.domain.model.TipoDato;
 
 public class CVRLogActivity extends AppCompatActivity {
     @Override

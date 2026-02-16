@@ -100,7 +100,7 @@
     <string name="conectar_dispositivo">Conectar Dispositivo</string>
     <string name="cambiar_idioma">Cambiar Idioma</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
-    
+
     <string name="edad">32 años</string>
     <string name="status">Premium</string>
     <string name="conexion">Reloj conectado</string>
@@ -298,7 +298,6 @@ Para todo lo relacionado con la interpretación y cumplimiento de los presentes 
     <string name="el_dmv_id_no_coincide_nombres">El DMV ID no coincide con los nombres</string>
     <string name="el_dmv_id_no_coincide_fecha">El DMV ID no coincide con la fecha de nacimiento</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="inbox">Bandeja de Entrada</string>
     <string name="spo2">SpO2</string>
     <string name="dispositivo_desconocido">Dispositivo desconocido</string>
@@ -327,5 +326,83 @@ Para todo lo relacionado con la interpretación y cumplimiento de los presentes 
     <string name="more_than_one_hour_ago">Hace >1 hr</string>
 
     <string name="modulos_monitoreo_salud">Módulos de Monitoreo de Salud</string>
+    <string name="blood_sugar">Glucosa</string>
+    <string name="ecg">Electrocardiograma</string>
+
+    <!--  ***** ELECTROCARDIOGRAMA **** -->
+
+    <!--Pop up progress bar-->
+    <string name="prompt">prompt</string>
+    <string name="ecg_sync_data">Sincronizando, por favor espera&#8230;</string>
+    <string name="ecg_sync_data_failed">Sincronización fallida</string>
+    <string name="ecg_sync_data_success">Sincronización exitosa</string>
+
+    <string name="ecg_header_title">Gain: 10mm/mv Speed: 25mm/s Lead I</string>
+    <string name="login_user_name">username</string>
+    <string name="function_heart">heart rate</string>
+    <string name="function_bp">blood pressure</string>
+    <string name="age_text">Age</string>
+    <string name="sex_text">Gender</string>
+    <string name="man_text">Male</string>
+    <string name="woman_text">Female</string>
+
+    <!--ECG measurement page title-->
+    <string name="ecg_measure_title">Medida de Electrocardiograma</string>
+    <!--ECG measurement page bpm data-->
+    <string name="ecg_measure_bpm_text">--</string>
+    <!--ECG measurement page bpm unit-->
+    <string name="ecg_measure_bpm_unit">bpm</string>
+    <!--ECG measurement page mmHg data-->
+    <string name="ecg_measure_mmhg_text">--/--</string>
+    <!--ECG measurement page mmHg unit-->
+    <string name="ecg_measure_mmhg_unit">mmHg</string>
+    <!--ECG measurement page HRV data-->
+    <string name="ecg_measure_hrv_text">--</string>
+    <!--ECG measurement page HRV unit-->
+    <string name="ecg_measure_hrv_unit">HRV</string>
+    <!--ECG measurement page electrode contact is good-->
+    <string name="ecg_measure_electric_on">Electrodo tocados correctamente</string>
+    <!--ECG measurement page Electrodes fall off-->
+    <string name="ecg_measure_electric_off">Electrodo sin contacto</string>
+    <!--ECG measurement page start-->
+    <string name="ecg_measure_start">Iniciar</string>
+    <!--ECG measurement page complete-->
+    <string name="ecg_measure_finish">Completado</string>
+    <!--ECG measurement page progress bar progress-->
+    <string name="ecg_measure_progress_text">0%</string>
+
+    <!--ECG measurement page Dialog dialog_ecg_measur.xml -->
+    <!--ECG measurement page Tips-->
+    <string name="ecg_measure_dialog_hint_text">Consejos de uso</string>
+    <!--ECG measurement page prompts-->
+    <string name="ecg_measure_dialog_marked_words_text">Por favor usa correctamente tu dispositivo de tal manera que tu piel haga contacto, y uno de tus dedos toque la placa de metal correctamente</string>
+    <!--ECG measurement page Confirmation-->
+    <string name="ecg_measure_dialog_confirm_text">Confirmar</string>
+
+    <!--ECG measurement page Dialog-->
+    <string name="ecg_measure_dialog_message">¿Finalizar la medición de ECG?</string>
+    <string name="ecg_measure_dialog_message_low_time">El tiempo de medición es demasiado corto, no se registrarán datos. ¿Desea finalizar?</string>
+    <string name="ecg_measure_dialog_title">Aviso</string>
+
+    <!--Diálogo personalizado common_dialog_layout.xml-->
+    <string name="common_dialog_tv_title">Alerta de mensaje</string>
+    <string name="common_dialog_tv_message">Mensaje de aviso mensaje de aviso mensaje de aviso mensaje de aviso mensaje de aviso mensaje de aviso mensaje de aviso</string>
+    <string name="common_dialog_cancel">Cancelar</string>
+    <string name="common_dialog_confirm">Aceptar</string>
+
+    <string name="dial_is_installing">Instalando…</string>
+    <string name="In_sync">Sincronizando</string>
+    <string name="electrocardiogram">Registro de ECG</string>
+    <string name="blood_pressure">Presión arterial</string>
+    <string name="heart">Frecuencia cardíaca</string>
+    <string name="save_success">Guardado exitoso</string>
+    <string name="save_failed">Error al guardar</string>
+    <string name="updating">Actualizando…</string>
+    <string name="grasa">Grasa en Sangre</string>
+    <string name="uric_acid">Ácido Úrico</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="share">Compartir</string>
+    <string name="loading">Cargando</string>
 
 </resources>

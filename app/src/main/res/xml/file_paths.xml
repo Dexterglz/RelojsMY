@@ -14,4 +14,5 @@
         name="external_storage"
         path="." />
     <cache-path name="cache_files" path="."/>
+    <cache-path name="images" path="images/" />
 </paths>

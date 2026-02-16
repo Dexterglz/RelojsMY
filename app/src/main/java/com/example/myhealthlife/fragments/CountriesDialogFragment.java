@@ -15,7 +15,7 @@ import android.widget.Spinner;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.myhealthlife.R;
-import com.example.myhealthlife.model.LocaleHelper;
+import com.example.myhealthlife.domain.LocaleHelper;
 
 public class CountriesDialogFragment extends DialogFragment {
 

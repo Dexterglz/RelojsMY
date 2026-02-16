@@ -1,42 +1,31 @@
 
 package com.example.myhealthlife.activities;
 
-import static com.example.myhealthlife.model.AppUtils.filtrarPorPeriodo;
-import static com.example.myhealthlife.model.AppUtils.graficarDatosMedicos;
+import static com.example.myhealthlife.domain.util.AppUtils.filtrarPorPeriodo;
+import static com.example.myhealthlife.domain.util.AppUtils.graficarDatosMedicos;
 
-import static com.example.myhealthlife.model.PrefsHelper.obtenerHistorial;
-import static com.example.myhealthlife.model.TablaGlucemiaHelper.setGlucosaTabla;
-import static com.example.myhealthlife.model.TimestampManager.agregarTimestamp;
-
-import static java.security.AccessController.getContext;
+import static com.example.myhealthlife.domain.PrefsHelper.obtenerHistorial;
+import static com.example.myhealthlife.domain.TablaGlucemiaHelper.setGlucosaTabla;
+import static com.example.myhealthlife.domain.TimestampManager.agregarTimestamp;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.pdf.PdfDocument;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 import com.example.myhealthlife.R;
 
@@ -46,35 +35,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import com.example.myhealthlife.io.response.ApiClient;
-import com.example.myhealthlife.io.response.ApiService;
-import com.example.myhealthlife.io.response.PatientResponse;
-import com.example.myhealthlife.model.AppUtils;
-import com.example.myhealthlife.model.HistoryData;
-import com.example.myhealthlife.model.LoginRequest;
-import com.example.myhealthlife.model.LoginResponse;
-import com.example.myhealthlife.model.PrefsHelper;
-import com.example.myhealthlife.model.TablaGlucemiaHelper;
-import com.example.myhealthlife.model.TipoDato;
-import com.example.myhealthlife.model.Usuario;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-
-import retrofit2.Call;
-import retrofit2.Callback;
+import com.example.myhealthlife.domain.HistoryData;
+import com.example.myhealthlife.domain.model.TipoDato;
 
 public class DiagnosisResultsActivity extends AppCompatActivity {
     public SharedPreferences prefs;

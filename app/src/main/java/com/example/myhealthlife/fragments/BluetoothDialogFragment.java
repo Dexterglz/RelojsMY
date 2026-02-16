@@ -1,10 +1,8 @@
 package com.example.myhealthlife.fragments;
 
-import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-import static com.example.myhealthlife.model.DeviceAdapter.setDeviceImage;
 import static com.yucheng.ycbtsdk.YCBTClient.disconnectBle;
 import static com.yucheng.ycbtsdk.YCBTClient.getBindDeviceName;
 import static com.yucheng.ycbtsdk.YCBTClient.getDeviceBatteryValue;
@@ -12,17 +10,13 @@ import static com.yucheng.ycbtsdk.YCBTClient.getDeviceBatteryValue;
 import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,12 +32,12 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myhealthlife.R;
-import com.example.myhealthlife.model.AppBleManager;
-import com.example.myhealthlife.model.BleManager;
-import com.example.myhealthlife.model.BluetoothDevice;
-import com.example.myhealthlife.model.DeviceAdapter;
-import com.example.myhealthlife.model.SportViewModel;
-import com.example.myhealthlife.util.ToastUtil;
+import com.example.myhealthlife.domain.AppBleManager;
+import com.example.myhealthlife.domain.BleManager;
+import com.example.myhealthlife.domain.BluetoothDevice;
+import com.example.myhealthlife.domain.DeviceAdapter;
+import com.example.myhealthlife.domain.DeviceViewModel;
+import com.example.myhealthlife.domain.NotificationHelper;
 import com.yucheng.ycbtsdk.Constants;
 import com.yucheng.ycbtsdk.bean.ScanDeviceBean;
 
@@ -54,7 +48,6 @@ public class BluetoothDialogFragment extends DialogFragment {
 
     private EditText inputGoalSteps;
     private RadioGroup radioGroupGender;
-    private SportViewModel viewModel;
     private ListView listView;
     private DeviceAdapter adapter;
     private List<BluetoothDevice> devices;
@@ -354,6 +347,11 @@ public class BluetoothDialogFragment extends DialogFragment {
     private void setMyEquipmentContent(){
         String name = getBindDeviceName();
         String battery = String.valueOf(getDeviceBatteryValue());
+
+        //primera evaluacion
+        DeviceViewModel vmDevices = new ViewModelProvider(this).get(DeviceViewModel.class);
+        vmDevices.refreshBattery();
+        NotificationHelper.showLowBatteryNotification(getContext(), getDeviceBatteryValue());
 
         DeviceAdapter.setDeviceImage(image_device,name);
 

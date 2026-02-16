@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/tabContainer"
+    android:id="@+id/root"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -9,10 +9,12 @@
         android:id="@+id/cardTabContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/active_temp"
         android:outlineSpotShadowColor="@color/transparent"
-        android:outlineAmbientShadowColor="@color/transparent">
+        android:outlineAmbientShadowColor="@color/transparent"
+        android:checkable="true"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/card_selector"
+        app:checkedIcon="@color/transparent">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,7 +25,7 @@
                 android:id="@+id/tabText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/tab_text_selector"
                 android:text="Texto"
                 android:textSize="10sp" />
 

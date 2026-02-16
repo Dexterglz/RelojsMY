@@ -831,7 +831,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.example.myhealthlife.model.ButtonPageView
+        <com.example.myhealthlife.domain.ButtonPageView
             android:id="@+id/open_devices_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -839,17 +839,17 @@
             app:buttonText="Mi dispositivo"
             app:iconButtonSrc="@drawable/watch" />
 
-        <com.example.myhealthlife.model.ButtonPageView
+        <com.example.myhealthlife.domain.ButtonPageView
             android:id="@+id/change_monitoring"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:buttonText="Configuraciones"
             app:iconButtonSrc="@drawable/settings">
-        </com.example.myhealthlife.model.ButtonPageView>
+        </com.example.myhealthlife.domain.ButtonPageView>
 
 
-        <com.example.myhealthlife.model.ButtonPageView
+        <com.example.myhealthlife.domain.ButtonPageView
             android:id="@+id/hw_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -857,18 +857,18 @@
             app:buttonText="Historial"
             app:iconButtonSrc="@drawable/history">
 
-        </com.example.myhealthlife.model.ButtonPageView>
+        </com.example.myhealthlife.domain.ButtonPageView>
 
-        <com.example.myhealthlife.model.ButtonPageView
+        <com.example.myhealthlife.domain.ButtonPageView
             android:id="@+id/language"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:buttonText="Lenguaje"
             app:iconButtonSrc="@drawable/language">
 
-        </com.example.myhealthlife.model.ButtonPageView>
+        </com.example.myhealthlife.domain.ButtonPageView>
 
-        <com.example.myhealthlife.model.ButtonPageView
+        <com.example.myhealthlife.domain.ButtonPageView
             android:id="@+id/datos_moviles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -876,7 +876,7 @@
             app:buttonText="Privacidad"
             app:iconButtonSrc="@drawable/shield">
 
-        </com.example.myhealthlife.model.ButtonPageView>
+        </com.example.myhealthlife.domain.ButtonPageView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/LO"

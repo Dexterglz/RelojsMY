@@ -314,7 +314,7 @@ For everything related to the interpretation and compliance with these terms and
     <string name="el_curp_no_coincide_fecha">Invalid Passport or DMV ID format</string>
     <string name="la_contrasena_obligatoria">Password is required</string>
     <string name="contrasena_al_menos">Password must have at least 8 characters</string>
-    <string name="contrata_servicio">Subscribe to the monitoring service to activate it. Subscribe to the monitoring service to activate it. Subscribe to the monitoring service to activate it. </string>
+    <string name="contrata_servicio">Subscribe to the monitoring service to activate it. </string>
     <string name="bpm">bpm</string>
     <string name="month">Month</string>
     <string name="week">Week</string>
@@ -388,6 +388,82 @@ For everything related to the interpretation and compliance with these terms and
     <string name="modulos_monitoreo_salud">Health Monitoring Modules</string>
 
     <string name="hola_mundo">Hello World</string>
+    <string name="blood_sugar">Glucose</string>
+    <string name="ecg">ECG</string>
 
+    <!--  ***** ELECTROCARDIOGRAMA **** -->
+
+    <!--Pop up progress bar-->
+    <string name="prompt">prompt</string>
+    <string name="ecg_sync_data">Syncing, please wait&#8230;</string>
+    <string name="ecg_sync_data_failed">Sync failed</string>
+    <string name="ecg_sync_data_success">Successful synchronization</string>
+
+    <string name="ecg_header_title">Gain: 10mm/mv Speed: 25mm/s Lead I</string>
+    <string name="login_user_name">username</string>
+    <string name="function_heart">heart rate</string>
+    <string name="function_bp">blood pressure</string>
+    <string name="age_text">Age</string>
+    <string name="sex_text">Gender</string>
+    <string name="man_text">Male</string>
+    <string name="woman_text">Female</string>
+
+    <!--ECG measurement page title-->
+    <string name="ecg_measure_title">ECG measurement</string>
+    <!--ECG measurement page bpm data-->
+    <string name="ecg_measure_bpm_text">--</string>
+    <!--ECG measurement page bpm unit-->
+    <string name="ecg_measure_bpm_unit">bpm</string>
+    <!--ECG measurement page mmHg data-->
+    <string name="ecg_measure_mmhg_text">--/--</string>
+    <!--ECG measurement page mmHg unit-->
+    <string name="ecg_measure_mmhg_unit">mmHg</string>
+    <!--ECG measurement page HRV data-->
+    <string name="ecg_measure_hrv_text">--</string>
+    <!--ECG measurement page HRV unit-->
+    <string name="ecg_measure_hrv_unit">HRV</string>
+    <!--ECG measurement page electrode contact is good-->
+    <string name="ecg_measure_electric_on">The electrodes are in good contact</string>
+    <!--ECG measurement page Electrodes fall off-->
+    <string name="ecg_measure_electric_off">Electrode off</string>
+    <!--ECG measurement page start-->
+    <string name="ecg_measure_start">Start</string>
+    <!--ECG measurement page complete-->
+    <string name="ecg_measure_finish">finish</string>
+    <!--ECG measurement page progress bar progress-->
+    <string name="ecg_measure_progress_text">0%</string>
+
+    <!--ECG measurement page Dialog dialog_ecg_measur.xml -->
+    <!--ECG measurement page Tips-->
+    <string name="ecg_measure_dialog_hint_text">Wearing tips</string>
+    <!--ECG measurement page prompts-->
+    <string name="ecg_measure_dialog_marked_words_text">Please wear the bracelet tightly, so that the back metal sheet is close to the skin, and your fingers touch the metal sheet on the bracelet</string>
+    <!--ECG measurement page Confirmation-->
+    <string name="ecg_measure_dialog_confirm_text">Confirm</string>
+
+    <!--ECG measurement page Dialog-->
+    <string name="ecg_measure_dialog_message">Whether to end ECG measurement</string>
+    <string name="ecg_measure_dialog_message_low_time">This measurement time is too short, no data will be recorded, is it over? </string>
+    <string name="ecg_measure_dialog_title">Tips</string>
+
+    <!--Custom Dialog common_dialog_layout.xml-->
+    <string name="common_dialog_tv_title">Message alert</string>
+    <string name="common_dialog_tv_message">Prompt message prompt message prompt message prompt message prompt message prompt message prompt message prompt message</string>
+    <string name="common_dialog_cancel">Cancel</string>
+    <string name="common_dialog_confirm">OK</string>
+
+    <string name="dial_is_installing">Installing&#8230;</string>
+    <string name="In_sync">Syncing</string>
+    <string name="electrocardiogram">ECG recording</string>
+    <string name="blood_pressure">Blood Pressure</string>
+    <string name="heart">Heart Rate</string>
+    <string name="save_success">Save successfully</string>
+    <string name="save_failed">Save failed</string>
+    <string name="updating">Updating&#8230;</string>
+    <string name="grasa">Blood Fat</string>
+    <string name="uric_acid">Uric Acid</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="share">Share</string>
+    <string name="loading">Loading</string>
 
 </resources>

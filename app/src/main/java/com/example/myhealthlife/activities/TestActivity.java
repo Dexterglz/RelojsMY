@@ -1,27 +1,19 @@
 package com.example.myhealthlife.activities;
 
-import static com.example.myhealthlife.model.PrefsHelper.obtenerHistorial;
+import static com.example.myhealthlife.domain.PrefsHelper.obtenerHistorial;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.myhealthlife.R;
 import com.example.myhealthlife.io.response.ApiClient;
 import com.example.myhealthlife.io.response.ApiService;
 import com.example.myhealthlife.io.response.HistorySendData;
-import com.example.myhealthlife.model.HistoryData;
-import com.example.myhealthlife.model.LoginRequest;
-import com.example.myhealthlife.model.LoginResponse;
-import com.example.myhealthlife.model.ResponseBody;
-import com.example.myhealthlife.ui.MainActivity;
+import com.example.myhealthlife.domain.HistoryData;
+import com.example.myhealthlife.domain.ResponseBody;
 
 import java.io.IOException;
 
@@ -36,7 +28,7 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Obtenemos los últimos datos
+        /*//Obtenemos los últimos datos
         HistoryData h = obtenerHistorial(this).get( obtenerHistorial(this).size() - 1 );
         sendData(
                 h.heartValue,
@@ -48,10 +40,10 @@ public class TestActivity extends AppCompatActivity {
                 h.tempIntValue,
                 h.tempFloatValue,
                 h.timestamp
-        );
+        );*/
     }
 
-    public void sendData(
+    /*public void sendData(
             int heartValue,
             int oxygenValue,
             int diastolccValue,
@@ -64,7 +56,7 @@ public class TestActivity extends AppCompatActivity {
     ){
         prefs = getSharedPreferences("MyApp", MODE_PRIVATE);
         String userId = prefs.getString("user_id", "1"); // 1 es valor por defecto si no existe
-        HistorySendData nuevoRegistro = new HistorySendData(
+        *//*HistorySendData nuevoRegistro = new HistorySendData(
                 userId,             // usuarioId
                 heartValue,         // heartValue
                 oxygenValue,        // oxygenValue
@@ -75,7 +67,7 @@ public class TestActivity extends AppCompatActivity {
                 tempIntValue,       // tempIntValue
                 tempFloatValue,     // tempFloatValue
                 timestamp           // timestampValue
-        );
+        );*//*
 
         // Realiza la llamada
 
@@ -103,7 +95,7 @@ public class TestActivity extends AppCompatActivity {
                 Log.e("API", "Fallo en la conexión: " + t.getMessage());
             }
         });
-    }
+    }*/
 
 }
 

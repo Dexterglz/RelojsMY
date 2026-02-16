@@ -62,7 +62,7 @@
             android:name=".activities.HeartRateActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
@@ -80,6 +80,12 @@
         <activity android:name=".activities.OxygenLogActivity" />
         <activity android:name=".activities.HRVLogActivity" />
         <activity android:name=".activities.CVRLogActivity" />
+        <activity android:name=".activities.GlucoseActivity" />
+        <activity android:name=".activities.TrygActivity" />
+        <activity android:name=".ecg.EcgActicvity" />
+        <activity android:name=".ecg.EcgMeasureActivity" />
+        <activity android:name=".ecg.EcgMsgActivity" />
     </application>
+
 
 </manifest>

@@ -1,16 +1,12 @@
 package com.example.myhealthlife.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myhealthlife.R;
-import com.example.myhealthlife.activities.OxygenMainActivity;
-import com.example.myhealthlife.views.CircleProgressView;
+import com.example.myhealthlife.ui.common.view.CircleProgressView;
 import com.yucheng.ycbtsdk.Constants;
 import com.yucheng.ycbtsdk.YCBTClient;
 import com.yucheng.ycbtsdk.response.BleDataResponse;

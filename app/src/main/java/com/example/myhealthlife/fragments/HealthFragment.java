@@ -1,43 +1,26 @@
 package com.example.myhealthlife.fragments;
 
-import static com.example.myhealthlife.model.AppUtils.prepararDatosGrafico;
-import static com.example.myhealthlife.model.PrefsHelper.obtenerHistorial;
-import static com.example.myhealthlife.model.TablaGlucemiaHelper.setGlucosaTabla;
-import static com.example.myhealthlife.model.TimestampManager.contieneTimestamp;
-import static com.example.myhealthlife.model.TimestampManager.obtenerTimestamps;
-
 import static org.apache.commons.lang3.ClassUtils.getPackageName;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myhealthlife.R;
 import com.example.myhealthlife.activities.DiagnosisResultsActivity;
-import com.example.myhealthlife.model.DataPoint;
-import com.example.myhealthlife.model.HistoryData;
-import com.example.myhealthlife.model.TablaGlucemiaHelper;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class HealthFragment extends Fragment {

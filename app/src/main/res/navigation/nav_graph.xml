@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.myhealthlife.ui.home.HomeFragment"
+        android:label="Home">
+
+        <action
+            android:id="@+id/action_homeFragment_to_sleepFragment"
+            app:destination="@id/sleepFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_heartFragment"
+            app:destination="@id/heartFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bloodFragment"
+            app:destination="@id/bloodFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_sugarFragment"
+            app:destination="@id/sugarFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_temoFragment"
+            app:destination="@id/tempetureFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_trigFragment"
+            app:destination="@id/trigFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_uricFragment"
+            app:destination="@id/uricAcidFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sleepFragment"
+        android:name="com.example.myhealthlife.ui.param.SleepFragment"
+        android:label="Sleep" />
+    <fragment
+        android:id="@+id/heartFragment"
+        android:name="com.example.myhealthlife.ui.param.HeartFragment"
+        android:label="Heart" />
+    <fragment
+        android:id="@+id/bloodFragment"
+        android:name="com.example.myhealthlife.ui.param.BloodFragment"
+        android:label="Blood" />
+    <fragment
+        android:id="@+id/sugarFragment"
+        android:name="com.example.myhealthlife.ui.param.SugarFragment"
+        android:label="Sugar" />
+    <fragment
+        android:id="@+id/tempetureFragment"
+        android:name="com.example.myhealthlife.ui.param.TempetureFragment"
+        android:label="Tempeture" />
+    <fragment
+        android:id="@+id/trigFragment"
+        android:name="com.example.myhealthlife.ui.param.TrigFragment"
+        android:label="Fat" />
+    <fragment
+        android:id="@+id/uricAcidFragment"
+        android:name="com.example.myhealthlife.ui.param.UricAcidFragment"
+        android:label="Uric" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.myhealthlife.fragments.ProfileFragment"
+        android:label="Perfil"/>
+    <fragment
+        android:id="@+id/sportFragment"
+        android:name="com.example.myhealthlife.fragments.SportFragment"
+        android:label="Deporte"/>
+    <fragment
+        android:id="@+id/healthFragment"
+        android:name="com.example.myhealthlife.fragments.HealthFragment"
+        android:label="Cuidado"/>
+
+
+</navigation>

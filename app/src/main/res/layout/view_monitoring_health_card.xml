@@ -77,18 +77,20 @@
             </LinearLayout>
             <!--Tiempo-->
             <LinearLayout
+                android:id="@+id/last_card_update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center">
                 <!--Circulo-->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/statusDot"
                     android:layout_width="5dp"
                     android:layout_height="5dp"
-                    app:cardBackgroundColor="@color/green"
-                    app:cardCornerRadius="100dp"
-                    android:outlineSpotShadowColor="@color/transparent"
+                    android:layout_marginLeft="3dp"
                     android:outlineAmbientShadowColor="@color/transparent"
-                    android:layout_marginLeft="3dp"/>
+                    android:outlineSpotShadowColor="@color/transparent"
+                    app:cardBackgroundColor="@color/green"
+                    app:cardCornerRadius="100dp" />
                 <!--Ultimo Tiempo de Actualización-->
                 <TextView
                     android:id="@+id/time"
@@ -96,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text=""
-                    android:textSize="10sp"/>
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </LinearLayout>

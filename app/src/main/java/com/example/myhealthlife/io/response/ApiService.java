@@ -1,11 +1,10 @@
 package com.example.myhealthlife.io.response;
 
-import com.example.myhealthlife.model.HistoryData;
-import com.example.myhealthlife.model.LoginResponse;
-import com.example.myhealthlife.model.LoginRequest;
-import com.example.myhealthlife.model.RegisterRequest;
-import com.example.myhealthlife.model.RegisterResponse;
-import com.example.myhealthlife.model.ResponseBody;
+import com.example.myhealthlife.domain.LoginResponse;
+import com.example.myhealthlife.domain.LoginRequest;
+import com.example.myhealthlife.domain.RegisterRequest;
+import com.example.myhealthlife.domain.RegisterResponse;
+import com.example.myhealthlife.domain.ResponseBody;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -28,6 +27,6 @@ public interface ApiService {
     Call<ResponseBody> agregarHistorial(@Body HistorySendData registro);
 
     @GET("users")
-    Call<PatientContainer> getPatientData(@Header("Authorization") String token);
+    Call<UserResponse> getPatientData(@Header("Authorization") String token);
 
 }

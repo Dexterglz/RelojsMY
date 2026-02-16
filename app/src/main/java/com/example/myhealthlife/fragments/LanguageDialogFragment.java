@@ -1,22 +1,13 @@
 package com.example.myhealthlife.fragments;
 
-import static androidx.core.app.ActivityCompat.recreate;
-import static com.yucheng.ycbtsdk.YCBTClient.settingBloodOxygenModeMonitor;
-import static com.yucheng.ycbtsdk.YCBTClient.settingHeartMonitor;
-import static com.yucheng.ycbtsdk.YCBTClient.settingTemperatureMonitor;
-
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +16,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.myhealthlife.R;
-import com.example.myhealthlife.model.LocaleHelper;
 import com.example.myhealthlife.ui.MainActivity;
-import com.yucheng.ycbtsdk.response.BleDataResponse;
-
-import java.util.HashMap;
-import java.util.Locale;
 
 public class LanguageDialogFragment extends DialogFragment {
 
@@ -95,8 +81,6 @@ public class LanguageDialogFragment extends DialogFragment {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("language", selectedValue);
         editor.apply();
-
-        ((MainActivity) requireActivity()).refreshTabs();
 
         // Reemplaza recreate() por esto
         Intent intent = requireActivity().getIntent();

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myhealthlife.R;
-import com.example.myhealthlife.model.FileBean;
+import com.example.myhealthlife.domain.FileBean;
 
 import java.util.ArrayList;
 import java.util.List;

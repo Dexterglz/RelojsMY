@@ -2,7 +2,7 @@
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/swipeRefreshLayout"
+    android:id="@+id/homeFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -32,16 +32,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <!-- Mensaje de Contratar Servicio -->
-                <TextView
+                <com.example.myhealthlife.views.TickerTextView
                     android:id="@+id/tickerText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:scrollHorizontally="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:padding="5dp"
                     android:textColor="@color/primary"
                     android:textSize="12sp"
@@ -49,13 +43,23 @@
                     android:background="@drawable/bg_card"
                     android:text="@string/contrata_servicio" />
                 <!--Titulo-->
-                <com.example.myhealthlife.model.GradientTextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MHL Vital Sync"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/orbitron_bold"
-                    android:textSize="15sp"/>
+                    android:gravity="start|center">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/app_icon"/>
+                    <com.example.myhealthlife.domain.GradientTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="MHL Vital Sync"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/orbitron_bold"
+                        android:textSize="12sp"/>
+                </LinearLayout>
 
             </LinearLayout>
             <!--Iconos-->
@@ -160,7 +164,7 @@
                             android:layout_height="wrap_content">
 
                             <!-- Círculo de progreso -->
-                            <com.example.myhealthlife.model.AnimatedCircularProgress
+                            <com.example.myhealthlife.domain.common.AnimatedCircularProgress
                                 android:id="@+id/circularProgress"
                                 android:layout_width="90dp"
                                 android:layout_height="90dp"/>
@@ -478,23 +482,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <!--Fila-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <!--Primera Tarjeta-->
-                <com.example.myhealthlife.model.HealthInfoCardView
-                    android:id="@+id/blood_card"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <!--ECG-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/ecg_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <View
                     android:layout_width="15dp"
                     android:layout_height="0dp"/>
-                <!--Frecuencia Respiratoria-->
-                <com.example.myhealthlife.model.HealthInfoCardView
-                    android:id="@+id/frec_resp_card"
+                <!--Sueño-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/sleep_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <!--Fila-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <!--Ritmo Cardiaco-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/heart_rate_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="0dp"/>
+                <!--Presion Arterial-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/blood_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
@@ -504,17 +530,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp">
-                <!--Primera Tarjeta-->
-                <com.example.myhealthlife.model.HealthInfoCardView
-                    android:id="@+id/heart_rate_card"
+                <!--Glucosa-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/sugar_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <View
                     android:layout_width="15dp"
                     android:layout_height="0dp"/>
-                <!--Segunda tarjeta-->
-                <com.example.myhealthlife.model.HealthInfoCardView
+                <!--Temperatura-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
                     android:id="@+id/tempeture_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -525,18 +551,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp">
-                <!--CVRR-->
-                <com.example.myhealthlife.model.HealthInfoCardView
-                    android:id="@+id/hr_cvrr_card"
+                <!--Grasa-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/tryg_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
                 <View
-                android:layout_width="15dp"
-                android:layout_height="0dp"/>
-                <!--HRV-->
-                <com.example.myhealthlife.model.HealthInfoCardView
-                    android:id="@+id/hr_hrv_card"
+                    android:layout_width="15dp"
+                    android:layout_height="0dp"/>
+                <!--Acido Urico-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/acid_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <!--FILAS OCULTAS-->
+            <!--Fila-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:visibility="gone">
+                <!--Oxigeno-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/oxygen_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="0dp"/>
+                <!--Frecuencia Respiratoria-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/frec_resp_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
@@ -545,10 +594,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
-                <!--Sueño-->
-                <com.example.myhealthlife.model.HealthInfoCardView
-                    android:id="@+id/sleep_card"
+                android:layout_marginTop="15dp"
+                android:visibility="gone">
+                <!--HDL-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/hdl_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <View
+                    android:layout_width="15dp"
+                    android:layout_height="0dp"/>
+                <!--LDL-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/ldl_card"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <!--Fila-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:visibility="gone">
+                <!--CVRR-->
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/hr_cvrr_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
@@ -556,14 +628,12 @@
                     android:layout_width="15dp"
                     android:layout_height="0dp"/>
                 <!--HRV-->
-                <com.example.myhealthlife.model.HealthInfoCardView
-                    android:id="@+id/oxygen_card"
+                <com.example.myhealthlife.ui.home.HomeInfoCardView
+                    android:id="@+id/hr_hrv_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
             </LinearLayout>
-
-
         </LinearLayout>
 
     </LinearLayout>
