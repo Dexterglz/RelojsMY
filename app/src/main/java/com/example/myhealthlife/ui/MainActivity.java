@@ -1,70 +1,45 @@
 package com.example.myhealthlife.ui;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.myhealthlife.R;
-import com.example.myhealthlife.activities.DeviceScanActivity;
 import com.example.myhealthlife.domain.util.SessionManager;
-import com.example.myhealthlife.fragments.HealthFragment;
 import com.example.myhealthlife.ui.common.view.TopBarView;
-import com.example.myhealthlife.ui.home.HomeFragment;
-import com.example.myhealthlife.fragments.ProfileFragment;
-import com.example.myhealthlife.fragments.SportFragment;
 import com.example.myhealthlife.domain.BleManager;
 import com.example.myhealthlife.domain.HealthWorker;
 import com.example.myhealthlife.domain.LocaleHelper;
-import com.example.myhealthlife.domain.NetworkOperationManager;
-import com.example.myhealthlife.domain.NetworkRestrictionManager;
-import com.example.myhealthlife.domain.util.NetworkUtils;
 import com.example.myhealthlife.ui.login.LoginActivity;
-import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.yucheng.ycbtsdk.Constants;
 import com.yucheng.ycbtsdk.YCBTClient;
 
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.view.WindowCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
     public Integer savedInterval;
@@ -77,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         String[] languages = {"en", "es"};
         if (languageIndex < 0 || languageIndex >= languages.length) languageIndex = 1;
         String selectedLang = languages[languageIndex];
-        Context context = LocaleHelper.setLocale(newBase, selectedLang);
+        Context context = LocaleHelper.applyLocale(newBase, selectedLang);
         super.attachBaseContext(context);
     }
     @Override
@@ -91,11 +66,20 @@ public class MainActivity extends AppCompatActivity {
         //Navegacion General
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         TopBarView topBar = findViewById(R.id.top_bar);
+
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.nav_host);
+
         NavController navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(bottomNav, navController);
+
+        topBar.setOnBackClick(v -> {
+            if (!navController.navigateUp()) {
+                finish(); // fallback (por si no hay back stack)
+            }
+        });
+
         navController.addOnDestinationChangedListener(
                 (controller, destination, arguments) -> {
                     boolean show = HomeNav.showsTopBar(destination.getId());
@@ -118,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Validaciones de Inicio de Sesion
         loginValidations();
+
+        String lang =
+                prefs.getString("languages", "es");
+
+        LocaleHelper.applyLocale(this, lang);
 
         //Tarea del monitoreo
         //setWorker();

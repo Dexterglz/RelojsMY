@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.myhealthlife.data.local.db.AppDatabase;
-import com.example.myhealthlife.repository.SyncRepository;
+import com.example.myhealthlife.data.local.repository.SyncRepository;
 
 import org.jspecify.annotations.NonNull;
 

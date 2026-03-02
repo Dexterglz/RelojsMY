@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.myhealthlife.repository.DeviceRepository;
+import com.example.myhealthlife.data.local.repository.DeviceRepository;
 
 import org.jspecify.annotations.NonNull;
 

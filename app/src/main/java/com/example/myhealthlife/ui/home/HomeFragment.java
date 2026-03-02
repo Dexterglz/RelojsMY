@@ -1,4 +1,5 @@
 package com.example.myhealthlife.ui.home;
+import static com.example.myhealthlife.R.id.heartFragment;
 import static com.example.myhealthlife.domain.util.YCBKUtils.healthMonitoringFun;
 import static com.yucheng.ycbtsdk.YCBTClient.connectState;
 
@@ -20,7 +21,7 @@ import com.example.myhealthlife.ui.HomeNav;
 import com.example.myhealthlife.R;
 import com.example.myhealthlife.domain.common.AnimatedCircularProgress;
 
-import com.example.myhealthlife.fragments.BluetoothDialogFragment;
+import com.example.myhealthlife.activities.fragments.BluetoothDialogFragment;
 import com.example.myhealthlife.ui.common.HealthViewModel;
 import com.example.myhealthlife.ui.common.SyncViewModel;
 import com.example.myhealthlife.views.TickerTextView;
@@ -116,7 +117,7 @@ public class HomeFragment extends Fragment {
                             navController.navigate(R.id.sleepFragment);
                             break;
                         case HEART:
-                            navController.navigate(R.id.heartFragment);
+                            navController.navigate(heartFragment);
                             break;
                         case BLOOD:
                             navController.navigate(R.id.bloodFragment);
@@ -207,12 +208,12 @@ public class HomeFragment extends Fragment {
         );
 
 
-        SyncViewModel viewModel =
+        SyncViewModel viewModelSync =
                 new ViewModelProvider(this).get(SyncViewModel.class);
 
-        viewModel.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
+        /*viewModelSync.getLoading().observe(getViewLifecycleOwner(), isLoading -> {
             swipeRefreshLayout.setRefreshing(isLoading);
-        });
+        });*/
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -229,7 +230,7 @@ public class HomeFragment extends Fragment {
                             isLoading = false;
                             swipeRefreshLayout.setRefreshing(false);
                             //last_update.setText(viewModel.lastUpdate());
-                            viewModel.syncAll();
+                            viewModelSync.syncAll();
                         }, 15000); //  10 segundos
                     }
                     else{
@@ -239,6 +240,22 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+
+        if(updateFunctions()){
+            isLoading = true;
+            Toast.makeText(getContext(),getString(R.string.home_actualizando), Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(() -> {
+                isLoading = false;
+                swipeRefreshLayout.setRefreshing(false);
+                //last_update.setText(viewModel.lastUpdate());
+                viewModelSync.syncAll();
+            }, 15000); //  10 segundos
+        }
+        else{
+            Toast.makeText(requireContext(), getString(R.string.home_por_favor_conecte), Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+        }
+
 
         //circularProgress.setProgressWithAnimation(lastSteps);
         //Bluetooth

@@ -33,7 +33,7 @@
     <string name="login_credenciales_inc">Credenciales incorrectas</string>
     <string name="login_error_conexion">Error de conexión</string>
     <string name="login_usuario_registrado">Usuario registrado correctamente</string>
-    <string name="login_error_registro">Error en el registro:</string>
+    <string name="login_error_registro">Error en el registro</string>
 
     <!--Home Fragment-->
     <string name="home_titulo">PANEL DE SALUD</string>
@@ -404,5 +404,29 @@ Para todo lo relacionado con la interpretación y cumplimiento de los presentes 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="share">Compartir</string>
     <string name="loading">Cargando</string>
+    <string name="usuario_ya_registrado">El correo ya está registrado</string>
+    <string name="edad_no_permitida">Debes ser mayor de edad</string>
+    <string name="ingresa_tu_fecha_de_nacimiento">Introduce tu fecha de nacimiento</string>
+    <string name="ingresa_un_correo">Ingresa un correo</string>
+    <string name="introduce_una_contrasena">Ingresa una contraseña</string>
+    <string name="introduce_tu_apellido_paterno">Introdue tu apellido paterno</string>
+    <string name="introduce_tu_nombre">Introduce tu nombre</string>
+    <string name="introduce_tu_telefono">Introduce tu número de teléfono</string>
+    <string name="introduce_tu_curp">Introduce tu CURP</string>
+    <string name="email">Correo electrónico</string>
+    <string name="femenino">Femenino</string>
+    <string name="masculino">Masculino</string>
+    <string name="registro">Registro</string>
+    <string name="introduce_tu_apellido_materno">Introdue tu apellido materno</string>
+
+    <string-array name="countries">
+        <item>México</item>
+        <item>Estados Unidos</item>
+    </string-array>
+
+    <string-array name="country_codes">
+        <item>MX</item>
+        <item>US</item>
+    </string-array>
 
 </resources>

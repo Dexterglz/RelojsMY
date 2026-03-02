@@ -5,17 +5,15 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.myhealthlife.R;
 import com.example.myhealthlife.databinding.FragmentParamBinding;
-import com.example.myhealthlife.repository.ChartRepository;
+import com.example.myhealthlife.data.local.repository.ChartRepository;
 import com.example.myhealthlife.ui.chart.ChartViewModel;
 
 import org.jspecify.annotations.NonNull;

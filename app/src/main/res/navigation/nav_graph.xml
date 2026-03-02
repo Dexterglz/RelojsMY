@@ -63,15 +63,15 @@
         android:label="Uric" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.myhealthlife.fragments.ProfileFragment"
+        android:name="com.example.myhealthlife.activities.fragments.ProfileFragment"
         android:label="Perfil"/>
     <fragment
         android:id="@+id/sportFragment"
-        android:name="com.example.myhealthlife.fragments.SportFragment"
+        android:name="com.example.myhealthlife.activities.fragments.SportFragment"
         android:label="Deporte"/>
     <fragment
         android:id="@+id/healthFragment"
-        android:name="com.example.myhealthlife.fragments.HealthFragment"
+        android:name="com.example.myhealthlife.activities.fragments.HealthFragment"
         android:label="Cuidado"/>
 
 

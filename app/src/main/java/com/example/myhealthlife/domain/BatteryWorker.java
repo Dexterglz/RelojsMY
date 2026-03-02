@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.example.myhealthlife.repository.DeviceRepository;
+import com.example.myhealthlife.data.local.repository.DeviceRepository;
 
 import org.jspecify.annotations.NonNull;
 

@@ -33,7 +33,7 @@
     <string name="login_credenciales_inc">Incorrect credentials</string>
     <string name="login_error_conexion">Connection error</string>
     <string name="login_usuario_registrado">User registered successfully</string>
-    <string name="login_error_registro">Registration error:</string>
+    <string name="login_error_registro">Registration error</string>
 
     <!--Home Fragment-->
     <string name="home_titulo">HEALTH PANEL</string>
@@ -465,5 +465,29 @@ For everything related to the interpretation and compliance with these terms and
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="share">Share</string>
     <string name="loading">Loading</string>
+        <string name="usuario_ya_registrado">The email address is already registered.</string>
+    <string name="edad_no_permitida">You must be of legal age</string>
+    <string name="ingresa_tu_fecha_de_nacimiento">Enter your date of birth</string>
+    <string name="ingresa_un_correo">Enter an email</string>
+    <string name="introduce_una_contrasena">Enter a password</string>
+    <string name="introduce_tu_apellido_paterno">Enter your last name</string>
+    <string name="introduce_tu_apellido_materno">Enter your second last name</string>
+    <string name="introduce_tu_nombre">Enter your name</string>
+    <string name="introduce_tu_telefono">Enter your phone number</string>
+    <string name="introduce_tu_curp">Enter your Passport or DMV ID</string>
+    <string name="email">Email</string>
+    <string name="femenino">Female</string>
+    <string name="masculino">Male</string>
+    <string name="registro">Sign Up</string>
+
+    <string-array name="countries">
+        <item>México</item>
+        <item>Estados Unidos</item>
+    </string-array>
+
+    <string-array name="country_codes">
+        <item>MX</item>
+        <item>US</item>
+    </string-array>
 
 </resources>

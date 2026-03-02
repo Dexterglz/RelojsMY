@@ -5,6 +5,7 @@ import static android.view.View.VISIBLE;
 import static com.example.myhealthlife.domain.util.AppUtils.topBar;
 import static com.example.myhealthlife.domain.DeviceAdapter.setDeviceImage;
 import static com.yucheng.ycbtsdk.YCBTClient.connectBle;
+import static com.yucheng.ycbtsdk.YCBTClient.connectState;
 import static com.yucheng.ycbtsdk.YCBTClient.disconnectBle;
 import static com.yucheng.ycbtsdk.YCBTClient.getBindDeviceName;
 import static com.yucheng.ycbtsdk.YCBTClient.getDeviceBatteryValue;
@@ -16,6 +17,7 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,12 +28,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myhealthlife.R;
 import com.example.myhealthlife.domain.AppBleManager;
 import com.example.myhealthlife.domain.BleManager;
 import com.example.myhealthlife.domain.BluetoothDevice;
 import com.example.myhealthlife.domain.DeviceAdapter;
+import com.example.myhealthlife.ui.common.HealthViewModel;
+import com.example.myhealthlife.ui.common.SyncViewModel;
 import com.yucheng.ycbtsdk.Constants;
 import com.yucheng.ycbtsdk.bean.ScanDeviceBean;
 
@@ -48,6 +53,7 @@ public class DeviceScanActivity extends AppCompatActivity {
     private TextView device_name, device_battery;
     private LinearLayout devices_list, my_equipment;
     private View desconectar;
+    private HealthViewModel viewModel;
     BleManager bleCore = AppBleManager.getInstance(this).getBle();
 
     @SuppressLint("SetTextI18n")
@@ -58,6 +64,9 @@ public class DeviceScanActivity extends AppCompatActivity {
         bleCore = AppBleManager.getInstance(this).getBle();
         initViews();                                  //Inicializar vistas
         setContent();                                 //Definir que vista se mostrará
+        viewModel =
+                viewModel = new ViewModelProvider(this).get(HealthViewModel.class);
+
     }
     /**Principales**/
     private void initViews(){
@@ -193,6 +202,7 @@ public class DeviceScanActivity extends AppCompatActivity {
 
             bleCore.stopScan(); // detener antes de conectar
 
+
             bleCore.connectDevice(selected.device.getAddress(), code -> {
 
                 switch (bleCore.getState()) {
@@ -200,6 +210,17 @@ public class DeviceScanActivity extends AppCompatActivity {
                     case Constants.BLEState.ReadWriteOK:
                         Toast.makeText(this, getString(R.string.dispositivo_conectado), Toast.LENGTH_SHORT).show();
                         setMyEquipmentContent();
+                        SyncViewModel viewModelSync =
+                                new ViewModelProvider(this).get(SyncViewModel.class);
+                        if(updateFunctions()){
+                            Toast.makeText(this,getString(R.string.home_actualizando), Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(() -> {
+                                viewModelSync.syncAll();
+                            }, 15000); //  10 segundos
+                        }
+                        else{
+                            Toast.makeText(this, getString(R.string.home_por_favor_conecte), Toast.LENGTH_SHORT).show();
+                        }
                         break;
 
                     case Constants.BLEState.Disconnect:
@@ -274,5 +295,12 @@ public class DeviceScanActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.dispositivo_desconectado), Toast.LENGTH_SHORT).show();
             disconnectBle();
         });
+    }
+
+    private boolean updateFunctions() {
+        if(connectState() != Constants.BLEState.ReadWriteOK)
+            return false;
+        viewModel.syncAllFromBle();
+        return true;
     }
 }

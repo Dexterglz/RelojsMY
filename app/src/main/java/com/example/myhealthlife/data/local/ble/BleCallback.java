@@ -24,7 +24,7 @@ import com.example.myhealthlife.data.local.entity.HistoryCompEntity;
 import com.example.myhealthlife.data.local.entity.HistoryHealthEntity;
 import com.example.myhealthlife.data.local.entity.HistorySleepEntity;
 import com.example.myhealthlife.data.local.entity.HistorySportEntity;
-import com.example.myhealthlife.repository.HistoryDataRepository;
+import com.example.myhealthlife.data.local.repository.HistoryDataRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yucheng.ycbtsdk.Constants;

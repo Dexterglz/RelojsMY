@@ -1,11 +1,6 @@
 package com.example.myhealthlife.domain.util;
 
-import static com.example.myhealthlife.repository.ChartRepository.TimeInterval.TODAY_REPEAT;
-import static com.example.myhealthlife.repository.ChartRepository.TimeInterval.TODAY_WITH_0;
-
-import androidx.lifecycle.LiveData;
-
-import com.example.myhealthlife.repository.ChartRepository;
+import com.example.myhealthlife.data.local.repository.ChartRepository;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

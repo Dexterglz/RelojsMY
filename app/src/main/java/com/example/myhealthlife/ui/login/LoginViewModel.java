@@ -5,11 +5,9 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.xr.scenecore.internal.Resource;
 
 import com.example.myhealthlife.domain.util.ResourceWrapper;
-import com.example.myhealthlife.repository.AuthRepository;
+import com.example.myhealthlife.data.local.repository.AuthRepository;
 
 public class LoginViewModel extends AndroidViewModel {
 

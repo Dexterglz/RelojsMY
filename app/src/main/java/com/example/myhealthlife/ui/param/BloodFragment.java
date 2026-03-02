@@ -1,7 +1,6 @@
 package com.example.myhealthlife.ui.param;
 import static com.example.myhealthlife.ui.chart.ChartViewModel.avgFromChart;
 import static com.example.myhealthlife.ui.chart.ChartViewModel.chartDoubleIntHealthBar;
-import static com.example.myhealthlife.ui.chart.ChartViewModel.chartHistoryHealth;
 import static com.example.myhealthlife.ui.chart.ChartViewModel.maxFromChart;
 import static com.example.myhealthlife.ui.chart.ChartViewModel.minFromChart;
 
@@ -12,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myhealthlife.R;
-import com.example.myhealthlife.repository.ChartRepository;
 import com.example.myhealthlife.ui.common.HealthViewModel;
 import com.example.myhealthlife.ui.common.view.ParamFragment;
 import com.github.mikephil.charting.charts.BarChart;

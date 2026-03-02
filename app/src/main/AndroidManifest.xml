@@ -23,7 +23,6 @@
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -35,12 +34,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyHealthLife"
         tools:targetApi="31">
-
         <activity
-            android:name=".activities.TestActivity"
+            android:name=".ui.register.RegisterActivity"
             android:exported="false"
-            android:label="test"
             android:theme="@style/Theme.MyHealthLife" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -56,12 +54,6 @@
             android:name=".activities.DiagnosisResultsActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SleepActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.HeartRateActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
@@ -74,18 +66,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.DeviceScanActivity" />
-        <activity android:name=".activities.RespiratoryRateActivity" />
-        <activity android:name=".activities.BloodPressureActivity" />
-        <activity android:name=".activities.TemperatureLogActivity" />
-        <activity android:name=".activities.OxygenLogActivity" />
-        <activity android:name=".activities.HRVLogActivity" />
-        <activity android:name=".activities.CVRLogActivity" />
-        <activity android:name=".activities.GlucoseActivity" />
-        <activity android:name=".activities.TrygActivity" />
         <activity android:name=".ecg.EcgActicvity" />
         <activity android:name=".ecg.EcgMeasureActivity" />
         <activity android:name=".ecg.EcgMsgActivity" />
     </application>
-
 
 </manifest>

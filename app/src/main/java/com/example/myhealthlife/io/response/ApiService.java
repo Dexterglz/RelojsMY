@@ -1,9 +1,9 @@
 package com.example.myhealthlife.io.response;
 
-import com.example.myhealthlife.domain.LoginResponse;
-import com.example.myhealthlife.domain.LoginRequest;
-import com.example.myhealthlife.domain.RegisterRequest;
-import com.example.myhealthlife.domain.RegisterResponse;
+import com.example.myhealthlife.data.remote.LoginResponse;
+import com.example.myhealthlife.data.remote.LoginRequest;
+import com.example.myhealthlife.data.remote.RegisterRequest;
+import com.example.myhealthlife.data.remote.RegisterResponse;
 import com.example.myhealthlife.domain.ResponseBody;
 
 import retrofit2.Call;

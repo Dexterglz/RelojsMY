@@ -15,8 +15,8 @@ public class BaseActivity extends AppCompatActivity {
         if (languageIndex < 0 || languageIndex >= languages.length) languageIndex = 1;
         String selectedLang = languages[languageIndex];
 
-        Context context = LocaleHelper.setLocale(newBase, selectedLang);
-        super.attachBaseContext(context);
+        //Context context = LocaleHelper.setLocale(newBase, selectedLang);
+        //super.attachBaseContext(context);
     }
 }
 

@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.example.myhealthlife.repository.HealthRepository;
+import com.example.myhealthlife.data.local.repository.HealthRepository;
 import com.example.myhealthlife.ui.HomeNav;
 import com.example.myhealthlife.R;
 import com.example.myhealthlife.data.local.entity.HistoryBloodEntity;
@@ -19,7 +19,7 @@ import com.example.myhealthlife.data.local.entity.HistoryHealthEntity;
 import com.example.myhealthlife.data.local.entity.HistorySleepEntity;
 import com.example.myhealthlife.data.local.entity.HistorySportEntity;
 import com.example.myhealthlife.domain.util.TimeUtils;
-import com.example.myhealthlife.repository.HistoryDataRepository;
+import com.example.myhealthlife.data.local.repository.HistoryDataRepository;
 import com.example.myhealthlife.ui.home.HomeCardState;
 
 import java.util.concurrent.TimeUnit;

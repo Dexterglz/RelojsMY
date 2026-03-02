@@ -9,21 +9,14 @@ import java.util.Locale;
 
 public class LocaleHelper {
 
-    public static Context setLocale(Context context, String language) {
-        Locale locale = new Locale(language);
+    public static Context applyLocale(Context context, String lang) {
+        Locale locale = new Locale(lang);
         Locale.setDefault(locale);
 
-        Resources resources = context.getResources();
-        Configuration config = resources.getConfiguration();
+        Configuration config = new Configuration(context.getResources().getConfiguration());
+        config.setLocale(locale);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            config.setLocale(locale);
-            return context.createConfigurationContext(config);
-        } else {
-            config.locale = locale;
-            resources.updateConfiguration(config, resources.getDisplayMetrics());
-            return context;
-        }
+        return context.createConfigurationContext(config);
     }
 }
 

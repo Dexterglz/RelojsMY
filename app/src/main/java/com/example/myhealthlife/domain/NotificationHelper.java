@@ -17,6 +17,8 @@ public class NotificationHelper {
 
     public static void showLowBatteryNotification(Context context, int battery) {
 
+        if(battery > 25 ) return;
+
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 

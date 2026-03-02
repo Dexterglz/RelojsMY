@@ -1,19 +1,11 @@
 package com.example.myhealthlife.ui.login;
 import static android.widget.Toast.makeText;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -28,42 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myhealthlife.R;
-import com.example.myhealthlife.io.response.ApiClient;
-import com.example.myhealthlife.io.response.ApiService;
-import com.example.myhealthlife.io.response.PatientContainer;
-import com.example.myhealthlife.io.response.PatientResponse;
-import com.example.myhealthlife.domain.LocaleHelper;
-import com.example.myhealthlife.domain.LoginRequest;
-import com.example.myhealthlife.domain.LoginResponse;
-import com.example.myhealthlife.domain.RegisterRequest;
-import com.example.myhealthlife.domain.RegisterResponse;
-import com.example.myhealthlife.domain.Usuario;
-import com.example.myhealthlife.io.response.UserApiModel;
 import com.example.myhealthlife.ui.MainActivity;
-import com.example.myhealthlife.ui.common.HealthViewModel;
+import com.example.myhealthlife.ui.register.RegisterActivity;
+import com.example.myhealthlife.ui.register.RegisterViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.example.myhealthlife.fragments.QuestionnaireDialogFragment;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
-
-
-
-
-
-import java.util.Calendar;
-import java.util.function.Supplier;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText etEmail, etPassword;
@@ -127,6 +88,10 @@ public class LoginActivity extends AppCompatActivity {
         pRegistro1 = findViewById(R.id.pRegistro1);
         pRegistro2 = findViewById(R.id.pRegistro2);
         btnRegistro = findViewById(R.id.btnRegistro);
+        btnRegistro.setOnClickListener(v -> {
+            startActivity(new Intent(this, RegisterActivity.class));
+            finish();
+        });
         btnRegistro2 = findViewById(R.id.btnReg2);
         btnRegistro3 = findViewById(R.id.btnReg3);
         backRegistro1 = findViewById(R.id.backRegistro1);

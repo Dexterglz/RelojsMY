@@ -2,20 +2,18 @@ package com.example.myhealthlife.ui.chart;
 
 import static androidx.core.content.ContextCompat.getColor;
 
-import static com.example.myhealthlife.repository.ChartRepository.extractY;
+import static com.example.myhealthlife.data.local.repository.ChartRepository.extractY;
 
 import android.app.Activity;
 import android.app.Application;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
 
 import com.example.myhealthlife.R;
 import com.example.myhealthlife.domain.chart.ChartPoint;
@@ -24,7 +22,7 @@ import com.example.myhealthlife.domain.chart.DoubleIntPoint;
 import com.example.myhealthlife.domain.chart.IntPoint;
 import com.example.myhealthlife.domain.chart.ParsedFloatPoint;
 import com.example.myhealthlife.domain.util.TimeUtils;
-import com.example.myhealthlife.repository.ChartRepository;
+import com.example.myhealthlife.data.local.repository.ChartRepository;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -36,7 +34,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.jspecify.annotations.NonNull;
 
